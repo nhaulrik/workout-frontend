@@ -10,8 +10,7 @@ pipeline {
 		}
 		stage('BUILD APP') {
 			steps {
-//				sh "node_modules/.bin/ng build --prod"
-				sh "node --max_old_space_size=8048 ./node_modules/@angular/cli/bin/ng build --prod"
+				sh "node_modules/.bin/ng build --prod"
 			}
 		}
 		stage("BUILD DOCKER") {
