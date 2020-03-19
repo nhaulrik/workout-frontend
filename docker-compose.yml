@@ -6,4 +6,4 @@ services: # Here we define our service(s)
       ports:
         - '4200:4200' # Port mapping
       command: >
-        bash -c "npm install && ng serve --host 0.0.0.0"
+        bash -c "npm install && node --max_old_space_size=8048 ./node_modules/@angular/cli/bin/ng serve --host 0.0.0.0"
