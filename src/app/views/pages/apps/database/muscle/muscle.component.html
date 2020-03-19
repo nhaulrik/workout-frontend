@@ -1,1 +1,18 @@
-<p>muscle works!</p>
+<h3>Get Muscles from graphQL API</h3>
+<div>
+	<button (click)="getMuscles()">get</button>
+	<span>
+    <table *ngIf="muscles.length > 0">
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Body part</th>
+      </tr>
+      <tr *ngFor="let muscle of muscles">
+        <td>{{muscle.id}}</td>
+        <td>{{muscle.name}}</td>
+        <td>{{muscle.bodyPart}}</td>
+      </tr>
+    </table>
+  </span>
+</div>

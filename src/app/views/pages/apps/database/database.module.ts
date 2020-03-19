@@ -17,21 +17,24 @@ import { PartialsModule } from '../../../partials/partials.module';
 import { FakeApiService } from '../../../../core/_base/layout';
 // Auth
 import { ModuleGuard } from '../../../../core/auth';
+
 // Core => Services
-import {
-	customersReducer,
-	CustomerEffects,
-	CustomersService,
-	productsReducer,
-	ProductEffects,
-	ProductsService,
-	productRemarksReducer,
-	ProductRemarkEffects,
-	ProductRemarksService,
-	productSpecificationsReducer,
-	ProductSpecificationEffects,
-	ProductSpecificationsService
-} from '../../../../core/e-commerce';
+import { muscleService } from '../../../../core/database';
+
+// import {
+// 	customersReducer,
+// 	CustomerEffects,
+// 	CustomersService,
+// 	productsReducer,
+// 	ProductEffects,
+// 	ProductsService,
+// 	productRemarksReducer,
+// 	ProductRemarkEffects,
+// 	ProductRemarksService,
+// 	productSpecificationsReducer,
+// 	ProductSpecificationEffects,
+// 	ProductSpecificationsService
+// } from '../../../../core/e-commerce';
 // Core => Utils
 import { HttpUtilsService,
 	TypesUtilsService,
@@ -139,14 +142,6 @@ const routes: Routes = [
 			passThruUnknownUrl: true,
         	dataEncapsulation: false
 		}) : [],
-		StoreModule.forFeature('products', productsReducer),
-		EffectsModule.forFeature([ProductEffects]),
-		StoreModule.forFeature('customers', customersReducer),
-		EffectsModule.forFeature([CustomerEffects]),
-		StoreModule.forFeature('productRemarks', productRemarksReducer),
-		EffectsModule.forFeature([ProductRemarkEffects]),
-		StoreModule.forFeature('productSpecifications', productSpecificationsReducer),
-		EffectsModule.forFeature([ProductSpecificationEffects]),
 	],
 	providers: [
 		ModuleGuard,
@@ -168,10 +163,6 @@ const routes: Routes = [
 		TypesUtilsService,
 		LayoutUtilsService,
 		HttpUtilsService,
-		CustomersService,
-		ProductRemarksService,
-		ProductSpecificationsService,
-		ProductsService,
 		TypesUtilsService,
 		LayoutUtilsService
 	],
