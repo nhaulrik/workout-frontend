@@ -9,7 +9,7 @@ pipeline {
 		}
 		stage('BUILD APP') {
 			steps {
-				sh "node_modules/.bin/ng build --prod"
+				sh "npm run build"
 			}
 		}
 		stage("BUILD DOCKER") {
