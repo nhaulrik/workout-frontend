@@ -1,7 +1,9 @@
 pipeline {
 
 	agent any
-
+	environment {
+		HOME = '.'
+	}
 	stages {
 		stage('INSTALL PACKAGES') {
 			steps {
