@@ -21,8 +21,8 @@ const routes: Routes = [
 				loadChildren: () => import('app/views/pages/dashboard/dashboard.module').then(m => m.DashboardModule),
 			},
 			{
-				path: 'muscle',
-				component: MuscleComponent,
+				path: 'database',
+				loadChildren: () => import('app/views/pages/apps/database/database.module').then(m => m.DatabaseModule),
 			},
 			{
 				path: 'mail',

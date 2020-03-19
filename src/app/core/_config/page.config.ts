@@ -184,6 +184,11 @@ export class PageConfig {
 		mail: {
 			page: {title: 'Mail', desc: 'Mail'}
 		},
+		database: {
+			muscles: {
+				page: {title: 'muscles', desc: 'this is where you find muscles'}
+			}
+		},
 		ecommerce: {
 			customers: {
 				page: {title: 'Customers', desc: ''}

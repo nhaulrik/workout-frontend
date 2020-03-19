@@ -429,7 +429,7 @@ export class MenuConfig {
 					submenu: [
 						{
 							title: 'Muscles',
-							page: '/ecommerce/muscles'
+							page: '/database/muscles'
 						},
 						{
 							title: 'Customers',

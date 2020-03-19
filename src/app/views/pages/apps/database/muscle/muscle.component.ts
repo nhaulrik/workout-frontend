@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'kt-muscle',
-  templateUrl: './muscle.component.html',
-  styleUrls: ['./muscle.component.scss']
+  templateUrl: './muscle.component.html'
 })
 export class MuscleComponent implements OnInit {
 
