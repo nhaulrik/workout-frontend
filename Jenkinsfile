@@ -1,9 +1,6 @@
 pipeline {
 
 	agent any
-	environment {
-		HOME = '.'
-	}
 	stages {
 		stage('INSTALL PACKAGES') {
 			steps {
@@ -12,7 +9,7 @@ pipeline {
 		}
 		stage('BUILD APP') {
 			steps {
-				sh "npm run-script build"
+				sh "npm run build"
 			}
 		}
 		stage("BUILD DOCKER") {
