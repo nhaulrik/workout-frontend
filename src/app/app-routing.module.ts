@@ -24,10 +24,6 @@ const routes: Routes = [
 				loadChildren: () => import('app/views/pages/apps/mail/mail.module').then(m => m.MailModule),
 			},
 			{
-				path: 'ecommerce',
-				loadChildren: () => import('app/views/pages/apps/e-commerce/e-commerce.module').then(m => m.ECommerceModule),
-			},
-			{
 				path: 'ngbootstrap',
 				loadChildren: () => import('app/views/pages/ngbootstrap/ngbootstrap.module').then(m => m.NgbootstrapModule),
 			},
