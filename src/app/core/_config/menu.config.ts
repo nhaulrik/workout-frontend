@@ -653,12 +653,16 @@ export class MenuConfig {
 				},
 				{section: 'Applications'},
 				{
-					title: 'eCommerce',
+					title: 'Database',
 					bullet: 'dot',
 					icon: 'flaticon2-list-2',
 					root: true,
 					permission: 'accessToECommerceModule',
 					submenu: [
+						{
+							title: 'Muscles',
+							page: '/ecommerce/muscles'
+						},
 						{
 							title: 'Customers',
 							page: '/ecommerce/customers'
