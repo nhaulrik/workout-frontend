@@ -9,7 +9,7 @@ pipeline {
 		}
 		stage('BUILD APP') {
 			steps {
-				sh "npm run build"
+				sh "npm run my-build"
 			}
 		}
 		stage("BUILD DOCKER") {
