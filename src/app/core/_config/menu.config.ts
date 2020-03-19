@@ -280,6 +280,22 @@ export class MenuConfig {
 					toggle: 'click',
 					submenu: [
 						{
+							title: 'eCommerce',
+							bullet: 'dot',
+							icon: 'flaticon-business',
+							permission: 'accessToECommerceModule',
+							submenu: [
+								{
+									title: 'Customers',
+									page: '/ecommerce/customers'
+								},
+								{
+									title: 'Products',
+									page: '/ecommerce/products'
+								},
+							]
+						},
+						{
 							title: 'User Management',
 							bullet: 'dot',
 							icon: 'flaticon-user',
