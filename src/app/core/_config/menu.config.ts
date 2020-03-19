@@ -654,20 +654,11 @@ export class MenuConfig {
 					]
 				},
 				{
-					title: 'User Management',
+					title: 'Users',
 					root: true,
 					bullet: 'dot',
 					icon: 'flaticon2-user-outline-symbol',
-					submenu: [
-						{
-							title: 'Users',
-							page: '/user-management/users'
-						},
-						{
-							title: 'Roles',
-							page: '/user-management/roles'
-						}
-					]
+					page: '/user-management/roles'
 				},
 			]
 		},
