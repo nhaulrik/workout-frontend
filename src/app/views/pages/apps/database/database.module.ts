@@ -65,26 +65,6 @@ const routes: Routes = [
 				path: 'muscles',
 				component: MuscleComponent
 			},
-			// {
-			// 	path: 'orders',
-			// 	component: OrdersListComponent
-			// },
-			// {
-			// 	path: 'products',
-			// 	component: ProductsListComponent,
-			// },
-			// {
-			// 	path: 'products/add',
-			// 	component: ProductEditComponent
-			// },
-			// {
-			// 	path: 'products/edit',
-			// 	component: ProductEditComponent
-			// },
-			// {
-			// 	path: 'products/edit/:id',
-			// 	component: ProductEditComponent
-			// },
 		]
 	}
 ];
@@ -155,8 +135,9 @@ const routes: Routes = [
 		UpdateStatusDialogComponent,
 	],
 	declarations: [
-		DatabaseComponent,
+
 		// Customers
+		DatabaseComponent,
 		MuscleComponent,
 	]
 })
