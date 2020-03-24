@@ -1,20 +1,26 @@
 <kt-portlet>
-	<h3>Get Muscles from graphQL API</h3>
-	<!--<div *ngIf="!dataFetched">Waiting for data</div>-->
-	<!--<div *ngIf="dataFetched">-->
-	<!--<button>bla</button>-->
-	<span *ngIf="muscles != undefined">
-    <table>
-			<tr>
-			<th>ID</th>
-			<th>Name</th>
-			<th>Body part</th>
-			</tr>
-			<tr *ngFor="let muscle of muscles">
-			<td>{{muscle.id}}</td>
-			<td>{{muscle.name}}</td>
-			<td>{{muscle.bodyPart}}</td>
-			</tr>
-			</table>
-  </span>
+	<h3>Muscles from graphQL API</h3>
+
+	<mat-spinner [diameter]="100" *ngIf="dataSource == undefined"></mat-spinner>
+	<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+		<ng-container matColumnDef="id">
+			<th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+			<td mat-cell *matCellDef="let muscle"> {{muscle.id}} </td>
+		</ng-container>
+
+		<ng-container matColumnDef="name">
+			<th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+			<td mat-cell *matCellDef="let muscle"> {{muscle.name}} </td>
+		</ng-container>
+
+		<ng-container matColumnDef="bodyPart">
+			<th mat-header-cell *matHeaderCellDef mat-sort-header> Body part </th>
+			<td mat-cell *matCellDef="let muscle"> {{muscle.bodyPart}} </td>
+		</ng-container>
+
+		<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+		<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+	</table>
+
 </kt-portlet>

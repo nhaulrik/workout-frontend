@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {MuscleService} from '../../../../../core/database/_services/muscle.service';
-import {Muscle} from '../../../../../core/database/_models/muscle';
 import {GraphQlResponse} from '../../../../../core/database/_models/graphQlResponse';
+import {MatSort, MatTableDataSource} from '@angular/material';
 
 @Component({
 	selector: 'kt-muscle',
@@ -10,18 +10,24 @@ import {GraphQlResponse} from '../../../../../core/database/_models/graphQlRespo
 })
 
 export class MuscleComponent implements OnInit {
-	muscles: Muscle[];
+	dataSource: MatTableDataSource;
+	displayedColumns: string[] = ['id', 'name', 'bodyPart'];
+
 	constructor(private muscleService: MuscleService) {
 	}
 
+	@ViewChild(MatSort, {static: true}) sort: MatSort;
+
 	ngOnInit(): void {
 		this.getMuscles();
-
 	}
 
 	getMuscles() {
 		this.muscleService.getMuscles()
-			.subscribe(response => (this.muscles = (response as GraphQlResponse).data.muscles));
+			.subscribe(response => {
+				this.dataSource = new MatTableDataSource((response as GraphQlResponse).data.muscles);
+				this.dataSource.sort = this.sort;
+			});
 	}
 
 }
