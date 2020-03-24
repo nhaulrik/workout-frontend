@@ -181,28 +181,9 @@ export class PageConfig {
 		forms: {
 			page: {title: 'Forms', desc: ''}
 		},
-		mail: {
-			page: {title: 'Mail', desc: 'Mail'}
-		},
 		database: {
 			muscles: {
 				page: {title: 'muscles', desc: 'this is where you find muscles'}
-			}
-		},
-		ecommerce: {
-			customers: {
-				page: {title: 'Customers', desc: ''}
-			},
-			products: {
-				edit: {
-					page: {title: 'Edit product', desc: ''}
-				},
-				add: {
-					page: {title: 'Create product', desc: ''}
-				}
-			},
-			orders: {
-				page: {title: 'Orders', desc: ''}
 			}
 		},
 		'user-management': {

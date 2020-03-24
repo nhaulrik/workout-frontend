@@ -13,10 +13,6 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 // UI
 import { PartialsModule } from '../../../partials/partials.module';
-// Core
-import { FakeApiService } from '../../../../core/_base/layout';
-// Auth
-import { ModuleGuard } from '../../../../core/auth';
 
 // Core => Services
 import { MuscleService } from '../../../../core/database/_services/muscle.service';
@@ -124,13 +120,12 @@ const routes: Routes = [
 		MatTabsModule,
 		MatTooltipModule,
 		NgbProgressbarModule,
-		environment.isMockEnabled ? HttpClientInMemoryWebApiModule.forFeature(FakeApiService, {
-			passThruUnknownUrl: true,
-        	dataEncapsulation: false
-		}) : [],
+		// environment.isMockEnabled ? HttpClientInMemoryWebApiModule.forFeature(FakeApiService, {
+		// 	passThruUnknownUrl: true,
+        	// dataEncapsulation: false
+		// }) : [],
 	],
 	providers: [
-		ModuleGuard,
 		InterceptService,
       	{
         	provide: HTTP_INTERCEPTORS,
