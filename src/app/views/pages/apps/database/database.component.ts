@@ -3,7 +3,7 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
 	templateUrl: './database.component.html',
-	changeDetection: ChangeDetectionStrategy.Default
+	// changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DatabaseComponent implements OnInit {
 	/**
