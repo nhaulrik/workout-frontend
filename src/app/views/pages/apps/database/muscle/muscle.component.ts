@@ -11,15 +11,15 @@ import {GraphQlResponse} from '../../../../../core/database/_models/graphQlRespo
 
 export class MuscleComponent implements OnInit {
 	muscles: Muscle[];
-
 	constructor(private muscleService: MuscleService) {
 	}
 
-	ngOnInit() {
+	ngOnInit(): void {
+		this.getMuscles();
+
 	}
 
 	getMuscles() {
-		this.muscles = undefined;
 		this.muscleService.getMuscles()
 			.subscribe(response => (this.muscles = (response as GraphQlResponse).data.muscles));
 	}

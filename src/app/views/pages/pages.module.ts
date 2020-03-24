@@ -9,6 +9,7 @@ import { PartialsModule } from '../partials/partials.module';
 import { CoreModule } from '../../core/core.module';
 import { MailModule } from './apps/mail/mail.module';
 import { ECommerceModule } from './apps/e-commerce/e-commerce.module';
+import { DatabaseModule} from './apps/database/database.module';
 import { UserManagementModule } from './user-management/user-management.module';
 import { MyPageComponent } from './my-page/my-page.component';
 
@@ -23,6 +24,7 @@ import { MyPageComponent } from './my-page/my-page.component';
 		PartialsModule,
 		MailModule,
 		ECommerceModule,
+		DatabaseModule,
 		UserManagementModule,
 	],
 	providers: []

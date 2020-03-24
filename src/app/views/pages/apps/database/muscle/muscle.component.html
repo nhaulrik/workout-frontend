@@ -1,18 +1,20 @@
-<h3>Get Muscles from graphQL API</h3>
-<div>
-	<button (click)="getMuscles()">get</button>
-	<span>
-    <table *ngIf="muscles.length > 0">
-      <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Body part</th>
-      </tr>
-      <tr *ngFor="let muscle of muscles">
-        <td>{{muscle.id}}</td>
-        <td>{{muscle.name}}</td>
-        <td>{{muscle.bodyPart}}</td>
-      </tr>
-    </table>
+<kt-portlet>
+	<h3>Get Muscles from graphQL API</h3>
+	<!--<div *ngIf="!dataFetched">Waiting for data</div>-->
+	<!--<div *ngIf="dataFetched">-->
+	<!--<button>bla</button>-->
+	<span *ngIf="muscles != undefined">
+    <table>
+			<tr>
+			<th>ID</th>
+			<th>Name</th>
+			<th>Body part</th>
+			</tr>
+			<tr *ngFor="let muscle of muscles">
+			<td>{{muscle.id}}</td>
+			<td>{{muscle.name}}</td>
+			<td>{{muscle.bodyPart}}</td>
+			</tr>
+			</table>
   </span>
-</div>
+</kt-portlet>

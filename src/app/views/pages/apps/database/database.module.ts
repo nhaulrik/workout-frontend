@@ -19,22 +19,8 @@ import { FakeApiService } from '../../../../core/_base/layout';
 import { ModuleGuard } from '../../../../core/auth';
 
 // Core => Services
-import { muscleService } from '../../../../core/database';
+import { MuscleService } from '../../../../core/database/_services/muscle.service';
 
-// import {
-// 	customersReducer,
-// 	CustomerEffects,
-// 	CustomersService,
-// 	productsReducer,
-// 	ProductEffects,
-// 	ProductsService,
-// 	productRemarksReducer,
-// 	ProductRemarkEffects,
-// 	ProductRemarksService,
-// 	productSpecificationsReducer,
-// 	ProductSpecificationEffects,
-// 	ProductSpecificationsService
-// } from '../../../../core/e-commerce';
 // Core => Utils
 import { HttpUtilsService,
 	TypesUtilsService,
@@ -164,6 +150,7 @@ const routes: Routes = [
 		LayoutUtilsService,
 		HttpUtilsService,
 		TypesUtilsService,
+		MuscleService,
 		LayoutUtilsService
 	],
 	entryComponents: [
