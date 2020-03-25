@@ -1,24 +1,25 @@
 // Angular
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule, Routes } from '@angular/router';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {RouterModule, Routes} from '@angular/router';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 // Fake API Angular-in-memory
-import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
+import {HttpClientInMemoryWebApiModule} from 'angular-in-memory-web-api';
 // Translate Module
-import { TranslateModule } from '@ngx-translate/core';
+import {TranslateModule} from '@ngx-translate/core';
 // NGRX
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
+import {StoreModule} from '@ngrx/store';
+import {EffectsModule} from '@ngrx/effects';
 // UI
 import { PartialsModule } from '../../../partials/partials.module';
 
 // Core => Services
-import { MuscleService } from '../../../../core/database/_services/muscle.service';
+import {MuscleService} from '../../../../core/database/_services/muscle.service';
 
 // Core => Utils
-import { HttpUtilsService,
+import {
+	HttpUtilsService,
 	TypesUtilsService,
 	InterceptService,
 	LayoutUtilsService
@@ -31,9 +32,9 @@ import {
 	UpdateStatusDialogComponent
 } from '../../../partials/content/crud';
 // Components
-import { DatabaseComponent } from './database.component';
+import {DatabaseComponent} from './database.component';
 // Muscles
-import { MuscleComponent } from './muscle/muscle.component';
+import {MuscleComponent} from './muscle/muscle.component';
 import {
 	MAT_DIALOG_DEFAULT_OPTIONS,
 	MatAutocompleteModule,
@@ -47,6 +48,8 @@ import {
 import {NgxPermissionsModule} from 'ngx-permissions';
 import {environment} from '../../../../../environments/environment';
 import {NgbProgressbarModule} from '@ng-bootstrap/ng-bootstrap';
+import { SessionComponent } from './session/session.component';
+import { SessionEditComponent } from './session/session-edit/session-edit.component';
 
 // tslint:disable-next-line:class-name
 const routes: Routes = [
@@ -64,6 +67,18 @@ const routes: Routes = [
 			{
 				path: 'muscles',
 				component: MuscleComponent
+			},
+			{
+				path: 'sessions',
+				component: SessionComponent
+			},
+			{
+				path: 'sessions/add',
+				component: SessionEditComponent
+			},
+			{
+				path: 'sessions/edit',
+				component: SessionEditComponent
 			},
 		]
 	}
@@ -83,7 +98,7 @@ const routes: Routes = [
 		MatButtonModule,
 		MatMenuModule,
 		MatSelectModule,
-        MatInputModule,
+		MatInputModule,
 		MatTableModule,
 		MatAutocompleteModule,
 		MatRadioModule,
@@ -107,11 +122,11 @@ const routes: Routes = [
 	],
 	providers: [
 		InterceptService,
-      	{
-        	provide: HTTP_INTERCEPTORS,
-       	 	useClass: InterceptService,
-        	multi: true
-      	},
+		{
+			provide: HTTP_INTERCEPTORS,
+			useClass: InterceptService,
+			multi: true
+		},
 		{
 			provide: MAT_DIALOG_DEFAULT_OPTIONS,
 			useValue: {
@@ -135,10 +150,11 @@ const routes: Routes = [
 		UpdateStatusDialogComponent,
 	],
 	declarations: [
-
-		// Customers
 		DatabaseComponent,
 		MuscleComponent,
+		SessionComponent,
+		SessionEditComponent,
 	]
 })
-export class DatabaseModule { }
+export class DatabaseModule {
+}

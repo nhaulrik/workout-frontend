@@ -4,6 +4,13 @@ export class MenuConfig {
 			self: {},
 			items: [
 				{
+					title: 'New session',
+					root: true,
+					alignment: 'left',
+					page: '/database/sessions/edit',
+					translate: 'MENU.NEW_SESSION',
+				},
+				{
 					title: 'Dashboards',
 					root: true,
 					alignment: 'left',
@@ -53,6 +60,10 @@ export class MenuConfig {
 					bullet: 'dot',
 					icon: 'flaticon2-digital-marketing',
 					submenu: [
+						{
+							title: 'Show all',
+							page: '/database/sessions'
+						},
 						{
 							title: 'This week',
 							page: '/ngbootstrap/accordion'
