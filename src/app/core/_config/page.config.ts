@@ -187,7 +187,16 @@ export class PageConfig {
 		database: {
 			muscles: {
 				page: {title: 'muscles', desc: 'this is where you find muscles'}
-			}
+			},
+			sessions: {
+				page: {title: 'Session view', desc: ''},
+				edit: {
+					page: {title: 'Session editor', desc: ''}
+				},
+				add: {
+					page: {title: 'Session creator', desc: ''}
+				}
+			},
 		},
 		ecommerce: {
 			customers: {

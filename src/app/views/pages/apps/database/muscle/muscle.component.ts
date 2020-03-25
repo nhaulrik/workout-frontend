@@ -10,7 +10,7 @@ import {MatSort, MatTableDataSource} from '@angular/material';
 })
 
 export class MuscleComponent implements OnInit {
-	dataSource: MatTableDataSource;
+	dataSource;
 	displayedColumns: string[] = ['id', 'name', 'bodyPart'];
 
 	constructor(private muscleService: MuscleService) {
