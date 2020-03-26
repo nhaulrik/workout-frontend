@@ -21,6 +21,29 @@
 						<Table border="1">
 							<thead>
 							<tr>
+								<th>Name</th>
+								<th>Participates</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr *ngFor="let user of users">
+								<td>{{user.firstName}} {{user.lastName}}</td>
+								<td>
+									<mat-checkbox></mat-checkbox>
+								</td>
+							</tr>
+							</tbody>
+						</Table>
+					</div>
+				</div>
+			</form>
+
+			<form class="kt-form">
+				<div class="kt-portlet__body">
+					<div class="row">
+						<Table border="1">
+							<thead>
+							<tr>
 								<th>Id</th>
 								<th>Exercise</th>
 								<th>Is compound</th>
