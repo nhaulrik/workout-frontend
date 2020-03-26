@@ -1,8 +1,8 @@
 // Angular
-import { RouterModule } from '@angular/router';
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {RouterModule} from '@angular/router';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {
 	MatAutocompleteModule,
 	MatButtonModule,
@@ -73,6 +73,7 @@ import {WidgetModule} from './content/widgets/widget.module';
 // SVG inline
 import {InlineSVGModule} from 'ng-inline-svg';
 import {CartComponent} from './layout/topbar/cart/cart.component';
+import {ExerciseSelectorComponent} from './content/database/exercise-selector/exercise-selector.component';
 
 @NgModule({
 	declarations: [
@@ -109,8 +110,12 @@ import {CartComponent} from './layout/topbar/cart/cart.component';
 		CartComponent,
 
 		ErrorComponent,
+
+		ExerciseSelectorComponent,
 	],
 	exports: [
+		ExerciseSelectorComponent,
+
 		WidgetModule,
 		PortletModule,
 

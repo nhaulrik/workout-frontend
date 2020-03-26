@@ -1,0 +1,16 @@
+<Table>
+	<thead>
+	<tr>
+		<th>Exercise</th>
+		<th>Include</th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr *ngFor="let exercise of exercises">
+		<td>{{exercise.name}}</td>
+		<td>
+			<mat-checkbox></mat-checkbox>
+		</td>
+	</tr>
+	</tbody>
+</Table>
