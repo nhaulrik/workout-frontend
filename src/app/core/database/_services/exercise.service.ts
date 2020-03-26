@@ -11,16 +11,17 @@ const httpOptions = {
 	})
 };
 
+
 @Injectable()
-export class MuscleService {
-	getMusclesUrl = 'http://localhost:9090/graphql';
-	getMusclesPayload = '{"query":"{ muscles { name bodyPart id  } }","variables":null,"operationName":null}';
+export class ExerciseService {
+	getExercisesUrl = 'http://localhost:9090/graphql';
+	getExercisesPayload = '{"query":"{\\n  exercises {\\n    name\\n    id\\n    bodyPart\\n    isCompound\\n  }\\n}\\n","variables":null,"operationName":null}';
 
 	constructor(private http: HttpClient) {
 	}
 
-	getMuscles() {
-		return this.http.post(this.getMusclesUrl, this.getMusclesPayload, httpOptions)
+	getExercises() {
+		return this.http.post(this.getExercisesUrl, this.getExercisesPayload, httpOptions)
 			.pipe(
 				catchError(this.handleError)
 			)
