@@ -1,10 +1,15 @@
-<Table>
-	<tbody>
-	<tr *ngFor="let exercise of exercises">
-		<td>{{exercise.name}}</td>
-		<td>
-			<mat-checkbox></mat-checkbox>
-		</td>
-	</tr>
-	</tbody>
-</Table>
+<div class="kt-section">
+	<div class="kt-section__content">
+		<ngb-tabset type="pills">
+			<ngb-tab *ngFor="let bodyPart of bodyParts" title="{{bodyPart}}">
+				<ng-template ngbTabContent>
+					<div *ngFor="let exercise of bodyPartsMap.get(bodyPart)">
+						<p>{{exercise.name}}
+							<mat-checkbox></mat-checkbox>
+						</p>
+					</div>
+				</ng-template>
+			</ngb-tab>
+		</ngb-tabset>
+	</div>
+</div>

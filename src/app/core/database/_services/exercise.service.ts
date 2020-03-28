@@ -16,12 +16,21 @@ const httpOptions = {
 export class ExerciseService {
 	getExercisesUrl = 'http://localhost:9090/graphql';
 	getExercisesPayload = '{"query":"{\\n  exercises {\\n    name\\n    id\\n    bodyPart\\n    isCompound\\n  }\\n}\\n","variables":null,"operationName":null}';
+	getExercisesForBodyPartPayload = '{"query":"{\\n  exercises (bodyparts:\\"{bodypart}\\") {\\n    bodyPart\\n    isCompound\\n    name\\n    id\\n  }\\n}","variables":null,"operationName":null}';
 
 	constructor(private http: HttpClient) {
 	}
 
 	getExercises() {
 		return this.http.post(this.getExercisesUrl, this.getExercisesPayload, httpOptions)
+			.pipe(
+				catchError(this.handleError)
+			)
+	}
+
+	getExercisesForBodyPart(bodyPart: string) {
+		const query = this.getExercisesForBodyPartPayload.replace("{bodypart}", bodyPart);
+		return this.http.post(this.getExercisesUrl, query, httpOptions)
 			.pipe(
 				catchError(this.handleError)
 			)

@@ -11,6 +11,8 @@ import {Exercise} from '../../../../../core/database/_models/exercise';
 })
 export class ExerciseSelectorComponent implements OnInit {
 	exercises: Exercise[] = [];
+	bodyParts: string[];
+	bodyPartsMap = new Map();
 
 	constructor(private exerciseService: ExerciseService) {
 	}
@@ -23,7 +25,22 @@ export class ExerciseSelectorComponent implements OnInit {
 		this.exerciseService.getExercises()
 			.subscribe(response => {
 				this.exercises = (response as GraphQlResponse).data.exercises;
+				this.bodyParts = [...Array.from(new Set((response as GraphQlResponse).data.exercises.map(exercise => exercise.bodyPart)))]
+
+				this.populateExercisesForBodyparts();
 			});
 	}
+
+	populateExercisesForBodyparts() {
+
+		for (let bodyPart of this.bodyParts) {
+			this.bodyPartsMap.set(bodyPart, []);
+		}
+
+		for (let exercise of this.exercises) {
+			this.bodyPartsMap.get(exercise.bodyPart).push(exercise);
+		}
+	}
+
 
 }
