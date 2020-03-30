@@ -75,6 +75,7 @@ import {InlineSVGModule} from 'ng-inline-svg';
 import {CartComponent} from './layout/topbar/cart/cart.component';
 import {ExerciseSelectorComponent} from './content/database/exercise-selector/exercise-selector.component';
 import {UserSelectorComponent} from './content/database/user-selector/user-selector.component';
+import { SessionDetailsComponent } from './content/database/session-details/session-details.component';
 
 @NgModule({
 	declarations: [
@@ -114,10 +115,12 @@ import {UserSelectorComponent} from './content/database/user-selector/user-selec
 
 		ExerciseSelectorComponent,
 		UserSelectorComponent,
+		SessionDetailsComponent,
 	],
 	exports: [
 		ExerciseSelectorComponent,
 		UserSelectorComponent,
+		SessionDetailsComponent,
 
 		WidgetModule,
 		PortletModule,
