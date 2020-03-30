@@ -1,7 +1,8 @@
-<Table>
+<mat-spinner *ngIf="users.length == 0"></mat-spinner>
+<Table *ngIf="users.length > 0">
 	<tbody>
 	<tr *ngFor="let user of users">
-		<td>{{user.firstName}} {{user.lastName}}  </td>
+		<td>{{user.firstName}} {{user.lastName}}</td>
 		<td>
 			<mat-checkbox></mat-checkbox>
 		</td>

@@ -1,11 +1,11 @@
+<mat-spinner *ngIf="bodyParts.length == 0"></mat-spinner>
 <div class="kt-section">
 	<div class="kt-section__content">
 		<ngb-tabset type="pills">
 			<ngb-tab *ngFor="let bodyPart of bodyParts" title="{{bodyPart}}">
 				<ng-template ngbTabContent>
 					<div *ngFor="let exercise of bodyPartsMap.get(bodyPart)">
-						<p>{{exercise.name}}
-							<mat-checkbox></mat-checkbox>
+						<p><mat-checkbox></mat-checkbox> {{exercise.name}}
 						</p>
 					</div>
 				</ng-template>

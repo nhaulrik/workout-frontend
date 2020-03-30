@@ -11,7 +11,7 @@ import {Exercise} from '../../../../../core/database/_models/exercise';
 })
 export class ExerciseSelectorComponent implements OnInit {
 	exercises: Exercise[] = [];
-	bodyParts: string[];
+	bodyParts: string[] = [];
 	bodyPartsMap = new Map();
 
 	constructor(private exerciseService: ExerciseService) {
