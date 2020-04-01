@@ -76,6 +76,7 @@ import {CartComponent} from './layout/topbar/cart/cart.component';
 import {ExerciseSelectorComponent} from './content/database/exercise-selector/exercise-selector.component';
 import {UserSelectorComponent} from './content/database/user-selector/user-selector.component';
 import { SessionDetailsComponent } from './content/database/session-details/session-details.component';
+import { SessionTableComponent } from './content/database/session-table/session-table.component';
 
 @NgModule({
 	declarations: [
@@ -116,11 +117,13 @@ import { SessionDetailsComponent } from './content/database/session-details/sess
 		ExerciseSelectorComponent,
 		UserSelectorComponent,
 		SessionDetailsComponent,
+		SessionTableComponent,
 	],
 	exports: [
 		ExerciseSelectorComponent,
 		UserSelectorComponent,
 		SessionDetailsComponent,
+		SessionTableComponent,
 
 		WidgetModule,
 		PortletModule,

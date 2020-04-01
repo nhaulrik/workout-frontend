@@ -20,6 +20,7 @@ import {ModuleGuard} from '../../../../core/auth';
 
 // Core => Services
 import {MuscleService} from '../../../../core/database/_services/muscle.service';
+import {SessionService} from '../../../../core/database/_services/session.service';
 
 // Core => Utils
 import {
@@ -146,6 +147,7 @@ const routes: Routes = [
 		HttpUtilsService,
 		TypesUtilsService,
 		MuscleService,
+		SessionService,
 		LayoutUtilsService
 	],
 	entryComponents: [
