@@ -1,4 +1,4 @@
-.mat-select {
+.exercise-select {
 	width: 220px;
 }
 
@@ -20,4 +20,10 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
 	-webkit-appearance: none;
 	margin: 0;
+}
+
+.workout-details mat-form-field {
+	padding-top: 10px;
+	width: 120px;
+	float: right;
 }
