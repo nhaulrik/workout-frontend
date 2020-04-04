@@ -1,13 +1,10 @@
-import {ExerciseForSession} from './exerciseForSession';
+import {WorkoutSet} from './workoutSet';
 
 export interface Session {
-	id: number;
 	localDateTime: string;
 	location: string;
 	programme: string;
 	splitName: string;
 	userId: string;
-	exercisesForSession: ExerciseForSession[];
-
-	//workoutSet(key: string): WorkoutSet[];
+	exerciseMap: Map<number,  Map<number, WorkoutSet>>;
 }

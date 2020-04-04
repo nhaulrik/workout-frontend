@@ -5,3 +5,19 @@
 table {
 	width: 100%;
 }
+
+table td {
+	width: 120px;
+}
+
+.table-input {
+	text-align: center;
+	width: 30%;
+	border: 0px none;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}

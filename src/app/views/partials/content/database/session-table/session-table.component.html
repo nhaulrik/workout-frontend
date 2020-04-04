@@ -1,30 +1,30 @@
 <table border="1">
 	<thead>
-	<tr>
-		<th>Exercise</th>
-		<th colspan="3">Set1</th>
-		<th colspan="3">Set2</th>
-		<th colspan="3">Set3</th>
-		<th colspan="3">Set4</th>
-		<th colspan="3">Set5</th>
-	</tr>
+		<tr>
+			<th>Exercise</th>
+			<th>Set1</th>
+			<th>Set2</th>
+			<th>Set3</th>
+			<th>Set4</th>
+			<th>Set5</th>
+		</tr>
 	</thead>
 	<tbody>
+		<tr *ngFor="let exerciseIndex of defaultExerciseAmount">
+			<td><mat-select (selectionChange)="exerciseEntered(exerciseIndex, $event)" placeholder="Select">
+				<mat-option *ngFor="let exercise of exercises" [value]="exercise">{{exercise.name}}</mat-option>
+			</mat-select></td>
 
-
-	<tr *ngFor="let exerciseIndex of defaultExerciseAmount">
-		<td><mat-select (selectionChange)="exerciseEntered(exerciseIndex, $event)" placeholder="Select">
-			<mat-option *ngFor="let exercise of exercises" [value]="exercise">{{exercise.name}}</mat-option>
-		</mat-select></td>
-		<td>8</td>
-		<td>x</td>
-		<td>50 kg</td>
-		<td>8</td>
-		<td>x</td>
-		<td>55 kg</td>
-		<td>8</td>
-		<td>x</td>
-		<td>{{exercise1}}</td>
-	</tr>
+			<td *ngFor="let setIndex of defaultWorkoutSetAmount">
+				<span *ngIf="session.exerciseMap[exerciseIndex] != undefined">
+					<input type="number" class="table-input" [(ngModel)]="session.exerciseMap[exerciseIndex][setIndex].repetitions">
+					x
+					<input type="number" step="0.5" class="table-input" [(ngModel)]="session.exerciseMap[exerciseIndex][setIndex].weight">
+					kg
+				</span>
+			</td>
+		</tr>
 	</tbody>
 </table>
+
+<button (click)="blaFunc()">Click for debug</button>

@@ -4,7 +4,7 @@ import {SessionService} from '../../../../../core/database';
 import {Session} from '../../../../../core/database/_models/session';
 import {ExerciseService} from '../../../../../core/database/_services/exercise.service';
 import {GraphQlResponse} from '../../../../../core/database/_models/graphQlResponse';
-import {ExerciseForSession} from '../../../../../core/database/_models/exerciseForSession';
+import {WorkoutSet} from '../../../../../core/database/_models/workoutSet';
 
 @Component({
 	selector: 'kt-session-table',
@@ -15,40 +15,45 @@ import {ExerciseForSession} from '../../../../../core/database/_models/exerciseF
 export class SessionTableComponent implements OnInit {
 	exercises: Exercise[] = [];
 	defaultExerciseAmount: number[] = [0, 1, 2, 3, 4, 5, 6, 7];
+	defaultWorkoutSetAmount: number[] = [0, 1, 2, 3, 4];
+
+	exerciseMap: Map<number, Map<number, WorkoutSet>> = new Map<number, Map<number, WorkoutSet>>();
 
 	constructor(private exerciseService: ExerciseService) {
-		this.session.exercisesForSession[0] = { 'workoutSet': [] };
-		this.session.exercisesForSession[1] = { 'workoutSet': [] };
-		this.session.exercisesForSession[2] = { 'workoutSet': [] };
-		this.session.exercisesForSession[3] = { 'workoutSet': [] };
-		this.session.exercisesForSession[4] = { 'workoutSet': [] };
-		this.session.exercisesForSession[5] = { 'workoutSet': [] };
-		this.session.exercisesForSession[6] = { 'workoutSet': [] };
-		this.session.exercisesForSession[7] = { 'workoutSet': [] };
 	}
 
 
 	session: Session = {
-		'id': 2,
 		'localDateTime': '2020-03-31T16:33',
 		'location': 'Home',
 		'programme': 'Stronglifts 5x5',
 		'splitName': 'split A',
 		'userId': null,
-		'exercisesForSession': []
-		//'workoutSet': new Map()
+		'exerciseMap': new Map(new Map())
 	};
 
 	ngOnInit() {
 		this.getExercises();
+		this.session.exerciseMap = this.exerciseMap;
 	}
 
 	exerciseEntered(exerciseIndex, event) {
 		const exercise = event.value as Exercise;
-		this.session.exercisesForSession[exerciseIndex].name = exercise.name;
-		// this.session.exercisesForWorkout().has(exercise.id)
-		// this.session.workoutSet.get(exercise.id)
-		const bla = 123;
+		this.session.exerciseMap[exerciseIndex] = new Map<number, WorkoutSet>();
+		this.session.exerciseMap[exerciseIndex].exerciseName = exercise.name;
+
+		for (var counter: number = 0; counter < 5; counter++) {
+			this.session.exerciseMap[exerciseIndex][counter] = {
+				'sessionId': 0,
+				'id': 0,
+				'exerciseId': exercise.id,
+				'repetitions': 0,
+				'repetitionMaximum': 1337,
+				'setNumber': counter,
+				'weight': 0,
+				'single': false
+			};
+		}
 	}
 
 	getExercises() {
@@ -58,4 +63,7 @@ export class SessionTableComponent implements OnInit {
 			});
 	}
 
+	blaFunc() {
+		const baaa = 1;
+	}
 }

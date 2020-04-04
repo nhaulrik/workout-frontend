@@ -6,5 +6,4 @@ export interface WorkoutSet {
 	repetitionMaximum: number;
 	setNumber: number;
 	weight: number;
-	single: boolean;
 }
