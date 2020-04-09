@@ -1,12 +1,10 @@
-import {AfterViewChecked, AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {ExerciseService} from '../../../../../../core/database/_services/exercise.service';
 import {UserService} from '../../../../../../core/database/_services/user.service';
 import {GraphQlResponse} from '../../../../../../core/database/_models/graphQlResponse';
 import {Exercise} from '../../../../../../core/database/_models/exercise';
-import {User} from '../../../../../../core/auth';
 import {SessionTableComponent} from '../../../../../partials/content/database';
 import {WorkoutSet} from '../../../../../../core/database/_models/workoutSet';
-import {Session} from '../../../../../../core/database/_models/session';
 
 @Component({
 	selector: 'kt-session-edit',
@@ -16,7 +14,6 @@ import {Session} from '../../../../../../core/database/_models/session';
 })
 export class SessionEditComponent implements OnInit, AfterViewInit {
 	exercises: Exercise[] = [];
-	users: User[] = [];
 
 	workoutSet: WorkoutSet[] = [];
 
@@ -26,13 +23,11 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 
 	constructor(
 		private exerciseService: ExerciseService,
-		private userService: UserService
 	) {
 	}
 
 	ngOnInit() {
 		this.getExercises();
-		this.getUsers();
 	}
 
 	getExercises() {
@@ -41,14 +36,6 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 				this.exercises = (response as GraphQlResponse).data.exercises
 			});
 	}
-
-	getUsers() {
-		this.userService.getUsers()
-			.subscribe(response => {
-				this.users = (response as GraphQlResponse).data.users
-			});
-	}
-
 
 	saveWorkout() {
 
@@ -68,8 +55,6 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 					});
 				}
 			}
-
-			const bla2 = 12222;
 		}
 	}
 
