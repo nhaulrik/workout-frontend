@@ -22,14 +22,13 @@ export class SessionTableComponent implements OnInit {
 	constructor(private exerciseService: ExerciseService) {
 	}
 
-
 	session: Session = {
 		'localDateTime': '2020-03-31T16:33',
 		'location': 'Home',
 		'programme': 'Stronglifts 5x5',
 		'splitName': 'split A',
 		'userId': null,
-		'exerciseMap': new Map(new Map())
+		'exerciseMap': new Map<number, Map<number, WorkoutSet>>()
 	};
 
 	ngOnInit() {
@@ -39,20 +38,18 @@ export class SessionTableComponent implements OnInit {
 
 	exerciseEntered(exerciseIndex, event) {
 		const exercise = event.value as Exercise;
-		this.session.exerciseMap[exerciseIndex] = new Map<number, WorkoutSet>();
-		this.session.exerciseMap[exerciseIndex].exerciseName = exercise.name;
+		this.session.exerciseMap.set(exerciseIndex, new Map());
 
 		for (var counter: number = 0; counter < 5; counter++) {
-			this.session.exerciseMap[exerciseIndex][counter] = {
+			this.session.exerciseMap.get(exerciseIndex).set(counter, {
 				'sessionId': 0,
 				'id': 0,
 				'exerciseId': exercise.id,
 				'repetitions': 0,
 				'repetitionMaximum': 1337,
 				'setNumber': counter,
-				'weight': 0,
-				'single': false
-			};
+				'weight': 0
+			});
 		}
 	}
 
@@ -64,6 +61,11 @@ export class SessionTableComponent implements OnInit {
 	}
 
 	blaFunc() {
-		const baaa = 1;
+		const x = 1;
+		// for (let [key, value] of this.exerciseMap) {
+		// 	console.log(key, value);
+		//
+		// const bla2 = 12222;
+		// }
 	}
 }
