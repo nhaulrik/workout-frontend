@@ -1,5 +1,4 @@
 <button (click)="saveWorkout()">save workout</button>
-
 <div class="row">
 	<div class="col-xl-10">
 		<div class="row row-full-height">
@@ -20,7 +19,12 @@
 					</kt-portlet-header>
 					<kt-portlet-body [class]="'kt-portlet__body--fluid'">
 						<mat-form-field class="example-full-width">
-							<input matInput [matDatepicker]="picker" placeholder="Choose a date">
+							<input matInput
+								   [matDatepicker]="picker"
+								   [formControl]="date"
+								   (ngModelChange) = "dateUpdated($event)"
+								   [(ngModel)]="session.date"
+								   placeholder="Choose a date">
 							<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
 							<mat-datepicker #picker></mat-datepicker>
 						</mat-form-field>

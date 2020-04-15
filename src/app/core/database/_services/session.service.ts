@@ -14,13 +14,17 @@ const httpOptions = {
 @Injectable()
 export class SessionService {
 	getSessionUrl = 'http://localhost:9090/graphql';
-	getSessionPayload = '{"query":"{\\n  sessions {\\n    id\\n    localDateTime\\n    location\\n    programme\\n    splitName\\n    userId\\n  }\\n}\\n","variables":null,"operationName":null}';
+	getSessionPayload = '{"query":"{\\n sessions (userId:{userId} date:\\"{date}\\") {id localDateTime location programme splitName userId}}","variables": null}';
 
 	constructor(private http: HttpClient) {
 	}
 
-	getSession() {
-		return this.http.post(this.getSessionUrl, this.getSessionPayload, httpOptions)
+	getSession(userId: number, date: string) {
+		const query = this.getSessionPayload
+			.replace("{userId}", userId.toString())
+			.replace("{date}", date);
+
+		return this.http.post(this.getSessionUrl, query, httpOptions)
 			.pipe(
 				catchError(this.handleError)
 			)

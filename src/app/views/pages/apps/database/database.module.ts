@@ -41,9 +41,10 @@ import {DatabaseComponent} from './database.component';
 // Muscles
 import {MuscleComponent} from './muscle/muscle.component';
 import {
+	MAT_DATE_LOCALE,
 	MAT_DIALOG_DEFAULT_OPTIONS,
 	MatAutocompleteModule,
-	MatButtonModule, MatCardModule, MatCheckboxModule, MatDatepickerModule,
+	MatButtonModule, MatButtonToggleModule, MatCardModule, MatCheckboxModule, MatDatepickerModule,
 	MatDialogModule, MatIconModule,
 	MatInputModule,
 	MatMenuModule, MatNativeDateModule, MatPaginatorModule, MatProgressBarModule, MatProgressSpinnerModule, MatRadioModule,
@@ -55,6 +56,7 @@ import {environment} from '../../../../../environments/environment';
 import {NgbProgressbarModule} from '@ng-bootstrap/ng-bootstrap';
 import { SessionComponent } from './session/session.component';
 import { SessionEditComponent } from './session/session-edit/session-edit.component';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 // tslint:disable-next-line:class-name
 const routes: Routes = [
@@ -120,12 +122,15 @@ const routes: Routes = [
 		MatTabsModule,
 		MatTooltipModule,
 		NgbProgressbarModule,
+		MatSlideToggleModule,
+		MatButtonToggleModule,
 		environment.isMockEnabled ? HttpClientInMemoryWebApiModule.forFeature(FakeApiService, {
 			passThruUnknownUrl: true,
 			dataEncapsulation: false
 		}) : [],
 	],
 	providers: [
+		{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
 		ModuleGuard,
 		InterceptService,
 		{

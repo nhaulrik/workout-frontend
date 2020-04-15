@@ -5,6 +5,13 @@ import {GraphQlResponse} from '../../../../../../core/database/_models/graphQlRe
 import {Exercise} from '../../../../../../core/database/_models/exercise';
 import {SessionTableComponent} from '../../../../../partials/content/database';
 import {WorkoutSet} from '../../../../../../core/database/_models/workoutSet';
+import {SessionService} from '../../../../../../core/database';
+import {Session} from '../../../../../../core/database/_models/session';
+
+import * as _moment from 'moment';
+import {FormControl} from '@angular/forms';
+
+const moment = _moment;
 
 @Component({
 	selector: 'kt-session-edit',
@@ -13,9 +20,13 @@ import {WorkoutSet} from '../../../../../../core/database/_models/workoutSet';
 
 })
 export class SessionEditComponent implements OnInit, AfterViewInit {
-	exercises: Exercise[] = [];
 
+	date: FormControl = new FormControl(moment());
+
+	session: Session;
+	exercises: Exercise[] = [];
 	workoutSet: WorkoutSet[] = [];
+
 
 	exerciseMap: Map<number, Map<number, WorkoutSet>> = new Map<number, Map<number, WorkoutSet>>();
 
@@ -23,11 +34,20 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 
 	constructor(
 		private exerciseService: ExerciseService,
+		private sessionService: SessionService
 	) {
 	}
 
 	ngOnInit() {
 		this.getExercises();
+		this.session = {
+			'localDateTime': '',
+			'exerciseMap': {},
+			'location': '',
+			'programme': '',
+			'splitName': '',
+			'userId': ''
+		};
 	}
 
 	getExercises() {
@@ -37,7 +57,16 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 			});
 	}
 
+	getSession() {
+		this.sessionService.getSession(1, this.session.localDateTime)
+			.subscribe(response => {
+				this.session = response
+			});
+	}
+
 	saveWorkout() {
+
+		this.getSession();
 
 		for (let exercise of Array.from(this.exerciseMap.values())) {
 
@@ -55,6 +84,18 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 					});
 				}
 			}
+		}
+	}
+
+	dateUpdated(dateObject) {
+		if (dateObject != undefined) {
+			const date = '{date}-{month}-{year}';
+			const fullMonth = dateObject.getMonth() < 10 ? '0' + dateObject.getMonth() : dateObject.getMonth();
+			const formattedDate = date
+				.replace('{date}', dateObject.getDate())
+				.replace('{month}', fullMonth)
+				.replace('{year}', dateObject.getFullYear())
+			this.session.localDateTime = formattedDate;
 		}
 	}
 
