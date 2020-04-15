@@ -57,17 +57,16 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 			});
 	}
 
-	getSession() {
-		this.sessionService.getSession(1, this.session.localDateTime)
+	getSession(date) {
+		this.sessionService.getSession(1, date)
 			.subscribe(response => {
-				this.session = response
+				if (response.data.sessions.length > 0) {
+					this.session = response.data.sessions[0];
+				}
 			});
 	}
 
 	saveWorkout() {
-
-		this.getSession();
-
 		for (let exercise of Array.from(this.exerciseMap.values())) {
 
 			for (let workoutSet of Array.from(exercise.values())) {
@@ -90,12 +89,14 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 	dateUpdated(dateObject) {
 		if (dateObject != undefined) {
 			const date = '{date}-{month}-{year}';
-			const fullMonth = dateObject.getMonth() < 10 ? '0' + dateObject.getMonth() : dateObject.getMonth();
+			const fullMonth = dateObject.getMonth() < 10 ? '0' + (dateObject.getMonth() + 1) : dateObject.getMonth() + 1;
+			const fullDay = dateObject.getDate() < 10 ? '0' + dateObject.getDate() : dateObject.getDate();
 			const formattedDate = date
-				.replace('{date}', dateObject.getDate())
+				.replace('{date}', fullDay)
 				.replace('{month}', fullMonth)
 				.replace('{year}', dateObject.getFullYear())
-			this.session.localDateTime = formattedDate;
+
+			this.getSession(formattedDate);
 		}
 	}
 
