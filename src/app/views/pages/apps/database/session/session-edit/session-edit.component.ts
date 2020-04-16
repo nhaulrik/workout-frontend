@@ -18,6 +18,8 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 
 	datePickerValue: string;
 
+	date: any;
+
 	session: Session;
 	exercises: Exercise[] = [];
 	workoutSet: WorkoutSet[] = [];
@@ -87,11 +89,28 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 				.replace('{year}', dateObject.getFullYear())
 
 			this.getSession(formattedDate);
+
+			this.date = dateObject;
 		}
 	}
 
 	ngAfterViewInit(): void {
 		this.exerciseMap = this.child.session.exerciseMap;
+	}
+
+	hasOldSession() {
+		if (this.date != undefined) {
+			const dateIsOld = (
+				this.date.getFullYear() <= new Date().getFullYear() &&
+				this.date.getMonth() <= new Date().getMonth() &&
+				this.date.getDate() < new Date().getDate()
+			);
+
+			const hasWorkoutData = (this.session.exerciseMap != undefined && this.session.exerciseMap.size > 0);
+
+			return dateIsOld && hasWorkoutData;
+		}
+		return false;
 	}
 
 	getEmptySession() {

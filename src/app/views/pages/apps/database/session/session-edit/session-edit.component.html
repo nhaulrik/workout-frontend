@@ -36,6 +36,8 @@
 								<mat-option value="FW Viby">FW Viby</mat-option>
 							</mat-select>
 						</mat-form-field>
+						<mat-slide-toggle
+						*ngIf="hasOldSession()">Edit</mat-slide-toggle>
 					</kt-portlet-body>
 				</kt-portlet>
 			</div>
