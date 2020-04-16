@@ -4,6 +4,7 @@ import {Muscle} from './muscle';
 import {Exercise} from './exercise';
 import {User} from '../../auth';
 import {Session} from './session';
+import {WorkoutSet} from './workoutSet';
 
 export interface GraphQlResponse {
   data: GraphQlData;
@@ -14,4 +15,5 @@ export interface GraphQlData {
   exercises: Exercise[];
   users: User[];
   sessions: Session[];
+  workoutSet: WorkoutSet[];
 }

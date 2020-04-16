@@ -1,12 +1,13 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {ExerciseService} from '../../../../../../core/database/_services/exercise.service';
 import {UserService} from '../../../../../../core/database/_services/user.service';
-import {GraphQlData, GraphQlResponse} from '../../../../../../core/database/_models/graphQlResponse';
+import {GraphQlResponse} from '../../../../../../core/database/_models/graphQlResponse';
 import {Exercise} from '../../../../../../core/database/_models/exercise';
 import {SessionTableComponent} from '../../../../../partials/content/database';
 import {WorkoutSet} from '../../../../../../core/database/_models/workoutSet';
 import {SessionService} from '../../../../../../core/database';
 import {Session} from '../../../../../../core/database/_models/session';
+import {WorkoutSetService} from '../../../../../../core/database/_services/workoutSet.service';
 
 @Component({
 	selector: 'kt-session-edit',
@@ -31,7 +32,8 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 
 	constructor(
 		private exerciseService: ExerciseService,
-		private sessionService: SessionService
+		private sessionService: SessionService,
+		private workoutSetService: WorkoutSetService
 	) {
 	}
 
@@ -48,14 +50,31 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 	}
 
 	getSession(date) {
-		this.sessionService.getSession(1, date)
+		this.sessionService.getSessionWithWorkoutSet(1, date)
 			.subscribe(response => {
 				if ((response as GraphQlResponse).data.sessions.length > 0) {
-					this.session = (response as GraphQlResponse).data.sessions[0];
+					this.session.sessionId = (response as GraphQlResponse).data.sessions[0].id;
+					this.session.localDateTime = (response as GraphQlResponse).data.sessions[0].localDateTime;
+					this.session.location = (response as GraphQlResponse).data.sessions[0].location;
+					this.session.splitName = (response as GraphQlResponse).data.sessions[0].splitName;
+					this.session.userId = (response as GraphQlResponse).data.sessions[0].userId;
+					this.session.programme = (response as GraphQlResponse).data.sessions[0].programme;
+
+					this.child.workoutSet
+
 				} else {
 					this.session = this.getEmptySession();
 				}
 			});
+	}
+
+	getWorkoutSet(sessionId: number) {
+		this.workoutSetService.getWorkoutSetById(sessionId)
+			.subscribe(response => {
+				if ((response as GraphQlResponse).data.workoutSet.length > 0) {
+					const bla = (response as GraphQlResponse).data.workoutSet;
+				}
+			})
 	}
 
 	saveWorkout() {
@@ -115,6 +134,7 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 
 	getEmptySession() {
 		return {
+			'sessionId': 0,
 			'localDateTime': '',
 			'exerciseMap': new Map<number, Map<number, WorkoutSet>>(),
 			'location': '',

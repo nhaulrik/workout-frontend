@@ -23,6 +23,7 @@ export class SessionTableComponent implements OnInit {
 	}
 
 	session: Session = {
+		'sessionId' : 0,
 		'localDateTime': '2020-03-31T16:33',
 		'location': 'Home',
 		'programme': 'Stronglifts 5x5',

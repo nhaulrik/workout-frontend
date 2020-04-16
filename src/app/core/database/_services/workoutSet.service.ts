@@ -11,33 +11,28 @@ const httpOptions = {
 	})
 };
 
-@Injectable()
-export class SessionService {
-	getSessionUrl = 'http://localhost:9090/graphql';
-	getSessionPayload = '{"query":"{\\n sessions (userId:{userId} date:\\"{date}\\") {id localDateTime location programme splitName userId}}","variables": null}';
-	getSessionWithWorkoutSetPayload = '{"query":"{\\n sessions (userId:{userId} date:\\"{date}\\") {id localDateTime location programme splitName userId workoutsets {\\n      id\\n      repetitionMaximum\\n      repetitions\\n      sessionId\\n      setNumber\\n      single\\n      weight\\n    }\\n  }\\n}\\n","variables":null,"operationName":null}';
 
+@Injectable()
+export class WorkoutSetService {
+	endpoint = 'http://localhost:9090/graphql';
+	getUsersPayload = 		'{"query":"{\\n  users {\\n    firstName\\n    lastName\\n    id\\n  }\\n}","variables":null,"operationName":null}';
+	getWorkoutSetPayload = 	'{"query":"query {\\n  workoutsets (sessionId:{sessionId} {\\n\\t\\tid\\n    single\\n    repetitionMaximum\\n    repetitions\\n    setNumber\\n    sessionId\\n    weight\\n  }\\n}","variables":null}';
 	constructor(private http: HttpClient) {
 	}
 
 
-	getSessionWithWorkoutSet(userId: number, date: string) {
-		const query = this.getSessionWithWorkoutSetPayload
-			.replace("{userId}", userId.toString())
-			.replace("{date}", date);
-
-		return this.http.post(this.getSessionUrl, query, httpOptions)
+	getWorkoutSet() {
+		return this.http.post(this.endpoint, this.getWorkoutSetPayload, httpOptions)
 			.pipe(
 				catchError(this.handleError)
 			)
 	}
 
-	getSession(userId: number, date: string) {
-		const query = this.getSessionPayload
-			.replace("{userId}", userId.toString())
-			.replace("{date}", date);
+	getWorkoutSetById(sessionId: number) {
+		const query = this.getWorkoutSetPayload
+			.replace("{sessionId}", sessionId.toString());
 
-		return this.http.post(this.getSessionUrl, query, httpOptions)
+		return this.http.post(this.endpoint, query, httpOptions)
 			.pipe(
 				catchError(this.handleError)
 			)
@@ -60,3 +55,5 @@ export class SessionService {
 	}
 
 }
+
+

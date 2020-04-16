@@ -21,35 +21,36 @@ import {ModuleGuard} from '../../../../core/auth';
 // Core => Services
 import {MuscleService} from '../../../../core/database/_services/muscle.service';
 import {SessionService} from '../../../../core/database/_services/session.service';
+import {WorkoutSetService} from '../../../../core/database/_services/workoutSet.service';
 
 // Core => Utils
 import {
-	HttpUtilsService,
-	TypesUtilsService,
-	InterceptService,
-	LayoutUtilsService
+HttpUtilsService,
+TypesUtilsService,
+InterceptService,
+LayoutUtilsService
 } from '../../../../core/_base/crud';
 // Shared
 import {
-	ActionNotificationComponent,
-	DeleteEntityDialogComponent,
-	FetchEntityDialogComponent,
-	UpdateStatusDialogComponent
+ActionNotificationComponent,
+DeleteEntityDialogComponent,
+FetchEntityDialogComponent,
+UpdateStatusDialogComponent
 } from '../../../partials/content/crud';
 // Components
 import {DatabaseComponent} from './database.component';
 // Muscles
 import {MuscleComponent} from './muscle/muscle.component';
 import {
-	MAT_DATE_LOCALE,
-	MAT_DIALOG_DEFAULT_OPTIONS,
-	MatAutocompleteModule,
-	MatButtonModule, MatButtonToggleModule, MatCardModule, MatCheckboxModule, MatDatepickerModule,
-	MatDialogModule, MatIconModule,
-	MatInputModule,
-	MatMenuModule, MatNativeDateModule, MatPaginatorModule, MatProgressBarModule, MatProgressSpinnerModule, MatRadioModule,
-	MatSelectModule, MatSnackBarModule, MatSortModule,
-	MatTableModule, MatTabsModule, MatTooltipModule
+MAT_DATE_LOCALE,
+MAT_DIALOG_DEFAULT_OPTIONS,
+MatAutocompleteModule,
+MatButtonModule, MatButtonToggleModule, MatCardModule, MatCheckboxModule, MatDatepickerModule,
+MatDialogModule, MatIconModule,
+MatInputModule,
+MatMenuModule, MatNativeDateModule, MatPaginatorModule, MatProgressBarModule, MatProgressSpinnerModule, MatRadioModule,
+MatSelectModule, MatSnackBarModule, MatSortModule,
+MatTableModule, MatTabsModule, MatTooltipModule
 } from '@angular/material';
 import {NgxPermissionsModule} from 'ngx-permissions';
 import {environment} from '../../../../../environments/environment';
@@ -153,6 +154,7 @@ const routes: Routes = [
 		TypesUtilsService,
 		MuscleService,
 		SessionService,
+		WorkoutSetService,
 		LayoutUtilsService
 	],
 	entryComponents: [
