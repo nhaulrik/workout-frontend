@@ -39,7 +39,7 @@
 			</td>
 
 			<td *ngFor="let setIndex of defaultWorkoutSetAmount">
-				<span *ngIf="exerciseMap.has(exerciseIndex)">
+				<span *ngIf="shouldShowInput(exerciseIndex, setIndex)">
 					<input type="number" class="table-input"
 						   [(ngModel)]="exerciseMap.get(exerciseIndex).get(setIndex).repetitions">
 					x
@@ -52,5 +52,5 @@
 		</tbody>
 	</table>
 
-	<button (click)="blaFunc()">Click for debug</button>
+	<button (click)="debugFunc()">Click for debug</button>
 </kt-portlet-body>
