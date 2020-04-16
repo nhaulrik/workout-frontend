@@ -114,7 +114,7 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 	}
 
 	ngAfterViewInit(): void {
-		this.exerciseMap = this.child.session.exerciseMap;
+		this.exerciseMap = this.child.exerciseMap;
 	}
 
 	hasOldSession() {
@@ -135,12 +135,12 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 	getEmptySession() {
 		return {
 			'sessionId': 0,
+			'userId': 1,
 			'localDateTime': '',
 			'exerciseMap': new Map<number, Map<number, WorkoutSet>>(),
 			'location': '',
 			'programme': '',
-			'splitName': '',
-			'userId': ''
+			'splitName': ''
 		};
 	}
 

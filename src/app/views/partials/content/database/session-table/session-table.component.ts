@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Exercise} from '../../../../../core/database/_models/exercise';
 import {SessionService} from '../../../../../core/database';
-import {Session} from '../../../../../core/database/_models/session';
 import {ExerciseService} from '../../../../../core/database/_services/exercise.service';
 import {GraphQlResponse} from '../../../../../core/database/_models/graphQlResponse';
 import {WorkoutSet} from '../../../../../core/database/_models/workoutSet';
@@ -22,27 +21,21 @@ export class SessionTableComponent implements OnInit {
 	constructor(private exerciseService: ExerciseService) {
 	}
 
-	session: Session = {
-		'sessionId' : 0,
-		'localDateTime': '2020-03-31T16:33',
-		'location': 'Home',
-		'programme': 'Stronglifts 5x5',
-		'splitName': 'split A',
-		'userId': null,
-		'exerciseMap': new Map<number, Map<number, WorkoutSet>>()
-	};
-
 	ngOnInit() {
 		this.getExercises();
-		this.session.exerciseMap = this.exerciseMap;
+	}
+
+	populateTableWithWorkoutSet(workoutSet: WorkoutSet[]) {
+
+		const bla = 123;
 	}
 
 	exerciseEntered(exerciseIndex, event) {
 		const exercise = event.value as Exercise;
-		this.session.exerciseMap.set(exerciseIndex, new Map());
+		this.exerciseMap.set(exerciseIndex, new Map());
 
 		for (var counter: number = 0; counter < 5; counter++) {
-			this.session.exerciseMap.get(exerciseIndex).set(counter, {
+			this.exerciseMap.get(exerciseIndex).set(counter, {
 				'sessionId': 0,
 				'id': 0,
 				'exerciseId': exercise.id,
@@ -61,12 +54,4 @@ export class SessionTableComponent implements OnInit {
 			});
 	}
 
-	blaFunc() {
-		const x = 1;
-		// for (let [key, value] of this.exerciseMap) {
-		// 	console.log(key, value);
-		//
-		// const bla2 = 12222;
-		// }
-	}
 }

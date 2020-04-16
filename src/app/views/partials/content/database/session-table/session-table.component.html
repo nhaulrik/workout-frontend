@@ -39,12 +39,12 @@
 			</td>
 
 			<td *ngFor="let setIndex of defaultWorkoutSetAmount">
-				<span *ngIf="session.exerciseMap.has(exerciseIndex)">
+				<span *ngIf="exerciseMap.has(exerciseIndex)">
 					<input type="number" class="table-input"
-						   [(ngModel)]="session.exerciseMap.get(exerciseIndex).get(setIndex).repetitions">
+						   [(ngModel)]="exerciseMap.get(exerciseIndex).get(setIndex).repetitions">
 					x
 					<input type="number" step="0.5" class="table-input"
-						   [(ngModel)]="session.exerciseMap.get(exerciseIndex).get(setIndex).weight">
+						   [(ngModel)]="exerciseMap.get(exerciseIndex).get(setIndex).weight">
 					kg
 				</span>
 			</td>
