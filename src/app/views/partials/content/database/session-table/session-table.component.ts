@@ -16,6 +16,9 @@ export class SessionTableComponent implements OnInit {
 	defaultExerciseAmount: number[] = [0, 1, 2, 3, 4, 5, 6, 7];
 	defaultWorkoutSetAmount: number[] = [0, 1, 2, 3, 4];
 
+	splitName: string;
+	programme: string;
+
 	exerciseMap: Map<number, Map<number, WorkoutSet>> = new Map<number, Map<number, WorkoutSet>>();
 
 	constructor(private exerciseService: ExerciseService) {
@@ -45,11 +48,23 @@ export class SessionTableComponent implements OnInit {
 		}
 	}
 
+	getExerciseForIndex(index: number) {
+
+		const exerciseId = this.exerciseMap.get(index).get(0).exerciseId
+
+		for (let exercise of this.exercises) {
+			if (exercise.id == exerciseId) {
+				return exercise.name;
+			}
+		}
+		return '';
+	}
+
 	populateTableWithWorkoutSet(workoutSet: WorkoutSet[]) {
 
 		for (let ws of workoutSet) {
 			const wsIndex = workoutSet.indexOf(ws);
-			this.exerciseMap.get(wsIndex).set(ws.setNumber, {
+			this.exerciseMap.get(wsIndex).set(ws.setNumber - 1, { //-1 to compensate for index start at 0 and setnumber at 1
 				'sessionId': ws.sessionId,
 				'id': ws.id,
 				'exerciseId': ws.exerciseId,
@@ -70,18 +85,9 @@ export class SessionTableComponent implements OnInit {
 
 	exerciseEntered(exerciseIndex, event) {
 		const exercise = event.value as Exercise;
-		this.exerciseMap.set(exerciseIndex, new Map());
 
-		for (var counter: number = 0; counter < 5; counter++) {
-			this.exerciseMap.get(exerciseIndex).set(counter, {
-				'sessionId': 0,
-				'id': 0,
-				'exerciseId': exercise.id,
-				'repetitions': 0,
-				'repetitionMaximum': 1337,
-				'setNumber': counter,
-				'weight': 0
-			});
+		for (var workoutSetIndex: number of this.defaultWorkoutSetAmount) {
+			this.exerciseMap.get(exerciseIndex).get(workoutSetIndex).exerciseId = exercise.id;
 		}
 	}
 

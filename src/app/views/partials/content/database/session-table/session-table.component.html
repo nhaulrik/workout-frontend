@@ -2,7 +2,8 @@
 	<ng-container ktPortletTools>
 		<div class="workout-details">
 			<mat-form-field>
-				<mat-select placeholder="Programme">
+				<mat-select placeholder="Programme"
+							[(ngModel)]="programme">
 					<mat-option value="Stronglifts 5x5">Stronglifts 5x5</mat-option>
 					<mat-option value="Max Muscle Plan">Max Muscle Plan</mat-option>
 					<mat-option value="Custom">Custom</mat-option>
@@ -10,9 +11,11 @@
 			</mat-form-field>
 
 			<mat-form-field>
-				<mat-select placeholder="Split">
-					<mat-option value="Monday">Monday</mat-option>
-					<mat-option value="Custom">Custom</mat-option>
+				<mat-select
+					placeholder="Split"
+					[(ngModel)]="splitName">
+					<mat-option value="Split A">Split A</mat-option>
+					<mat-option value="Split B">Split B</mat-option>
 				</mat-select>
 			</mat-form-field>
 		</div>
@@ -33,7 +36,11 @@
 		<tbody>
 		<tr *ngFor="let exerciseIndex of defaultExerciseAmount">
 			<td>
-				<mat-select class="exercise-select" (selectionChange)="exerciseEntered(exerciseIndex, $event)" placeholder="Select">
+				<mat-select
+					placeholder="{{getExerciseForIndex(exerciseIndex)}}"
+					class="exercise-select"
+					(selectionChange)="exerciseEntered(exerciseIndex, $event)"
+					placeholder="Select">
 					<mat-option *ngFor="let exercise of exercises" [value]="exercise">{{exercise.name}}</mat-option>
 				</mat-select>
 			</td>
