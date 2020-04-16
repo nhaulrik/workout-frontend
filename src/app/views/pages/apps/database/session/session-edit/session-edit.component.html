@@ -1,4 +1,3 @@
-<button (click)="saveWorkout()">save workout</button>
 <div class="row">
 	<div class="col-xl-10">
 		<div class="row row-full-height">
@@ -21,16 +20,18 @@
 						<mat-form-field class="example-full-width">
 							<input matInput
 								   [matDatepicker]="picker"
-								   [formControl]="date"
-								   (ngModelChange) = "dateUpdated($event)"
-								   [(ngModel)]="session.date"
+								   (ngModelChange)="dateUpdated($event)"
+								   [(ngModel)]="datePickerValue"
 								   placeholder="Choose a date">
 							<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
 							<mat-datepicker #picker></mat-datepicker>
 						</mat-form-field>
 
 						<mat-form-field>
-							<mat-select placeholder="Location">
+							<mat-select
+								[(ngModel)]="session.location"
+								placeholder="{{session.location == '' ? 'Choose' : session.location}}"
+								[disabled]="session.location != ''">
 								<mat-option value="home">Home</mat-option>
 								<mat-option value="FW Viby">FW Viby</mat-option>
 							</mat-select>

@@ -1,17 +1,12 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {ExerciseService} from '../../../../../../core/database/_services/exercise.service';
 import {UserService} from '../../../../../../core/database/_services/user.service';
-import {GraphQlResponse} from '../../../../../../core/database/_models/graphQlResponse';
+import {GraphQlData, GraphQlResponse} from '../../../../../../core/database/_models/graphQlResponse';
 import {Exercise} from '../../../../../../core/database/_models/exercise';
 import {SessionTableComponent} from '../../../../../partials/content/database';
 import {WorkoutSet} from '../../../../../../core/database/_models/workoutSet';
 import {SessionService} from '../../../../../../core/database';
 import {Session} from '../../../../../../core/database/_models/session';
-
-import * as _moment from 'moment';
-import {FormControl} from '@angular/forms';
-
-const moment = _moment;
 
 @Component({
 	selector: 'kt-session-edit',
@@ -21,7 +16,7 @@ const moment = _moment;
 })
 export class SessionEditComponent implements OnInit, AfterViewInit {
 
-	date: FormControl = new FormControl(moment());
+	datePickerValue: string;
 
 	session: Session;
 	exercises: Exercise[] = [];
@@ -40,14 +35,7 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 
 	ngOnInit() {
 		this.getExercises();
-		this.session = {
-			'localDateTime': '',
-			'exerciseMap': {},
-			'location': '',
-			'programme': '',
-			'splitName': '',
-			'userId': ''
-		};
+		this.session = this.getEmptySession();
 	}
 
 	getExercises() {
@@ -60,8 +48,10 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 	getSession(date) {
 		this.sessionService.getSession(1, date)
 			.subscribe(response => {
-				if (response.data.sessions.length > 0) {
-					this.session = response.data.sessions[0];
+				if ((response as GraphQlResponse).data.sessions.length > 0) {
+					this.session = (response as GraphQlResponse).data.sessions[0];
+				} else {
+					this.session = this.getEmptySession();
 				}
 			});
 	}
@@ -102,6 +92,17 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 
 	ngAfterViewInit(): void {
 		this.exerciseMap = this.child.session.exerciseMap;
+	}
+
+	getEmptySession() {
+		return {
+			'localDateTime': '',
+			'exerciseMap': new Map<number, Map<number, WorkoutSet>>(),
+			'location': '',
+			'programme': '',
+			'splitName': '',
+			'userId': ''
+		};
 	}
 
 }
