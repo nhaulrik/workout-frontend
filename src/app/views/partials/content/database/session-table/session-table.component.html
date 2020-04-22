@@ -14,10 +14,16 @@
 				<mat-select
 					placeholder="Split"
 					[(ngModel)]="splitName">
-					<mat-option value="Split A">Split A</mat-option>
-					<mat-option value="Split B">Split B</mat-option>
+					<mat-option value="split A">split A</mat-option>
+					<mat-option value="split B">split B</mat-option>
 				</mat-select>
 			</mat-form-field>
+			<mat-slide-toggle
+				*ngIf="hasOldSession()"
+				class="edit-toggle"
+				[(ngModel)]="isEditable"
+			>Edit
+			</mat-slide-toggle>
 		</div>
 	</ng-container>
 </kt-portlet-header>

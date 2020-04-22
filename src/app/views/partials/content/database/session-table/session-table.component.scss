@@ -25,5 +25,12 @@ input::-webkit-inner-spin-button {
 .workout-details mat-form-field {
 	padding-top: 10px;
 	width: 120px;
-	float: right;
+	height: 100%;
 }
+
+.workout-details mat-slide-toggle {
+	padding-top: 10px;
+	padding-left: 20px;
+	height: 100%;
+}
+

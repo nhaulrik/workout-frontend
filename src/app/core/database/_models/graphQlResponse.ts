@@ -15,5 +15,5 @@ export interface GraphQlData {
   exercises: Exercise[];
   users: User[];
   sessions: Session[];
-  workoutSet: WorkoutSet[];
+  workoutSets: WorkoutSet[];
 }

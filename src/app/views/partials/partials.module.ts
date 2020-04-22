@@ -5,7 +5,7 @@ import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {
 	MatAutocompleteModule,
-	MatButtonModule,
+	MatButtonModule, MatButtonToggleModule,
 	MatCardModule,
 	MatCheckboxModule,
 	MatDatepickerModule,
@@ -18,7 +18,7 @@ import {
 	MatProgressBarModule,
 	MatProgressSpinnerModule,
 	MatRadioModule,
-	MatSelectModule,
+	MatSelectModule, MatSlideToggleModule,
 	MatSnackBarModule,
 	MatSortModule,
 	MatTableModule,
@@ -199,6 +199,8 @@ import { SessionTableComponent } from './content/database/session-table/session-
 		NgbDropdownModule,
 		NgbTabsetModule,
 		NgbTooltipModule,
+		MatSlideToggleModule,
+		MatButtonToggleModule,
 	],
 })
 export class PartialsModule {

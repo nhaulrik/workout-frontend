@@ -1,7 +1,7 @@
 import {WorkoutSet} from './workoutSet';
 
 export interface Session {
-	sessionId: number;
+	id: number;
 	userId: number;
 	localDateTime: string;
 	location: string;

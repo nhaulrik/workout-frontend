@@ -53,7 +53,7 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 		this.sessionService.getSessionWithWorkoutSet(1, date)
 			.subscribe(response => {
 				if ((response as GraphQlResponse).data.sessions.length > 0) {
-					this.session.sessionId = (response as GraphQlResponse).data.sessions[0].id;
+					this.session.id = (response as GraphQlResponse).data.sessions[0].id;
 					this.session.localDateTime = (response as GraphQlResponse).data.sessions[0].localDateTime;
 					this.session.location = (response as GraphQlResponse).data.sessions[0].location;
 					this.session.splitName = (response as GraphQlResponse).data.sessions[0].splitName;
@@ -75,8 +75,8 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 	getWorkoutSet(sessionId: number) {
 		this.workoutSetService.getWorkoutSetById(sessionId)
 			.subscribe(response => {
-				if ((response as GraphQlResponse).data.workoutSet.length > 0) {
-					const bla = (response as GraphQlResponse).data.workoutSet;
+				if ((response as GraphQlResponse).data.workoutSets.length > 0) {
+					const bla = (response as GraphQlResponse).data.workoutSets;
 				}
 			})
 	}
@@ -121,24 +121,9 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 		this.exerciseMap = this.child.exerciseMap;
 	}
 
-	hasOldSession() {
-		if (this.date != undefined) {
-			const dateIsOld = (
-				this.date.getFullYear() <= new Date().getFullYear() &&
-				this.date.getMonth() <= new Date().getMonth() &&
-				this.date.getDate() < new Date().getDate()
-			);
-
-			const hasWorkoutData = (this.session.exerciseMap != undefined && this.session.exerciseMap.size > 0);
-
-			return dateIsOld && hasWorkoutData;
-		}
-		return false;
-	}
-
 	getEmptySession() {
 		return {
-			'sessionId': 0,
+			'id': 0,
 			'userId': 1,
 			'localDateTime': '',
 			'exerciseMap': new Map<number, Map<number, WorkoutSet>>(),

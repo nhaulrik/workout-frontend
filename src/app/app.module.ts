@@ -110,7 +110,7 @@ export function hljsLanguages(): HighlightLanguage[] {
 		TranslateModule.forRoot(),
 		MatProgressSpinnerModule,
 		InlineSVGModule.forRoot(),
-		ThemeModule
+		ThemeModule,
 	],
 	exports: [],
 	providers: [

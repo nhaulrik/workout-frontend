@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Exercise} from '../../../../../core/database/_models/exercise';
 import {SessionService} from '../../../../../core/database';
 import {ExerciseService} from '../../../../../core/database/_services/exercise.service';
@@ -18,8 +18,11 @@ export class SessionTableComponent implements OnInit {
 
 	splitName: string;
 	programme: string;
+	isEditable: boolean;
 
 	exerciseMap: Map<number, Map<number, WorkoutSet>> = new Map<number, Map<number, WorkoutSet>>();
+
+	@Input() date: any;
 
 	constructor(private exerciseService: ExerciseService) {
 	}
@@ -31,7 +34,7 @@ export class SessionTableComponent implements OnInit {
 	}
 
 	setInitialExerciseMap() {
-		for (var exerciseNumber: number of this.defaultExerciseAmount) {
+		for (var exerciseNumber of this.defaultExerciseAmount) {
 			this.exerciseMap.set(exerciseNumber, new Map());
 
 			for (var counter: number = 0; counter < 5; counter++) {
@@ -62,18 +65,59 @@ export class SessionTableComponent implements OnInit {
 
 	populateTableWithWorkoutSet(workoutSet: WorkoutSet[]) {
 
+		const exerciseMap = new Map<string, WorkoutSet[]>();
+
 		for (let ws of workoutSet) {
-			const wsIndex = workoutSet.indexOf(ws);
-			this.exerciseMap.get(wsIndex).set(ws.setNumber - 1, { //-1 to compensate for index start at 0 and setnumber at 1
-				'sessionId': ws.sessionId,
-				'id': ws.id,
-				'exerciseId': ws.exerciseId,
-				'repetitions': ws.repetitions,
-				'repetitionMaximum': ws.repetitionMaximum,
-				'setNumber': ws.setNumber,
-				'weight': ws.weight
-			})
+			if (exerciseMap.get(ws.exerciseId.toString()) != undefined) {
+				exerciseMap.get(ws.exerciseId.toString()).push(ws);
+			} else {
+				exerciseMap.set(ws.exerciseId.toString(), [ws]);
+			}
 		}
+
+		var exerciseIndex = 0;
+		exerciseMap.forEach((workoutSetArray: WorkoutSet[], key: string) => {
+			for (let ws of workoutSetArray) {
+				this.exerciseMap.get(exerciseIndex).set(ws.setNumber - 1, { //-1 to compensate for index start at 0 and setnumber at 1
+					'sessionId': ws.sessionId,
+					'id': ws.id,
+					'exerciseId': ws.exerciseId,
+					'repetitions': ws.repetitions,
+					'repetitionMaximum': ws.repetitionMaximum,
+					'setNumber': ws.setNumber,
+					'weight': ws.weight
+				})
+			}
+			exerciseIndex++;
+		});
+
+		// for (let ws of workoutSet) {
+		// 	const wsIndex = workoutSet.indexOf(ws);
+		// 	this.exerciseMap.get(wsIndex).set(ws.setNumber - 1, { //-1 to compensate for index start at 0 and setnumber at 1
+		// 		'sessionId': ws.sessionId,
+		// 		'id': ws.id,
+		// 		'exerciseId': ws.exerciseId,
+		// 		'repetitions': ws.repetitions,
+		// 		'repetitionMaximum': ws.repetitionMaximum,
+		// 		'setNumber': ws.setNumber,
+		// 		'weight': ws.weight
+		// 	})
+		// }
+	}
+
+	hasOldSession() {
+		if (this.date != undefined) {
+			const dateIsOld = (
+				this.date.getFullYear() <= new Date().getFullYear() &&
+				this.date.getMonth() <= new Date().getMonth() &&
+				this.date.getDate() < new Date().getDate()
+			);
+
+			const hasWorkoutData = (this.exerciseMap != undefined && this.exerciseMap.get(0).get(0).exerciseId != null);
+
+			return dateIsOld && hasWorkoutData;
+		}
+		return false;
 	}
 
 	shouldShowInput(exerciseIndex: number, setIndex: number) {
@@ -86,7 +130,7 @@ export class SessionTableComponent implements OnInit {
 	exerciseEntered(exerciseIndex, event) {
 		const exercise = event.value as Exercise;
 
-		for (var workoutSetIndex: number of this.defaultWorkoutSetAmount) {
+		for (var workoutSetIndex of this.defaultWorkoutSetAmount) {
 			this.exerciseMap.get(exerciseIndex).get(workoutSetIndex).exerciseId = exercise.id;
 		}
 	}
