@@ -16,7 +16,7 @@ const httpOptions = {
 export class WorkoutSetService {
 	endpoint = 'http://localhost:9090/graphql';
 	getUsersPayload = 		'{"query":"{\\n  users {\\n    firstName\\n    lastName\\n    id\\n  }\\n}","variables":null,"operationName":null}';
-	getWorkoutSetPayload = 	'{"query":"query {\\n  workoutsets (sessionId:{sessionId} {\\n\\t\\tid\\n    single\\n    repetitionMaximum\\n    repetitions\\n    setNumber\\n    sessionId\\n    weight\\n  }\\n}","variables":null}';
+	getWorkoutSetPayload = 	'{"query":"query {\\n  workoutSet (sessionId:{sessionId} {\\n\\t\\tid\\n    single\\n    repetitionMaximum\\n    repetitions\\n    setNumber\\n    sessionId\\n    weight\\n  }\\n}","variables":null}';
 	constructor(private http: HttpClient) {
 	}
 

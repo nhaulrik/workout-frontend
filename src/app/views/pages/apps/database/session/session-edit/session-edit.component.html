@@ -26,16 +26,6 @@
 							<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
 							<mat-datepicker #picker></mat-datepicker>
 						</mat-form-field>
-
-						<mat-form-field>
-							<mat-select
-								[(ngModel)]="session.location"
-								placeholder="{{session.location == '' ? 'Choose' : session.location}}"
-								[disabled]="session.location != ''">
-								<mat-option value="home">Home</mat-option>
-								<mat-option value="FW Viby">FW Viby</mat-option>
-							</mat-select>
-						</mat-form-field>
 					</kt-portlet-body>
 				</kt-portlet>
 			</div>

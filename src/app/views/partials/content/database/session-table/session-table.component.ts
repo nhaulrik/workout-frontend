@@ -18,6 +18,7 @@ export class SessionTableComponent implements OnInit {
 
 	splitName: string;
 	programme: string;
+	location: string;
 	isEditable: boolean;
 
 	exerciseMap: Map<number, Map<number, WorkoutSet>> = new Map<number, Map<number, WorkoutSet>>();
@@ -62,6 +63,8 @@ export class SessionTableComponent implements OnInit {
 		}
 		return '';
 	}
+
+	// issue with not resetting exercise column when switching date.
 
 	populateTableWithWorkoutSet(workoutSet: WorkoutSet[]) {
 
@@ -122,8 +125,9 @@ export class SessionTableComponent implements OnInit {
 
 	shouldShowInput(exerciseIndex: number, setIndex: number) {
 		const hasData =
-			this.exerciseMap.get(exerciseIndex).get(setIndex).repetitions > 0 ||
-			this.exerciseMap.get(exerciseIndex).get(setIndex).weight > 0;
+			(this.exerciseMap.get(exerciseIndex).get(setIndex).repetitions > 0 ||
+				this.exerciseMap.get(exerciseIndex).get(setIndex).weight > 0) ||
+			this.exerciseMap.get(exerciseIndex).get(0).exerciseId > 0;
 		return hasData;
 	}
 

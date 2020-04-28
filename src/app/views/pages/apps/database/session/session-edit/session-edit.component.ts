@@ -60,9 +60,9 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 					this.session.userId = (response as GraphQlResponse).data.sessions[0].userId;
 					this.session.programme = (response as GraphQlResponse).data.sessions[0].programme;
 
-					this.child.populateTableWithWorkoutSet((response as GraphQlResponse).data.sessions[0].workoutsets)
-					this.child.splitName = (response as GraphQlResponse).data.sessions[0].splitName
-					this.child.programme = (response as GraphQlResponse).data.sessions[0].programme
+					this.child.populateTableWithWorkoutSet((response as GraphQlResponse).data.sessions[0].workoutSet);
+					this.child.splitName = (response as GraphQlResponse).data.sessions[0].splitName;
+					this.child.programme = (response as GraphQlResponse).data.sessions[0].programme;
 				} else {
 					this.session = this.getEmptySession();
 					this.child.setInitialExerciseMap();
@@ -75,8 +75,8 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 	getWorkoutSet(sessionId: number) {
 		this.workoutSetService.getWorkoutSetById(sessionId)
 			.subscribe(response => {
-				if ((response as GraphQlResponse).data.workoutSets.length > 0) {
-					const bla = (response as GraphQlResponse).data.workoutSets;
+				if ((response as GraphQlResponse).data.workoutSet.length > 0) {
+					const bla = (response as GraphQlResponse).data.workoutSet;
 				}
 			})
 	}
