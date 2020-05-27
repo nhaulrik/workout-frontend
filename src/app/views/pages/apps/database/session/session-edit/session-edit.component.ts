@@ -63,6 +63,7 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 					this.child.populateTableWithWorkoutSet((response as GraphQlResponse).data.sessions[0].workoutSet);
 					this.child.splitName = (response as GraphQlResponse).data.sessions[0].splitName;
 					this.child.programme = (response as GraphQlResponse).data.sessions[0].programme;
+					this.child.sessionId = (response as GraphQlResponse).data.sessions[0].id;
 				} else {
 					this.session = this.getEmptySession();
 					this.child.setInitialExerciseMap();

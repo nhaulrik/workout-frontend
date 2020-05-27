@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Exercise} from '../../../../../core/database/_models/exercise';
-import {SessionService} from '../../../../../core/database';
+import {SessionService, WorkoutSetService} from '../../../../../core/database';
 import {ExerciseService} from '../../../../../core/database/_services/exercise.service';
 import {GraphQlResponse} from '../../../../../core/database/_models/graphQlResponse';
 import {WorkoutSet} from '../../../../../core/database/_models/workoutSet';
@@ -9,7 +9,7 @@ import {WorkoutSet} from '../../../../../core/database/_models/workoutSet';
 	selector: 'kt-session-table',
 	templateUrl: './session-table.component.html',
 	styleUrls: ['./session-table.component.scss'],
-	providers: [SessionService]
+	providers: [SessionService, WorkoutSetService]
 })
 export class SessionTableComponent implements OnInit {
 	exercises: Exercise[] = [];
@@ -20,12 +20,13 @@ export class SessionTableComponent implements OnInit {
 	programme: string;
 	location: string;
 	isEditable: boolean;
+	sessionId: number;
 
 	exerciseMap: Map<number, Map<number, WorkoutSet>> = new Map<number, Map<number, WorkoutSet>>();
 
 	@Input() date: any;
 
-	constructor(private exerciseService: ExerciseService) {
+	constructor(private exerciseService: ExerciseService, private workoutSetService: WorkoutSetService) {
 	}
 
 	ngOnInit() {
@@ -93,19 +94,6 @@ export class SessionTableComponent implements OnInit {
 			}
 			exerciseIndex++;
 		});
-
-		// for (let ws of workoutSet) {
-		// 	const wsIndex = workoutSet.indexOf(ws);
-		// 	this.exerciseMap.get(wsIndex).set(ws.setNumber - 1, { //-1 to compensate for index start at 0 and setnumber at 1
-		// 		'sessionId': ws.sessionId,
-		// 		'id': ws.id,
-		// 		'exerciseId': ws.exerciseId,
-		// 		'repetitions': ws.repetitions,
-		// 		'repetitionMaximum': ws.repetitionMaximum,
-		// 		'setNumber': ws.setNumber,
-		// 		'weight': ws.weight
-		// 	})
-		// }
 	}
 
 	hasOldSession() {
@@ -131,12 +119,45 @@ export class SessionTableComponent implements OnInit {
 		return hasData;
 	}
 
-	exerciseEntered(exerciseIndex, event) {
-		const exercise = event.value as Exercise;
+	exerciseUpdated(exerciseIndex, event) {
 
-		for (var workoutSetIndex of this.defaultWorkoutSetAmount) {
-			this.exerciseMap.get(exerciseIndex).get(workoutSetIndex).exerciseId = exercise.id;
-		}
+		const exerciseId = event.value;
+		var updatedWorkoutSet: WorkoutSet[] = [];
+
+		this.exerciseMap.get(exerciseIndex).forEach((workoutSet: WorkoutSet, key: number) => {
+
+			updatedWorkoutSet.push(
+				{
+					'exerciseId': exerciseId,
+					'repetitionMaximum': workoutSet.repetitionMaximum,
+					'id': workoutSet.id,
+					'repetitions': workoutSet.repetitions,
+					'weight': workoutSet.weight,
+					'setNumber': workoutSet.setNumber,
+					'sessionId': this.sessionId
+				}
+			)
+		});
+
+		this.workoutSetService.updateWorkoutSet(
+			updatedWorkoutSet
+		).subscribe(response => {
+			var bla = (response as GraphQlResponse);
+		});
+	}
+
+	workoutSetUpdated(exerciseIndex: number, setNumber: number) {
+		var workoutSet = this.exerciseMap.get(exerciseIndex).get(setNumber);
+		workoutSet.sessionId = this.sessionId;
+
+		var workoutSetArray = [];
+		workoutSetArray.push(workoutSet);
+
+		this.workoutSetService.updateWorkoutSet(
+			workoutSetArray
+		).subscribe(response => {
+			var bla = (response as GraphQlResponse);
+		});
 	}
 
 	getExercises() {
