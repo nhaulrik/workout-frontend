@@ -21,7 +21,7 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 
 	date: any;
 
-	session: Session;
+	session: Session = {};
 	exercises: Exercise[] = [];
 	workoutSet: WorkoutSet[] = [];
 
@@ -42,12 +42,6 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 		this.dateUpdated(new Date());
 	}
 
-	sessionValueChanged() {
-		this.session.location = this.child.location;
-		this.session.programme = this.child.programme;
-		this.session.splitName = this.child.splitName;
-	}
-
 	getExercises() {
 		this.exerciseService.getExercises()
 			.subscribe(response => {
@@ -59,31 +53,17 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 		this.sessionService.getSessionWithWorkoutSet(1, date)
 			.subscribe(response => {
 				if ((response as GraphQlResponse).data.sessions.length > 0) {
-					this.session.id = (response as GraphQlResponse).data.sessions[0].id;
-					this.session.localDateTime = (response as GraphQlResponse).data.sessions[0].localDateTime;
-					this.session.location = (response as GraphQlResponse).data.sessions[0].location;
-					this.session.splitName = (response as GraphQlResponse).data.sessions[0].splitName;
-					this.session.userId = (response as GraphQlResponse).data.sessions[0].userId;
-					this.session.programme = (response as GraphQlResponse).data.sessions[0].programme;
+					this.session = (response as GraphQlResponse).data.sessions[0];
 
 					this.child.populateTableWithWorkoutSet((response as GraphQlResponse).data.sessions[0].workoutSet);
-					this.child.splitName = (response as GraphQlResponse).data.sessions[0].splitName;
-					this.child.programme = (response as GraphQlResponse).data.sessions[0].programme;
 					this.child.sessionId = (response as GraphQlResponse).data.sessions[0].id;
-					this.child.location = (response as GraphQlResponse).data.sessions[0].location;
 				} else {
 					this.session = this.getEmptySession();
 					this.initCreateSession();
 					this.child.setInitialExerciseMap();
-					this.child.splitName = '';
-					this.child.programme = '';
-					this.child.location = '';
 				}
 			});
 	}
-
-	//location is not updating when accessing old session
-
 
 	initCreateSession() {
 		var date = this.date;
@@ -104,27 +84,20 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 
 	sessionIsValid(): boolean {
 		var date = this.date;
-		var programme = this.child.programme;
-		var location = this.child.location;
-		var split = this.child.splitName;
 		var user = this.session != null ? this.session.userId : '';
 
 		return (this.hasValue(date) &&
-			this.hasValue(programme) &&
-			this.hasValue(location) &&
-			this.hasValue(split) &&
+			this.hasValue(this.session.programme) &&
+			this.hasValue(this.session.location) &&
+			this.hasValue(this.session.splitName) &&
 			this.hasValue(user));
 	}
-
 
 	hasValue(str) {
 		return !(!str || 0 === str.length);
 	}
 
-	getWorkoutSet(sessionId
-					  :
-					  number
-	) {
+	getWorkoutSet(sessionId: number) {
 		this.workoutSetService.getWorkoutSetById(sessionId)
 			.subscribe(response => {
 				if ((response as GraphQlResponse).data.workoutSet.length > 0) {
@@ -183,6 +156,19 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 			'programme': '',
 			'splitName': ''
 		};
+	}
+
+	hasOldSession() {
+		if (this.date != undefined) {
+			const dateIsOld = this.date <= new Date();
+
+			const hasWorkoutData = (this.child.exerciseMap != undefined &&
+				this.child.exerciseMap.get(0) != null &&
+				this.child.exerciseMap.get(0).get(0).exerciseId != null);
+
+			return dateIsOld && hasWorkoutData;
+		}
+		return false;
 	}
 
 }

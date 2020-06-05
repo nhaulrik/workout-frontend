@@ -1,50 +1,3 @@
-<kt-portlet-header [title]="'Workout'">
-	<ng-container ktPortletTools>
-		<div class="workout-details">
-			<mat-form-field>
-				<mat-select
-					placeholder="Choose"
-					[(ngModel)]="location"
-					[disabled]="!isEditable && hasOldSession()"
-					(valueChange)="this.sessionValueChanged.emit()"
-				>
-					<mat-option value="home">Home</mat-option>
-					<mat-option value="FW Viby">FW Viby</mat-option>
-				</mat-select>
-			</mat-form-field>
-			<mat-form-field>
-				<mat-select placeholder="Programme"
-					[(ngModel)]="programme"
-					[disabled]="!isEditable && hasOldSession()"
-					(valueChange)="this.sessionValueChanged.emit()"
-				>
-					<mat-option value="Stronglifts 5x5">Stronglifts 5x5</mat-option>
-					<mat-option value="Max Muscle Plan">Max Muscle Plan</mat-option>
-					<mat-option value="Custom">Custom</mat-option>
-				</mat-select>
-			</mat-form-field>
-
-			<mat-form-field>
-				<mat-select
-					placeholder="Split"
-					[(ngModel)]="splitName"
-					[disabled]="!isEditable && hasOldSession()"
-					(valueChange)="this.sessionValueChanged.emit()"
-				>
-					<mat-option value="split A">split A</mat-option>
-					<mat-option value="split B">split B</mat-option>
-				</mat-select>
-			</mat-form-field>
-			<mat-slide-toggle
-				*ngIf="hasOldSession()"
-				class="edit-toggle"
-				[(ngModel)]="isEditable"
-			>Edit
-			</mat-slide-toggle>
-		</div>
-	</ng-container>
-</kt-portlet-header>
-<kt-portlet-body>
 	<table class="session-table">
 		<thead>
 		<tr>
@@ -94,4 +47,3 @@
 		</tr>
 		</tbody>
 	</table>
-</kt-portlet-body>

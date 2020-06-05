@@ -1,10 +1,9 @@
-import {Component, Input, OnInit, Output} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Exercise} from '../../../../../core/database/_models/exercise';
 import {WorkoutSetService} from '../../../../../core/database';
 import {ExerciseService} from '../../../../../core/database/_services/exercise.service';
 import {GraphQlResponse} from '../../../../../core/database/_models/graphQlResponse';
 import {WorkoutSet} from '../../../../../core/database/_models/workoutSet';
-import { EventEmitter } from '@angular/core';
 
 @Component({
 	selector: 'kt-session-table',
@@ -17,9 +16,6 @@ export class SessionTableComponent implements OnInit {
 	defaultExerciseAmount: number[] = [0, 1, 2, 3, 4, 5, 6, 7];
 	defaultWorkoutSetAmount: number[] = [0, 1, 2, 3, 4];
 
-	splitName: string;
-	programme: string;
-	location: string;
 	isEditable: boolean;
 	sessionId: number;
 
@@ -27,8 +23,6 @@ export class SessionTableComponent implements OnInit {
 
 	@Input() date: any;
 	@Input() tableEnabled: any;
-
-	@Output("sessionValueChanged") sessionValueChanged: EventEmitter<any> = new EventEmitter();
 
 	constructor(private exerciseService: ExerciseService, private workoutSetService: WorkoutSetService) {
 	}
@@ -99,8 +93,15 @@ export class SessionTableComponent implements OnInit {
 		});
 	}
 
+	shouldShowInput(exerciseIndex: number, setIndex: number) {
+		const hasData =
+			(this.exerciseMap.get(exerciseIndex).get(setIndex).repetitions > 0 ||
+				this.exerciseMap.get(exerciseIndex).get(setIndex).weight > 0) ||
+			this.exerciseMap.get(exerciseIndex).get(0).exerciseId > 0;
+		return hasData;
+	}
+
 	hasOldSession() {
-		debugger;
 		if (this.date != undefined) {
 			const dateIsOld = this.date <= new Date();
 
@@ -111,14 +112,6 @@ export class SessionTableComponent implements OnInit {
 		return false;
 	}
 
-	shouldShowInput(exerciseIndex: number, setIndex: number) {
-		const hasData =
-			(this.exerciseMap.get(exerciseIndex).get(setIndex).repetitions > 0 ||
-				this.exerciseMap.get(exerciseIndex).get(setIndex).weight > 0) ||
-			this.exerciseMap.get(exerciseIndex).get(0).exerciseId > 0;
-		return hasData;
-	}
-
 	exerciseUpdated(exerciseIndex, event) {
 
 		const exerciseId = event.value;
@@ -126,24 +119,38 @@ export class SessionTableComponent implements OnInit {
 
 		this.exerciseMap.get(exerciseIndex).forEach((workoutSet: WorkoutSet, key: number) => {
 
-			updatedWorkoutSet.push(
-				{
-					'exerciseId': exerciseId,
-					'repetitionMaximum': workoutSet.repetitionMaximum,
-					'id': workoutSet.id,
-					'repetitions': workoutSet.repetitions,
-					'weight': workoutSet.weight,
-					'setNumber': workoutSet.setNumber,
-					'sessionId': this.sessionId
-				}
-			)
+			if (
+				this.hasValue(workoutSet.sessionId) &&
+				this.hasValue(workoutSet.exerciseId) &&
+				this.hasValue(workoutSet.repetitionMaximum) &&
+				this.hasValue(workoutSet.weight) &&
+				this.hasValue(workoutSet.setNumber)
+			) {
+				updatedWorkoutSet.push(
+					{
+						'exerciseId': exerciseId,
+						'repetitionMaximum': workoutSet.repetitionMaximum,
+						'id': workoutSet.id,
+						'repetitions': workoutSet.repetitions,
+						'weight': workoutSet.weight,
+						'setNumber': workoutSet.setNumber,
+						'sessionId': this.sessionId
+					}
+				)
+			}
 		});
 
-		this.workoutSetService.updateWorkoutSet(
-			updatedWorkoutSet
-		).subscribe(response => {
-			var bla = (response as GraphQlResponse);
-		});
+		if (updatedWorkoutSet.length > 0) {
+			this.workoutSetService.updateWorkoutSet(
+				updatedWorkoutSet
+			).subscribe(response => {
+				var bla = (response as GraphQlResponse);
+			});
+		}
+	}
+
+	hasValue(str) {
+		return !(!str || 0 === str.length);
 	}
 
 	workoutSetUpdated(exerciseIndex: number, setNumber: number) {
