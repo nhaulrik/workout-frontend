@@ -1,14 +1,27 @@
-.exercise-select {
-	width: 220px;
-}
-
-table {
+.session-table {
 	width: 100%;
 }
 
-table td {
+.session-table th, td {
+	padding: 5px;
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+
+.input-container {
 	width: 120px;
 }
+
+.delete-workoutset  {
+	width: 5px;
+	padding: 0px;
+	border: none;
+}
+
+.exercise-field {
+	width: 220px;
+}
+
 
 .table-input {
 	text-align: center;
@@ -33,4 +46,3 @@ input::-webkit-inner-spin-button {
 	padding-left: 20px;
 	height: 100%;
 }
-

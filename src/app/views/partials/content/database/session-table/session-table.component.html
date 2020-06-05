@@ -5,7 +5,9 @@
 				<mat-select
 					placeholder="Choose"
 					[(ngModel)]="location"
-					[disabled]="!isEditable && hasOldSession()">
+					[disabled]="!isEditable && hasOldSession()"
+					(valueChange)="this.sessionValueChanged.emit()"
+				>
 					<mat-option value="home">Home</mat-option>
 					<mat-option value="FW Viby">FW Viby</mat-option>
 				</mat-select>
@@ -13,7 +15,9 @@
 			<mat-form-field>
 				<mat-select placeholder="Programme"
 					[(ngModel)]="programme"
-					[disabled]="!isEditable && hasOldSession()">
+					[disabled]="!isEditable && hasOldSession()"
+					(valueChange)="this.sessionValueChanged.emit()"
+				>
 					<mat-option value="Stronglifts 5x5">Stronglifts 5x5</mat-option>
 					<mat-option value="Max Muscle Plan">Max Muscle Plan</mat-option>
 					<mat-option value="Custom">Custom</mat-option>
@@ -24,7 +28,9 @@
 				<mat-select
 					placeholder="Split"
 					[(ngModel)]="splitName"
-					[disabled]="!isEditable && hasOldSession()">
+					[disabled]="!isEditable && hasOldSession()"
+					(valueChange)="this.sessionValueChanged.emit()"
+				>
 					<mat-option value="split A">split A</mat-option>
 					<mat-option value="split B">split B</mat-option>
 				</mat-select>
@@ -39,7 +45,7 @@
 	</ng-container>
 </kt-portlet-header>
 <kt-portlet-body>
-	<table border="1">
+	<table class="session-table">
 		<thead>
 		<tr>
 			<th>Exercise</th>
@@ -52,37 +58,40 @@
 		</thead>
 		<tbody>
 		<tr *ngFor="let exerciseIndex of defaultExerciseAmount">
-			<td>
+			<td class="exercise-field">
 				<mat-select
 					[(ngModel)]="exerciseMap.get(exerciseIndex).get(0).exerciseId"
 					placeholder="select exercise"
-					class="exercise-select"
-					[disabled]="!isEditable && hasOldSession()"
+					[disabled]="(!isEditable && hasOldSession()) && !tableEnabled"
 					(selectionChange)="exerciseUpdated(exerciseIndex, $event)"
 				>
 					<mat-option *ngFor="let exercise of exercises" [value]="exercise.id">{{exercise.name}}</mat-option>
 				</mat-select>
 			</td>
 
-			<td *ngFor="let setIndex of defaultWorkoutSetAmount">
+			<td class="input-container" *ngFor="let setIndex of defaultWorkoutSetAmount">
 				<span *ngIf="shouldShowInput(exerciseIndex, setIndex)">
 					<input type="number" class="table-input"
 						   [(ngModel)]="exerciseMap.get(exerciseIndex).get(setIndex).repetitions"
-						   [disabled]="!isEditable && hasOldSession()"
+						   [disabled]="(!isEditable && hasOldSession()) && !tableEnabled"
 						   (change)="workoutSetUpdated(exerciseIndex, setIndex)"
 					>
 					x
 					<input type="number" step="0.5" class="table-input"
 						   [(ngModel)]="exerciseMap.get(exerciseIndex).get(setIndex).weight"
-						   [disabled]="!isEditable && hasOldSession()"
+						   [disabled]="(!isEditable && hasOldSession()) && !tableEnabled"
 						   (change)="workoutSetUpdated(exerciseIndex, setIndex)"
 					>
 					kg
 				</span>
 			</td>
+			<td class="delete-workoutset">
+				<button mat-icon-button
+				(click)="deleteWorkoutSet(exerciseIndex)">
+					<mat-icon aria-label="Example icon-button with a heart icon">delete</mat-icon>
+				</button>
+			</td>
 		</tr>
 		</tbody>
 	</table>
-
-	<button (click)="debugFunc()">Click for debug</button>
 </kt-portlet-body>

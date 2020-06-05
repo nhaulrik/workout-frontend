@@ -1,15 +1,16 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, Output} from '@angular/core';
 import {Exercise} from '../../../../../core/database/_models/exercise';
-import {SessionService, WorkoutSetService} from '../../../../../core/database';
+import {WorkoutSetService} from '../../../../../core/database';
 import {ExerciseService} from '../../../../../core/database/_services/exercise.service';
 import {GraphQlResponse} from '../../../../../core/database/_models/graphQlResponse';
 import {WorkoutSet} from '../../../../../core/database/_models/workoutSet';
+import { EventEmitter } from '@angular/core';
 
 @Component({
 	selector: 'kt-session-table',
 	templateUrl: './session-table.component.html',
 	styleUrls: ['./session-table.component.scss'],
-	providers: [SessionService, WorkoutSetService]
+	providers: [WorkoutSetService]
 })
 export class SessionTableComponent implements OnInit {
 	exercises: Exercise[] = [];
@@ -25,13 +26,15 @@ export class SessionTableComponent implements OnInit {
 	exerciseMap: Map<number, Map<number, WorkoutSet>> = new Map<number, Map<number, WorkoutSet>>();
 
 	@Input() date: any;
+	@Input() tableEnabled: any;
+
+	@Output("sessionValueChanged") sessionValueChanged: EventEmitter<any> = new EventEmitter();
 
 	constructor(private exerciseService: ExerciseService, private workoutSetService: WorkoutSetService) {
 	}
 
 	ngOnInit() {
 		this.getExercises();
-
 		this.setInitialExerciseMap();
 	}
 
@@ -41,8 +44,8 @@ export class SessionTableComponent implements OnInit {
 
 			for (var counter: number = 0; counter < 5; counter++) {
 				this.exerciseMap.get(exerciseNumber).set(counter, {
-					'sessionId': 0,
-					'id': 0,
+					'sessionId': null,
+					'id': null,
 					'exerciseId': null,
 					'repetitions': 0,
 					'repetitionMaximum': 0,
@@ -97,12 +100,9 @@ export class SessionTableComponent implements OnInit {
 	}
 
 	hasOldSession() {
+		debugger;
 		if (this.date != undefined) {
-			const dateIsOld = (
-				this.date.getFullYear() <= new Date().getFullYear() &&
-				this.date.getMonth() <= new Date().getMonth() &&
-				this.date.getDate() < new Date().getDate()
-			);
+			const dateIsOld = this.date <= new Date();
 
 			const hasWorkoutData = (this.exerciseMap != undefined && this.exerciseMap.get(0).get(0).exerciseId != null);
 
@@ -167,9 +167,19 @@ export class SessionTableComponent implements OnInit {
 			});
 	}
 
-	debugFunc() {
+	deleteWorkoutSet(exerciseIndex: number) {
 		debugger;
-		// const aaa =123;
-	}
 
+		var exercise = this.exerciseMap.get(exerciseIndex);
+
+		if (exercise != null) {
+
+			var workoutSetIdsToDelete = [];
+			exercise.forEach((workoutSet: WorkoutSet, key: number) => {
+				if (workoutSet.id != null) {
+					workoutSetIdsToDelete.push(workoutSet.id);
+				}
+			});
+		}
+	}
 }

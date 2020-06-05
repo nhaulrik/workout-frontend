@@ -17,7 +17,7 @@ import {WorkoutSetService} from '../../../../../../core/database/_services/worko
 })
 export class SessionEditComponent implements OnInit, AfterViewInit {
 
-	datePickerValue: string;
+	datePickerValue: any = new Date();
 
 	date: any;
 
@@ -39,7 +39,13 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 
 	ngOnInit() {
 		this.getExercises();
-		this.session = this.getEmptySession();
+		this.dateUpdated(new Date());
+	}
+
+	sessionValueChanged() {
+		this.session.location = this.child.location;
+		this.session.programme = this.child.programme;
+		this.session.splitName = this.child.splitName;
 	}
 
 	getExercises() {
@@ -64,16 +70,61 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 					this.child.splitName = (response as GraphQlResponse).data.sessions[0].splitName;
 					this.child.programme = (response as GraphQlResponse).data.sessions[0].programme;
 					this.child.sessionId = (response as GraphQlResponse).data.sessions[0].id;
+					this.child.location = (response as GraphQlResponse).data.sessions[0].location;
 				} else {
 					this.session = this.getEmptySession();
+					this.initCreateSession();
 					this.child.setInitialExerciseMap();
 					this.child.splitName = '';
 					this.child.programme = '';
+					this.child.location = '';
 				}
 			});
 	}
 
-	getWorkoutSet(sessionId: number) {
+	//location is not updating when accessing old session
+
+
+	initCreateSession() {
+		var date = this.date;
+		var programme = this.child.programme;
+		var location = this.child.location;
+		var split = this.child.splitName;
+		var user = this.session.userId;
+		if (
+			this.hasValue(date) &&
+			this.hasValue(programme) &&
+			this.hasValue(location) &&
+			this.hasValue(split) &&
+			this.hasValue(user)
+		) {
+			debugger;
+		}
+	}
+
+	sessionIsValid(): boolean {
+		var date = this.date;
+		var programme = this.child.programme;
+		var location = this.child.location;
+		var split = this.child.splitName;
+		var user = this.session != null ? this.session.userId : '';
+
+		return (this.hasValue(date) &&
+			this.hasValue(programme) &&
+			this.hasValue(location) &&
+			this.hasValue(split) &&
+			this.hasValue(user));
+	}
+
+
+	hasValue(str) {
+		return !(!str || 0 === str.length);
+	}
+
+	getWorkoutSet(sessionId
+					  :
+					  number
+	) {
 		this.workoutSetService.getWorkoutSetById(sessionId)
 			.subscribe(response => {
 				if ((response as GraphQlResponse).data.workoutSet.length > 0) {
