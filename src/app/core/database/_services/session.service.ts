@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {HttpErrorResponse} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 
 import {throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
+import {Session} from '../_models/session';
 
 const httpOptions = {
 	headers: new HttpHeaders({
@@ -13,9 +13,11 @@ const httpOptions = {
 
 @Injectable()
 export class SessionService {
-	getSessionUrl = 'http://localhost:9090/graphql';
+	graphQLEndpoint = 'http://localhost:9090/graphql';
 	getSessionPayload = '{"query":"{\\n sessions (userId:{userId} date:\\"{date}\\") {id localDateTime location programme splitName userId}}","variables": null}';
 	getSessionWithWorkoutSetPayload = '{"query":"{\\n sessions (userId:{userId} date:\\"{date}\\") {id localDateTime location programme splitName userId workoutSet {\\n      id\\n      repetitionMaximum\\n      repetitions\\n      sessionId\\n      exerciseId\\n      setNumber\\n      single\\n      weight\\n    }\\n  }\\n}\\n","variables":null,"operationName":null}';
+
+	addSessionQuery = '{"query":"mutation {\\n  addSession (\\n    splitName:\\"{splitName}\\"    location:\\"{location}\\"    programme:\\"{programme}\\"    time:\\"{time}\\"    userId:{userId}) }","variables":null}';
 
 	constructor(private http: HttpClient) {
 	}
@@ -23,10 +25,10 @@ export class SessionService {
 
 	getSessionWithWorkoutSet(userId: number, date: string) {
 		const query = this.getSessionWithWorkoutSetPayload
-			.replace("{userId}", userId.toString())
-			.replace("{date}", date);
+			.replace('{userId}', userId.toString())
+			.replace('{date}', date);
 
-		return this.http.post(this.getSessionUrl, query, httpOptions)
+		return this.http.post(this.graphQLEndpoint, query, httpOptions)
 			.pipe(
 				catchError(this.handleError)
 			)
@@ -34,13 +36,50 @@ export class SessionService {
 
 	getSession(userId: number, date: string) {
 		const query = this.getSessionPayload
-			.replace("{userId}", userId.toString())
-			.replace("{date}", date);
+			.replace('{userId}', userId.toString())
+			.replace('{date}', date);
 
-		return this.http.post(this.getSessionUrl, query, httpOptions)
+		return this.http.post(this.graphQLEndpoint, query, httpOptions)
 			.pipe(
 				catchError(this.handleError)
 			)
+	}
+
+	addSession(session: Session) {
+		var query = this.addSessionQuery;
+
+		var dateObject = this.formatDateToString(session.localDateTime);
+
+		query = query.replace('{splitName}', session.splitName)
+			.replace('{location}', session.location)
+			.replace('{programme}', session.programme)
+			.replace('{time}', dateObject)
+			.replace('{userId}', session.userId.toString());
+
+		debugger;
+
+		return this.http.post(this.graphQLEndpoint, query, httpOptions)
+			.pipe(
+				catchError(this.handleError)
+			)
+	}
+
+	formatDateToString(dateObject) {
+		if (dateObject != undefined && dateObject != "") {
+			const date = '{date}-{month}-{year} {hh}:{mm}';
+			const fullHours = dateObject.getHours() < 10 ? '0' + dateObject.getHours() : dateObject.getHours();
+			const fullMinutes = dateObject.getMinutes() < 10 ? '0' + dateObject.getMinutes() : dateObject.getMinutes();
+			const fullMonth = dateObject.getMonth() < 10 ? '0' + (dateObject.getMonth() + 1) : dateObject.getMonth() + 1;
+			const fullDay = dateObject.getDate() < 10 ? '0' + dateObject.getDate() : dateObject.getDate();
+			const formattedDate = date
+				.replace('{date}', fullDay)
+				.replace('{month}', fullMonth)
+				.replace('{year}', dateObject.getFullYear())
+				.replace('{hh}', fullHours)
+				.replace('{mm}', fullMinutes);
+
+			return formattedDate;
+		}
 	}
 
 	private handleError(error: HttpErrorResponse) {

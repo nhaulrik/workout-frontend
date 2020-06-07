@@ -19,9 +19,7 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 
 	datePickerValue: any = new Date();
 
-	date: any;
-
-	session: Session = {};
+	session: Session = this.getEmptySession();
 	exercises: Exercise[] = [];
 	workoutSet: WorkoutSet[] = [];
 
@@ -65,28 +63,11 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 			});
 	}
 
-	initCreateSession() {
-		var date = this.date;
-		var programme = this.child.programme;
-		var location = this.child.location;
-		var split = this.child.splitName;
-		var user = this.session.userId;
-		if (
-			this.hasValue(date) &&
-			this.hasValue(programme) &&
-			this.hasValue(location) &&
-			this.hasValue(split) &&
-			this.hasValue(user)
-		) {
-			debugger;
-		}
-	}
-
 	sessionIsValid(): boolean {
-		var date = this.date;
 		var user = this.session != null ? this.session.userId : '';
 
-		return (this.hasValue(date) &&
+		return (
+			this.hasValue(this.session.localDateTime) &&
 			this.hasValue(this.session.programme) &&
 			this.hasValue(this.session.location) &&
 			this.hasValue(this.session.splitName) &&
@@ -126,8 +107,10 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 		}
 	}
 
-	dateUpdated(dateObject) {
-		if (dateObject != undefined) {
+	formatDateToString(dateObject) {
+
+		if (dateObject != null && dateObject != '') {
+
 			const date = '{date}-{month}-{year}';
 			const fullMonth = dateObject.getMonth() < 10 ? '0' + (dateObject.getMonth() + 1) : dateObject.getMonth() + 1;
 			const fullDay = dateObject.getDate() < 10 ? '0' + dateObject.getDate() : dateObject.getDate();
@@ -136,9 +119,18 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 				.replace('{month}', fullMonth)
 				.replace('{year}', dateObject.getFullYear())
 
-			this.getSession(formattedDate);
+			return formattedDate;
+		}
+		return '';
+	}
 
-			this.date = dateObject;
+	dateUpdated(dateObject) {
+		if (dateObject != undefined) {
+			this.session.localDateTime = dateObject;
+
+			var formattedDate = this.formatDateToString(dateObject);
+
+			this.getSession(formattedDate);
 		}
 	}
 
@@ -148,9 +140,9 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 
 	getEmptySession() {
 		return {
-			'id': 0,
+			'id': null,
 			'userId': 1,
-			'localDateTime': '',
+			'localDateTime': this.datePickerValue,
 			'exerciseMap': new Map<number, Map<number, WorkoutSet>>(),
 			'location': '',
 			'programme': '',
@@ -159,16 +151,19 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 	}
 
 	hasOldSession() {
-		if (this.date != undefined) {
-			const dateIsOld = this.date <= new Date();
+		const sessionIsPersisted = this.session.id != null;
+		return sessionIsPersisted;
+	}
 
-			const hasWorkoutData = (this.child.exerciseMap != undefined &&
-				this.child.exerciseMap.get(0) != null &&
-				this.child.exerciseMap.get(0).get(0).exerciseId != null);
+	createNewSession() {
+		let sessionIsValid = this.sessionIsValid();
+		let hasExistingSession = this.hasOldSession();
 
-			return dateIsOld && hasWorkoutData;
+		if (sessionIsValid && !hasExistingSession) {
+			this.sessionService.addSession(this.session).subscribe(response => {
+				debugger;
+			});
 		}
-		return false;
 	}
 
 }

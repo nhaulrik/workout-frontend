@@ -21,8 +21,8 @@ export class SessionTableComponent implements OnInit {
 
 	exerciseMap: Map<number, Map<number, WorkoutSet>> = new Map<number, Map<number, WorkoutSet>>();
 
-	@Input() date: any;
 	@Input() tableEnabled: any;
+	@Input() hasPersistedSession: boolean;
 
 	constructor(private exerciseService: ExerciseService, private workoutSetService: WorkoutSetService) {
 	}
@@ -68,14 +68,15 @@ export class SessionTableComponent implements OnInit {
 
 		const exerciseMap = new Map<string, WorkoutSet[]>();
 
-		for (let ws of workoutSet) {
-			if (exerciseMap.get(ws.exerciseId.toString()) != undefined) {
-				exerciseMap.get(ws.exerciseId.toString()).push(ws);
-			} else {
-				exerciseMap.set(ws.exerciseId.toString(), [ws]);
+		if (workoutSet != null) {
+			for (let ws of workoutSet) {
+				if (exerciseMap.get(ws.exerciseId.toString()) != undefined) {
+					exerciseMap.get(ws.exerciseId.toString()).push(ws);
+				} else {
+					exerciseMap.set(ws.exerciseId.toString(), [ws]);
+				}
 			}
 		}
-
 		var exerciseIndex = 0;
 		exerciseMap.forEach((workoutSetArray: WorkoutSet[], key: string) => {
 			for (let ws of workoutSetArray) {
@@ -99,17 +100,6 @@ export class SessionTableComponent implements OnInit {
 				this.exerciseMap.get(exerciseIndex).get(setIndex).weight > 0) ||
 			this.exerciseMap.get(exerciseIndex).get(0).exerciseId > 0;
 		return hasData;
-	}
-
-	hasOldSession() {
-		if (this.date != undefined) {
-			const dateIsOld = this.date <= new Date();
-
-			const hasWorkoutData = (this.exerciseMap != undefined && this.exerciseMap.get(0).get(0).exerciseId != null);
-
-			return dateIsOld && hasWorkoutData;
-		}
-		return false;
 	}
 
 	exerciseUpdated(exerciseIndex, event) {

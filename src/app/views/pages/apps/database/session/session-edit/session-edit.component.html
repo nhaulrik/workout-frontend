@@ -27,7 +27,9 @@
 							<mat-datepicker #picker [startAt]="date"></mat-datepicker>
 						</mat-form-field>
 
-						<button *ngIf="sessionIsValid() && !hasOldSession()" mat-raised-button color="primary">
+						<button
+							(click)="createNewSession()"
+							*ngIf="sessionIsValid() && !hasOldSession()" mat-raised-button color="primary">
 							Create
 						</button>
 						<button *ngIf="!sessionIsValid() && !hasOldSession()" mat-raised-button color="disabled">
@@ -90,7 +92,7 @@
 			</kt-portlet-header>
 			<kt-portlet-body>
 				<kt-session-table
-					[date]="date"
+					[hasPersistedSession]="hasOldSession()"
 					[tableEnabled]="sessionIsValid()"
 				></kt-session-table>
 			</kt-portlet-body>

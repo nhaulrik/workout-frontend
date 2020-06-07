@@ -1,49 +1,49 @@
-	<table class="session-table">
-		<thead>
-		<tr>
-			<th>Exercise</th>
-			<th>Set1</th>
-			<th>Set2</th>
-			<th>Set3</th>
-			<th>Set4</th>
-			<th>Set5</th>
-		</tr>
-		</thead>
-		<tbody>
-		<tr *ngFor="let exerciseIndex of defaultExerciseAmount">
-			<td class="exercise-field">
-				<mat-select
-					[(ngModel)]="exerciseMap.get(exerciseIndex).get(0).exerciseId"
-					placeholder="select exercise"
-					[disabled]="(!isEditable && hasOldSession()) && !tableEnabled"
-					(selectionChange)="exerciseUpdated(exerciseIndex, $event)"
-				>
-					<mat-option *ngFor="let exercise of exercises" [value]="exercise.id">{{exercise.name}}</mat-option>
-				</mat-select>
-			</td>
+<table class="session-table">
+	<thead>
+	<tr>
+		<th>Exercise</th>
+		<th>Set1</th>
+		<th>Set2</th>
+		<th>Set3</th>
+		<th>Set4</th>
+		<th>Set5</th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr *ngFor="let exerciseIndex of defaultExerciseAmount">
+		<td class="exercise-field">
+			<mat-select
+				[(ngModel)]="exerciseMap.get(exerciseIndex).get(0).exerciseId"
+				placeholder="select exercise"
+				[disabled]="!isEditable"
+				(selectionChange)="exerciseUpdated(exerciseIndex, $event)"
+			>
+				<mat-option *ngFor="let exercise of exercises" [value]="exercise.id">{{exercise.name}}</mat-option>
+			</mat-select>
+		</td>
 
-			<td class="input-container" *ngFor="let setIndex of defaultWorkoutSetAmount">
+		<td class="input-container" *ngFor="let setIndex of defaultWorkoutSetAmount">
 				<span *ngIf="shouldShowInput(exerciseIndex, setIndex)">
 					<input type="number" class="table-input"
 						   [(ngModel)]="exerciseMap.get(exerciseIndex).get(setIndex).repetitions"
-						   [disabled]="(!isEditable && hasOldSession()) && !tableEnabled"
+						   [disabled]="!isEditable"
 						   (change)="workoutSetUpdated(exerciseIndex, setIndex)"
 					>
 					x
 					<input type="number" step="0.5" class="table-input"
 						   [(ngModel)]="exerciseMap.get(exerciseIndex).get(setIndex).weight"
-						   [disabled]="(!isEditable && hasOldSession()) && !tableEnabled"
+						   [disabled]="!isEditable"
 						   (change)="workoutSetUpdated(exerciseIndex, setIndex)"
 					>
 					kg
 				</span>
-			</td>
-			<td class="delete-workoutset">
-				<button mat-icon-button
-				(click)="deleteWorkoutSet(exerciseIndex)">
-					<mat-icon aria-label="Example icon-button with a heart icon">delete</mat-icon>
-				</button>
-			</td>
-		</tr>
-		</tbody>
-	</table>
+		</td>
+		<td class="delete-workoutset">
+			<button mat-icon-button
+					(click)="deleteWorkoutSet(exerciseIndex)">
+				<mat-icon aria-label="Example icon-button with a heart icon">delete</mat-icon>
+			</button>
+		</td>
+	</tr>
+	</tbody>
+</table>
