@@ -127,7 +127,6 @@ export class SessionTableComponent implements OnInit {
 			if (
 				this.hasValue(workoutSet.sessionId) &&
 				this.hasValue(workoutSet.exerciseId) &&
-				this.hasValue(workoutSet.repetitionMaximum) &&
 				this.hasValue(workoutSet.weight) &&
 				this.hasValue(workoutSet.setNumber)
 			) {
@@ -162,7 +161,7 @@ export class SessionTableComponent implements OnInit {
 		var workoutSet = this.exerciseMap.get(exerciseIndex).get(setNumber);
 		if (workoutSet.repetitions > 0 && workoutSet.weight > 0) {
 			workoutSet.sessionId = this.sessionId;
-			workoutSet.setNumber ++; //Otherwise it will start at 0
+			workoutSet.setNumber++; //Otherwise it will start at 0
 			workoutSet.exerciseId = this.getExerciseIdForIndex(exerciseIndex);
 
 			var workoutSetArray = [];
