@@ -17,7 +17,7 @@ export class SessionService {
 	getSessionPayload = '{"query":"{\\n sessions (userId:{userId} date:\\"{date}\\") {id localDateTime location programme splitName userId}}","variables": null}';
 	getSessionWithWorkoutSetPayload = '{"query":"{\\n sessions (userId:{userId} date:\\"{date}\\") {id localDateTime location programme splitName userId workoutSet {\\n      id\\n      repetitionMaximum\\n      repetitions\\n      sessionId\\n      exerciseId\\n      setNumber\\n      single\\n      weight\\n    }\\n  }\\n}\\n","variables":null,"operationName":null}';
 
-	addSessionQuery = '{"query":"mutation {\\n  addSession (\\n    splitName:\\"{splitName}\\"    location:\\"{location}\\"    programme:\\"{programme}\\"    time:\\"{time}\\"    userId:{userId}) }","variables":null}';
+	addSessionQuery = '{"query":"mutation {\\n  addSession (\\n    id:{id}     splitName:\\"{splitName}\\"    location:\\"{location}\\"    programme:\\"{programme}\\"    time:\\"{time}\\"    userId:{userId}) }","variables":null}';
 
 	constructor(private http: HttpClient) {
 	}
@@ -56,7 +56,11 @@ export class SessionService {
 			.replace('{time}', dateObject)
 			.replace('{userId}', session.userId.toString());
 
-		debugger;
+		if (session.id != null) {
+			query = query.replace('{id}', session.id.toString());
+		} else {
+			query = query.replace('{id}', null);
+		}
 
 		return this.http.post(this.graphQLEndpoint, query, httpOptions)
 			.pipe(
@@ -65,7 +69,7 @@ export class SessionService {
 	}
 
 	formatDateToString(dateObject) {
-		if (dateObject != undefined && dateObject != "") {
+		if (dateObject != undefined && dateObject != '') {
 			const date = '{date}-{month}-{year} {hh}:{mm}';
 			const fullHours = dateObject.getHours() < 10 ? '0' + dateObject.getHours() : dateObject.getHours();
 			const fullMinutes = dateObject.getMinutes() < 10 ? '0' + dateObject.getMinutes() : dateObject.getMinutes();

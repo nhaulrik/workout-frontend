@@ -22,6 +22,7 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 	exercises: Exercise[] = [];
 	workoutSet: WorkoutSet[] = [];
 
+	isEditable: boolean = false;
 
 	exerciseMap: Map<number, Map<number, WorkoutSet>> = new Map<number, Map<number, WorkoutSet>>();
 
@@ -50,9 +51,11 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 			.subscribe(response => {
 				if ((response as GraphQlResponse).data.sessions.length > 0) {
 					this.session = (response as GraphQlResponse).data.sessions[0];
+					this.session.localDateTime = new Date((response as GraphQlResponse).data.sessions[0].localDateTime);
 					this.child.setInitialExerciseMap();
 					this.child.populateTableWithWorkoutSet((response as GraphQlResponse).data.sessions[0].workoutSet);
 					this.child.sessionId = (response as GraphQlResponse).data.sessions[0].id;
+					this.isEditable = false; // disable editing of loaded session
 				} else {
 					this.session = this.getEmptySession();
 					this.child.setInitialExerciseMap();
@@ -113,7 +116,6 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 	}
 
 	dateUpdated(dateObject) {
-		debugger;
 		if (dateObject != undefined) {
 			this.session.localDateTime = dateObject;
 
@@ -144,6 +146,14 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 		return sessionIsPersisted;
 	}
 
+	sessionUpdated() {
+		if (this.session.id != null) {
+			this.sessionService.addSession(this.session).subscribe(response => {
+				debugger;
+			});
+		}
+	}
+
 	createNewSession() {
 		let sessionIsValid = this.sessionIsValid();
 		let hasExistingSession = this.hasOldSession();
@@ -151,6 +161,8 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 		if (sessionIsValid && !hasExistingSession) {
 			this.sessionService.addSession(this.session).subscribe(response => {
 				debugger;
+				this.session.id = (response as GraphQlResponse).data.addSession;
+				this.isEditable = true; // enable editing of newly created session
 			});
 		}
 	}

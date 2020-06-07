@@ -54,6 +54,7 @@
 								placeholder="Choose"
 								[(ngModel)]="session.location"
 								[disabled]="!isEditable && hasOldSession()"
+								(selectionChange)="sessionUpdated()"
 							>
 								<mat-option value="Home">Home</mat-option>
 								<mat-option value="FW Viby">FW Viby</mat-option>
@@ -63,6 +64,7 @@
 							<mat-select placeholder="Programme"
 										[(ngModel)]="session.programme"
 										[disabled]="!isEditable && hasOldSession()"
+										(selectionChange)="sessionUpdated()"
 							>
 								<mat-option value="Stronglifts 5x5">Stronglifts 5x5</mat-option>
 								<mat-option value="Max Muscle Plan">Max Muscle Plan</mat-option>
@@ -75,6 +77,7 @@
 								placeholder="Split"
 								[(ngModel)]="session.splitName"
 								[disabled]="!isEditable && hasOldSession()"
+								(selectionChange)="sessionUpdated()"
 							>
 								<mat-option value="split A">split A</mat-option>
 								<mat-option value="split B">split B</mat-option>
@@ -93,7 +96,7 @@
 			<kt-portlet-body>
 				<kt-session-table
 					[hasPersistedSession]="hasOldSession()"
-					[tableEnabled]="sessionIsValid()"
+					[tableEnabled]="isEditable"
 				></kt-session-table>
 			</kt-portlet-body>
 		</kt-portlet>

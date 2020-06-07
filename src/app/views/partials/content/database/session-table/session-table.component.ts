@@ -16,7 +16,6 @@ export class SessionTableComponent implements OnInit {
 	defaultExerciseAmount: number[] = [0, 1, 2, 3, 4, 5, 6, 7];
 	defaultWorkoutSetAmount: number[] = [0, 1, 2, 3, 4];
 
-	isEditable: boolean;
 	sessionId: number;
 
 	exerciseMap: Map<number, Map<number, WorkoutSet>> = new Map<number, Map<number, WorkoutSet>>();
