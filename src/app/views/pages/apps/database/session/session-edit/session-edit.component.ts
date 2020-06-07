@@ -7,7 +7,6 @@ import {SessionTableComponent} from '../../../../../partials/content/database';
 import {WorkoutSet} from '../../../../../../core/database/_models/workoutSet';
 import {SessionService} from '../../../../../../core/database';
 import {Session} from '../../../../../../core/database/_models/session';
-import {WorkoutSetService} from '../../../../../../core/database/_services/workoutSet.service';
 
 @Component({
 	selector: 'kt-session-edit',
@@ -30,8 +29,7 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 
 	constructor(
 		private exerciseService: ExerciseService,
-		private sessionService: SessionService,
-		private workoutSetService: WorkoutSetService
+		private sessionService: SessionService
 	) {
 	}
 
@@ -52,12 +50,11 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 			.subscribe(response => {
 				if ((response as GraphQlResponse).data.sessions.length > 0) {
 					this.session = (response as GraphQlResponse).data.sessions[0];
-
+					this.child.setInitialExerciseMap();
 					this.child.populateTableWithWorkoutSet((response as GraphQlResponse).data.sessions[0].workoutSet);
 					this.child.sessionId = (response as GraphQlResponse).data.sessions[0].id;
 				} else {
 					this.session = this.getEmptySession();
-					this.initCreateSession();
 					this.child.setInitialExerciseMap();
 				}
 			});
@@ -76,15 +73,6 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 
 	hasValue(str) {
 		return !(!str || 0 === str.length);
-	}
-
-	getWorkoutSet(sessionId: number) {
-		this.workoutSetService.getWorkoutSetById(sessionId)
-			.subscribe(response => {
-				if ((response as GraphQlResponse).data.workoutSet.length > 0) {
-					const bla = (response as GraphQlResponse).data.workoutSet;
-				}
-			})
 	}
 
 	saveWorkout() {
@@ -125,6 +113,7 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 	}
 
 	dateUpdated(dateObject) {
+		debugger;
 		if (dateObject != undefined) {
 			this.session.localDateTime = dateObject;
 

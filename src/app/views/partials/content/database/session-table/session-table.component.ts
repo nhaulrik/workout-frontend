@@ -62,6 +62,18 @@ export class SessionTableComponent implements OnInit {
 		return '';
 	}
 
+	getExerciseIdForIndex(index: number): number {
+
+		const exerciseId = this.exerciseMap.get(index).get(0).exerciseId
+
+		for (let exercise of this.exercises) {
+			if (exercise.id == exerciseId) {
+				return exercise.id;
+			}
+		}
+		return null;
+	}
+
 	// issue with not resetting exercise column when switching date.
 
 	populateTableWithWorkoutSet(workoutSet: WorkoutSet[]) {
@@ -76,6 +88,9 @@ export class SessionTableComponent implements OnInit {
 					exerciseMap.set(ws.exerciseId.toString(), [ws]);
 				}
 			}
+		} else {
+			//If we load a session with no workout data, we need to populate the table with empty data;
+			this.setInitialExerciseMap();
 		}
 		var exerciseIndex = 0;
 		exerciseMap.forEach((workoutSetArray: WorkoutSet[], key: string) => {
@@ -145,16 +160,21 @@ export class SessionTableComponent implements OnInit {
 
 	workoutSetUpdated(exerciseIndex: number, setNumber: number) {
 		var workoutSet = this.exerciseMap.get(exerciseIndex).get(setNumber);
-		workoutSet.sessionId = this.sessionId;
+		if (workoutSet.repetitions > 0 && workoutSet.weight > 0) {
+			workoutSet.sessionId = this.sessionId;
+			workoutSet.setNumber ++; //Otherwise it will start at 0
+			workoutSet.exerciseId = this.getExerciseIdForIndex(exerciseIndex);
 
-		var workoutSetArray = [];
-		workoutSetArray.push(workoutSet);
+			var workoutSetArray = [];
+			workoutSetArray.push(workoutSet);
 
-		this.workoutSetService.updateWorkoutSet(
-			workoutSetArray
-		).subscribe(response => {
-			var bla = (response as GraphQlResponse);
-		});
+			this.workoutSetService.updateWorkoutSet(
+				workoutSetArray
+			).subscribe(response => {
+				var bla = (response as GraphQlResponse);
+				workoutSet.id = bla.data.addWorkoutSetList[0];
+			});
+		}
 	}
 
 	getExercises() {
@@ -165,8 +185,6 @@ export class SessionTableComponent implements OnInit {
 	}
 
 	deleteWorkoutSet(exerciseIndex: number) {
-		debugger;
-
 		var exercise = this.exerciseMap.get(exerciseIndex);
 
 		if (exercise != null) {

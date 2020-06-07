@@ -36,7 +36,7 @@ export class WorkoutSetService {
 	getWorkoutSetPartialPayload(workoutSet: WorkoutSet) {
 
 		var workoutSetObject = this.addWorkoutSetListObject;
-		workoutSetObject = workoutSetObject.replace('{id}', workoutSet.id.toString())
+		workoutSetObject = workoutSetObject
 			.replace('{single}', 'false')
 			.replace('{repetitionMaximum}', workoutSet.repetitionMaximum.toString())
 			.replace('{exerciseId}', workoutSet.exerciseId.toString())
@@ -44,6 +44,12 @@ export class WorkoutSetService {
 			.replace('{sessionId}', workoutSet.sessionId.toString())
 			.replace('{repetitions}', workoutSet.repetitions.toString())
 			.replace('{setNumber}', workoutSet.setNumber.toString());
+
+		if (workoutSet.id != null) {
+			workoutSetObject = workoutSetObject.replace('{id}', workoutSet.id.toString());
+		} else {
+			workoutSetObject = workoutSetObject.replace('{id}', null);
+		}
 
 		return workoutSetObject;
 	}
