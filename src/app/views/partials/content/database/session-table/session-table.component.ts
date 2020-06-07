@@ -94,7 +94,7 @@ export class SessionTableComponent implements OnInit {
 		var exerciseIndex = 0;
 		exerciseMap.forEach((workoutSetArray: WorkoutSet[], key: string) => {
 			for (let ws of workoutSetArray) {
-				this.exerciseMap.get(exerciseIndex).set(ws.setNumber - 1, { //-1 to compensate for index start at 0 and setnumber at 1
+				this.exerciseMap.get(exerciseIndex).set(ws.setNumber, { //-1 to compensate for index start at 0 and setnumber at 1
 					'sessionId': ws.sessionId,
 					'id': ws.id,
 					'exerciseId': ws.exerciseId,
@@ -160,7 +160,6 @@ export class SessionTableComponent implements OnInit {
 		var workoutSet = this.exerciseMap.get(exerciseIndex).get(setNumber);
 		if (workoutSet.repetitions > 0 && workoutSet.weight > 0) {
 			workoutSet.sessionId = this.sessionId;
-			workoutSet.setNumber++; //Otherwise it will start at 0
 			workoutSet.exerciseId = this.getExerciseIdForIndex(exerciseIndex);
 
 			var workoutSetArray = [];

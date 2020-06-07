@@ -121,6 +121,8 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 
 			var formattedDate = this.formatDateToString(dateObject);
 
+			this.session = this.getEmptySession()
+			this.child.setInitialExerciseMap();
 			this.getSession(formattedDate);
 		}
 	}
@@ -160,9 +162,19 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 
 		if (sessionIsValid && !hasExistingSession) {
 			this.sessionService.addSession(this.session).subscribe(response => {
-				debugger;
 				this.session.id = (response as GraphQlResponse).data.addSession;
+				this.child.sessionId = this.session.id;
 				this.isEditable = true; // enable editing of newly created session
+			});
+		}
+	}
+
+	deleteSession() {
+		if (this.session.id != null) {
+			this.sessionService.deleteSession(this.session.id).subscribe(response => {
+				debugger;
+				this.session = this.getEmptySession()
+				this.child.setInitialExerciseMap();
 			});
 		}
 	}
