@@ -17,6 +17,7 @@ export class SessionTableComponent implements OnInit {
 	defaultWorkoutSetAmount: number[] = [0, 1, 2, 3, 4];
 
 	sessionId: number;
+	userId: number;
 
 	exerciseMap: Map<number, Map<number, WorkoutSet>> = new Map<number, Map<number, WorkoutSet>>();
 
@@ -114,6 +115,10 @@ export class SessionTableComponent implements OnInit {
 				this.exerciseMap.get(exerciseIndex).get(setIndex).weight > 0) ||
 			this.exerciseMap.get(exerciseIndex).get(0).exerciseId > 0;
 		return hasData;
+	}
+
+	inputsEnabled() {
+		return !this.tableEnabled && !this.hasPersistedSession && this.userId != null;
 	}
 
 	exerciseUpdated(exerciseIndex, event) {

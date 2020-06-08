@@ -1,56 +1,12 @@
 <div class="row">
 	<div class="col-xl-10">
-		<div class="row row-full-height">
-			<div class="col-sm-12 col-md-12 col-lg">
-				<kt-portlet [class]="'kt-portlet--height-fluid kt-portlet--border-bottom-brand'">
-					<kt-portlet-header [title]="'Users'">
-					</kt-portlet-header>
-					<kt-portlet-body [class]="'kt-portlet__body--fluid'">
-						<kt-user-selector></kt-user-selector>
-					</kt-portlet-body>
-				</kt-portlet>
-				<div class="kt-space-20"></div>
-			</div>
-
-			<div class="col-sm-12 col-md-12 col-lg">
-				<kt-portlet [class]="'kt-portlet--height-fluid kt-portlet--border-bottom-brand'">
-					<kt-portlet-header [title]="'Date'">
-					</kt-portlet-header>
-					<kt-portlet-body [class]="'kt-portlet__body--fluid'">
-						<mat-form-field class="example-full-width">
-							<input matInput
-								   [matDatepicker]="picker"
-								   (ngModelChange)="dateUpdated($event)"
-								   [(ngModel)]="datePickerValue"
-								   placeholder="date">
-							<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-							<mat-datepicker #picker [startAt]="date"></mat-datepicker>
-						</mat-form-field>
-
-						<button
-							(click)="createNewSession()"
-							*ngIf="sessionIsValid() && !hasOldSession()" mat-raised-button color="primary">
-							Create
-						</button>
-						<button *ngIf="!sessionIsValid() && !hasOldSession()" mat-raised-button color="disabled">
-							Create
-						</button>
-						<button *ngIf="hasOldSession()" mat-raised-button color="warn"
-								(click)="deleteSession()"
-						>Delete</button>
-					</kt-portlet-body>
-				</kt-portlet>
-			</div>
-		</div>
-	</div>
-
-</div>
-<div class="row">
-	<div class="col-xl-10">
 		<kt-portlet [class]="'kt-portlet--height-fluid'">
 			<kt-portlet-header [title]="'Workout'">
 				<ng-container ktPortletTools>
 					<div class="workout-details">
+						<kt-user-selector
+							[(selectedUserId)]="session.userId"
+						></kt-user-selector>
 						<mat-form-field>
 							<mat-select
 								placeholder="Choose"
@@ -73,17 +29,11 @@
 								<mat-option value="Custom">Custom</mat-option>
 							</mat-select>
 						</mat-form-field>
-
 						<mat-form-field>
-							<mat-select
-								placeholder="Split"
-								[(ngModel)]="session.splitName"
-								[disabled]="!isEditable && hasOldSession()"
-								(selectionChange)="sessionUpdated()"
+							<input matInput placeholder="Split"
+								   [(ngModel)]="session.splitName"
+								   [disabled]="!isEditable && hasOldSession()"
 							>
-								<mat-option value="split A">split A</mat-option>
-								<mat-option value="split B">split B</mat-option>
-							</mat-select>
 						</mat-form-field>
 						<mat-slide-toggle
 							*ngIf="hasOldSession()"
@@ -92,6 +42,27 @@
 							(ngModelChange)="child.isEditable = $event"
 						>Edit
 						</mat-slide-toggle>
+						<mat-form-field>
+							<input matInput
+								   [matDatepicker]="picker"
+								   (ngModelChange)="dateUpdated($event)"
+								   [(ngModel)]="datePickerValue"
+								   placeholder="date">
+							<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+							<mat-datepicker #picker [startAt]="date"></mat-datepicker>
+						</mat-form-field>
+						<button
+							(click)="createNewSession()"
+							*ngIf="sessionIsValid() && !hasOldSession()" mat-raised-button color="primary">
+							Create
+						</button>
+						<button *ngIf="!sessionIsValid() && !hasOldSession()" mat-raised-button color="disabled">
+							Create
+						</button>
+						<button *ngIf="hasOldSession()" mat-raised-button color="warn"
+								(click)="deleteSession()"
+						>Delete
+						</button>
 					</div>
 				</ng-container>
 			</kt-portlet-header>

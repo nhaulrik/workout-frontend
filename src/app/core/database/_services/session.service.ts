@@ -72,7 +72,7 @@ export class SessionService {
 	deleteSession(id: number) {
 		var query = this.deleteSessionQuery;
 
-		query = query.replace('{id}', id);
+		query = query.replace('{id}', id.toString());
 
 		return this.http.post(this.graphQLEndpoint, query, httpOptions)
 			.pipe(

@@ -3,7 +3,7 @@ import {ExerciseService} from '../../../../../../core/database/_services/exercis
 import {UserService} from '../../../../../../core/database/_services/user.service';
 import {GraphQlResponse} from '../../../../../../core/database/_models/graphQlResponse';
 import {Exercise} from '../../../../../../core/database/_models/exercise';
-import {SessionTableComponent} from '../../../../../partials/content/database';
+import {SessionTableComponent, UserSelectorComponent} from '../../../../../partials/content/database';
 import {WorkoutSet} from '../../../../../../core/database/_models/workoutSet';
 import {SessionService} from '../../../../../../core/database';
 import {Session} from '../../../../../../core/database/_models/session';
@@ -27,6 +27,7 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 	exerciseMap: Map<number, Map<number, WorkoutSet>> = new Map<number, Map<number, WorkoutSet>>();
 
 	@ViewChild(SessionTableComponent, {static: true}) child;
+	@ViewChild(UserSelectorComponent, {static: true}) userSelectorChild;
 
 	constructor(
 		private exerciseService: ExerciseService,
@@ -55,6 +56,7 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 					this.child.setInitialExerciseMap();
 					this.child.populateTableWithWorkoutSet((response as GraphQlResponse).data.sessions[0].workoutSet);
 					this.child.sessionId = (response as GraphQlResponse).data.sessions[0].id;
+					this.child.userId = (response as GraphQlResponse).data.sessions[0].userId;
 					this.isEditable = false; // disable editing of loaded session
 				} else {
 					this.session = this.getEmptySession();
@@ -117,6 +119,7 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 
 	dateUpdated(dateObject) {
 		if (dateObject != undefined) {
+			debugger;
 			this.session.localDateTime = dateObject;
 
 			var formattedDate = this.formatDateToString(dateObject);
@@ -134,7 +137,7 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 	getEmptySession() {
 		return {
 			'id': null,
-			'userId': 1,
+			'userId': null,
 			'localDateTime': this.datePickerValue,
 			'exerciseMap': new Map<number, Map<number, WorkoutSet>>(),
 			'location': '',

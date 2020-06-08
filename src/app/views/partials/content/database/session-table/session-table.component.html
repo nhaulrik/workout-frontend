@@ -15,7 +15,7 @@
 			<mat-select
 				[(ngModel)]="exerciseMap.get(exerciseIndex).get(0).exerciseId"
 				placeholder="select exercise"
-				[disabled]="!tableEnabled && !hasPersistedSession"
+				[disabled]="!inputsEnabled()"
 				(selectionChange)="exerciseUpdated(exerciseIndex, $event)"
 			>
 				<mat-option *ngFor="let exercise of exercises" [value]="exercise.id">{{exercise.name}}</mat-option>
@@ -26,13 +26,13 @@
 				<span *ngIf="shouldShowInput(exerciseIndex, setIndex)">
 					<input type="number" class="table-input"
 						   [(ngModel)]="exerciseMap.get(exerciseIndex).get(setIndex).repetitions"
-						   [disabled]="!tableEnabled && !hasPersistedSession"
+						   [disabled]="!inputsEnabled()"
 						   (change)="workoutSetUpdated(exerciseIndex, setIndex)"
 					>
 					x
 					<input type="number" step="0.5" class="table-input"
 						   [(ngModel)]="exerciseMap.get(exerciseIndex).get(setIndex).weight"
-						   [disabled]="!tableEnabled && !hasPersistedSession"
+						   [disabled]="!inputsEnabled()"
 						   (change)="workoutSetUpdated(exerciseIndex, setIndex)"
 					>
 					kg
