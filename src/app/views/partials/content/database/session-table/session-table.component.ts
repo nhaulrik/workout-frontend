@@ -118,7 +118,7 @@ export class SessionTableComponent implements OnInit {
 	}
 
 	inputsEnabled() {
-		return !this.tableEnabled && !this.hasPersistedSession && this.userId != null;
+		return this.tableEnabled && this.hasPersistedSession && this.userId != null;
 	}
 
 	exerciseUpdated(exerciseIndex, event) {

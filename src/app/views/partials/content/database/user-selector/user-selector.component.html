@@ -1,9 +1,8 @@
-<mat-form-field>
-	<mat-select
-		placeholder="User"
-		[ngModel]="selectedUserId"
-		(ngModelChange)="change($event)"
-	>
-		<mat-option *ngFor="let user of users" [value]="user.id">{{user.firstName}} {{user.lastName}}</mat-option>
-	</mat-select>
-</mat-form-field>
+<mat-select
+	placeholder="User"
+	[ngModel]="selectedUserId"
+	(ngModelChange)="change($event)"
+	[disabled]="disabled"
+>
+	<mat-option *ngFor="let user of users" [value]="user.id">{{user.firstName}} {{user.lastName}}</mat-option>
+</mat-select>

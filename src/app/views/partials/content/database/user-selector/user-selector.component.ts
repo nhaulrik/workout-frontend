@@ -12,6 +12,7 @@ import {GraphQlResponse} from '../../../../../core/database/_models/graphQlRespo
 export class UserSelectorComponent implements OnInit {
 	users: User[] = [];
 
+	@Input() disabled: boolean;
 	@Input() selectedUserId: number;
 	@Output() selectedUserIdChange = new EventEmitter();
 

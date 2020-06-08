@@ -11,8 +11,8 @@ import {Session} from '../../../../../../core/database/_models/session';
 @Component({
 	selector: 'kt-session-edit',
 	templateUrl: './session-edit.component.html',
-	providers: [ExerciseService, UserService]
-
+	providers: [ExerciseService, UserService],
+	styleUrls: ['./session-edit.component.scss'],
 })
 export class SessionEditComponent implements OnInit, AfterViewInit {
 
@@ -48,21 +48,23 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 	}
 
 	getSession(date) {
-		this.sessionService.getSessionWithWorkoutSet(1, date)
-			.subscribe(response => {
-				if ((response as GraphQlResponse).data.sessions.length > 0) {
-					this.session = (response as GraphQlResponse).data.sessions[0];
-					this.session.localDateTime = new Date((response as GraphQlResponse).data.sessions[0].localDateTime);
-					this.child.setInitialExerciseMap();
-					this.child.populateTableWithWorkoutSet((response as GraphQlResponse).data.sessions[0].workoutSet);
-					this.child.sessionId = (response as GraphQlResponse).data.sessions[0].id;
-					this.child.userId = (response as GraphQlResponse).data.sessions[0].userId;
-					this.isEditable = false; // disable editing of loaded session
-				} else {
-					this.session = this.getEmptySession();
-					this.child.setInitialExerciseMap();
-				}
-			});
+		if (this.session.userId != null) {
+			this.sessionService.getSessionWithWorkoutSet(this.session.userId, date)
+				.subscribe(response => {
+					if ((response as GraphQlResponse).data.sessions.length > 0) {
+						this.session = (response as GraphQlResponse).data.sessions[0];
+						this.session.localDateTime = new Date((response as GraphQlResponse).data.sessions[0].localDateTime);
+						this.child.setInitialExerciseMap();
+						this.child.populateTableWithWorkoutSet((response as GraphQlResponse).data.sessions[0].workoutSet);
+						this.child.sessionId = (response as GraphQlResponse).data.sessions[0].id;
+						this.child.userId = (response as GraphQlResponse).data.sessions[0].userId;
+						this.isEditable = false; // disable editing of loaded session
+					} else {
+						this.session = this.getEmptySession();
+						this.child.setInitialExerciseMap();
+					}
+				});
+		}
 	}
 
 	sessionIsValid(): boolean {
@@ -119,12 +121,11 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 
 	dateUpdated(dateObject) {
 		if (dateObject != undefined) {
-			debugger;
 			this.session.localDateTime = dateObject;
 
 			var formattedDate = this.formatDateToString(dateObject);
 
-			this.session = this.getEmptySession()
+			// this.session = this.getEmptySession()
 			this.child.setInitialExerciseMap();
 			this.getSession(formattedDate);
 		}
@@ -134,10 +135,16 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 		this.exerciseMap = this.child.exerciseMap;
 	}
 
-	getEmptySession() {
+	getEmptySession(userId: number) {
+
+		var userIdVal = null;
+		if (userId != null) {
+			userIdVal = userId;
+		}
+
 		return {
 			'id': null,
-			'userId': null,
+			'userId': userIdVal,
 			'localDateTime': this.datePickerValue,
 			'exerciseMap': new Map<number, Map<number, WorkoutSet>>(),
 			'location': '',
@@ -167,6 +174,7 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 			this.sessionService.addSession(this.session).subscribe(response => {
 				this.session.id = (response as GraphQlResponse).data.addSession;
 				this.child.sessionId = this.session.id;
+				this.child.userId = this.session.userId;
 				this.isEditable = true; // enable editing of newly created session
 			});
 		}
@@ -176,7 +184,7 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 		if (this.session.id != null) {
 			this.sessionService.deleteSession(this.session.id).subscribe(response => {
 				debugger;
-				this.session = this.getEmptySession()
+				this.session = this.getEmptySession(this.session.userId)
 				this.child.setInitialExerciseMap();
 			});
 		}
