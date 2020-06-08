@@ -77,6 +77,7 @@ import {ExerciseSelectorComponent} from './content/database/exercise-selector/ex
 import {UserSelectorComponent} from './content/database/user-selector/user-selector.component';
 import { SessionDetailsComponent } from './content/database/session-details/session-details.component';
 import { SessionTableComponent } from './content/database/session-table/session-table.component';
+import { SessionCalendarComponent } from './content/database/session-calendar/session-calendar.component';
 
 @NgModule({
 	declarations: [
@@ -118,12 +119,14 @@ import { SessionTableComponent } from './content/database/session-table/session-
 		UserSelectorComponent,
 		SessionDetailsComponent,
 		SessionTableComponent,
+		SessionCalendarComponent,
 	],
 	exports: [
 		ExerciseSelectorComponent,
 		UserSelectorComponent,
 		SessionDetailsComponent,
 		SessionTableComponent,
+		SessionCalendarComponent,
 
 		WidgetModule,
 		PortletModule,
