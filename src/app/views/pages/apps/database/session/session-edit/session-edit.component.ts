@@ -3,7 +3,7 @@ import {ExerciseService} from '../../../../../../core/database/_services/exercis
 import {UserService} from '../../../../../../core/database/_services/user.service';
 import {GraphQlResponse} from '../../../../../../core/database/_models/graphQlResponse';
 import {Exercise} from '../../../../../../core/database/_models/exercise';
-import {SessionTableComponent, UserSelectorComponent} from '../../../../../partials/content/database';
+import {SessionCalendarComponent, SessionTableComponent, UserSelectorComponent} from '../../../../../partials/content/database';
 import {WorkoutSet} from '../../../../../../core/database/_models/workoutSet';
 import {SessionService} from '../../../../../../core/database';
 import {Session} from '../../../../../../core/database/_models/session';
@@ -18,16 +18,19 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 
 	datePickerValue: any = new Date();
 
-	session: Session = this.getEmptySession();
+	session: Session = this.getEmptySession(null);
 	exercises: Exercise[] = [];
 	workoutSet: WorkoutSet[] = [];
 
 	isEditable: boolean = false;
 
+	calendarDay: number;
+
 	exerciseMap: Map<number, Map<number, WorkoutSet>> = new Map<number, Map<number, WorkoutSet>>();
 
 	@ViewChild(SessionTableComponent, {static: true}) child;
 	@ViewChild(UserSelectorComponent, {static: true}) userSelectorChild;
+	@ViewChild(SessionCalendarComponent, {static: true}) sessionCalendarChild;
 
 	constructor(
 		private exerciseService: ExerciseService,
@@ -176,6 +179,7 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 				this.child.sessionId = this.session.id;
 				this.child.userId = this.session.userId;
 				this.isEditable = true; // enable editing of newly created session
+				this.sessionCalendarChild.updateCalendar();
 			});
 		}
 	}
@@ -186,6 +190,7 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 				debugger;
 				this.session = this.getEmptySession(this.session.userId)
 				this.child.setInitialExerciseMap();
+				this.sessionCalendarChild.updateCalendar();
 			});
 		}
 	}

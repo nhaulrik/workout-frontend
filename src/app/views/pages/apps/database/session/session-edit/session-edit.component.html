@@ -1,9 +1,19 @@
 <div class="row">
 	<div class="col-xl-10">
+		<kt-portlet [class]="'kt-portlet'">
+			<kt-portlet-header [title]="'Date'">
+			</kt-portlet-header>
+			<kt-portlet-body>
+				<ng-container ktPortletTools>
+					<kt-session-calendar
+						[(selectedDate)]="calendarDay"
+					></kt-session-calendar>
+				</ng-container>
+			</kt-portlet-body>
+		</kt-portlet>
 		<kt-portlet [class]="'kt-portlet--height-fluid'">
 			<kt-portlet-header [title]="'Workout'">
 				<ng-container ktPortletTools>
-					<kt-session-calendar></kt-session-calendar>
 					<table class="workout-details">
 						<tr>
 							<td class="session-property">
