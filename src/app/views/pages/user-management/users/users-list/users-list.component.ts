@@ -1,5 +1,5 @@
 // Angular
-import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 
 import {UserService} from '../../../../../core/database';
 import {MatSort, MatTableDataSource} from '@angular/material';
@@ -30,12 +30,10 @@ export class UsersListComponent implements OnInit {
 	getUsers() {
 		this.userService.getUsers()
 			.subscribe(response => {
-				debugger;
 				this.dataSource = new MatTableDataSource((response as GraphQlResponse).data.users);
 				this.dataSource.sort = this.sort;
 			})
 	}
-
 
 	/**
 	 * Redirect to edit page

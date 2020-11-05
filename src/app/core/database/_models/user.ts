@@ -2,7 +2,7 @@ import {BaseModel} from '../../_base/crud';
 
 export class User extends BaseModel {
 
-	id: number;
+	id: string;
 	firstName: string;
 	lastName: string;
 	birthday: Date;

@@ -9,10 +9,10 @@
 		</ng-container>
 	</kt-portlet-header>
 	<!-- end::Header -->
-
 	<!-- start::Body (attribute: ktPortletBody) -->
 	<kt-portlet-body>
-		<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+		<h2 *ngIf="dataSource == null || dataSource.data.length == 0">No users found</h2>
+		<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" *ngIf="dataSource != null && dataSource.data.length > 0">
 
 			<ng-container matColumnDef="id">
 				<th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>

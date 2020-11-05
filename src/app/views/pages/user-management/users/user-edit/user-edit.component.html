@@ -27,66 +27,57 @@
 	</kt-portlet-header>
 
 	<kt-portlet-body>
-		<mat-tab-group [(selectedIndex)]="selectedTab">
-			<mat-tab>
-				<ng-template mat-tab-label>
-					Basic info
-				</ng-template>
-				<ng-template matTabContent>
-					<!--begin::Form-->
-					<div *ngIf="user">
-						<form [formGroup]="userForm" class="kt-form kt-form--group-seperator-dashed">
+		<!--begin::Form-->
+		<div *ngIf="user">
+			<form [formGroup]="userForm" class="kt-form kt-form--group-seperator-dashed">
 
-							<kt-alert *ngIf="hasFormErrors" type="warn" [showCloseButton]="true" [duration]="10000"
-									  (close)="onAlertClose($event)">
-								Oh snap! Change a few things up and try submitting again.
-							</kt-alert>
-							<div class="kt-form__section kt-form__section--first">
-								<div class="form-group kt-form__group row">
-									<div class="col-lg-3 kt-margin-bottom-20-mobile">
-										<mat-form-field class="mat-form-field-fluid">
-											<input matInput placeholder="Enter first name" formControlName="firstname"/>
-											<mat-error>First name is
-												<strong>required</strong>
-											</mat-error>
-										</mat-form-field>
-									</div>
-									<div class="col-lg-3 kt-margin-bottom-20-mobile">
-										<mat-form-field class="mat-form-field-fluid">
-											<input matInput placeholder="Enter last Name" formControlName="lastname"/>
-											<mat-error>Last name is
-												<strong>required</strong>
-											</mat-error>
-										</mat-form-field>
-									</div>
+				<kt-alert *ngIf="hasFormErrors" type="warn" [showCloseButton]="true" [duration]="10000"
+						  (close)="onAlertClose($event)">
+					Oh snap! Change a few things up and try submitting again.
+				</kt-alert>
+				<div class="kt-form__section kt-form__section--first">
+					<div class="form-group kt-form__group row">
+						<div class="col-lg-3 kt-margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<input matInput placeholder="Enter first name" formControlName="firstname"/>
+								<mat-error>First name is
+									<strong>required</strong>
+								</mat-error>
+							</mat-form-field>
+						</div>
+						<div class="col-lg-3 kt-margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<input matInput placeholder="Enter last Name" formControlName="lastname"/>
+								<mat-error>Last name is
+									<strong>required</strong>
+								</mat-error>
+							</mat-form-field>
+						</div>
 
-									<div class="col-lg-4 kt-margin-bottom-20-mobile">
-										<mat-form-field appearance="fill">
-											<mat-label>Select birthday</mat-label>
-											<input matInput [matDatepicker]="picker" formControlName="birthday">
-											<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-											<mat-datepicker #picker></mat-datepicker>
-										</mat-form-field>
-									</div>
-									<div class="col-lg-4 kt-margin-bottom-20-mobile">
-										<mat-form-field appearance="fill">
-											<mat-select
-												placeholder="Choose gender"
-												formControlName="gender"
-											>
-												<mat-option *ngFor="let gender of genders" [value]="gender">
-													{{gender}}
-												</mat-option>
-											</mat-select>
-										</mat-form-field>
-									</div>
-								</div>
-							</div>
-						</form>
+						<div class="col-lg-4 kt-margin-bottom-20-mobile">
+							<mat-form-field appearance="fill">
+								<mat-label>Select birthday</mat-label>
+								<input matInput [matDatepicker]="picker" formControlName="birthday">
+								<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+								<mat-datepicker #picker></mat-datepicker>
+							</mat-form-field>
+						</div>
+						<div class="col-lg-4 kt-margin-bottom-20-mobile">
+							<mat-form-field appearance="fill">
+								<mat-select
+									placeholder="Choose gender"
+									formControlName="gender"
+								>
+									<mat-option *ngFor="let gender of genders" [value]="gender">
+										{{gender}}
+									</mat-option>
+								</mat-select>
+							</mat-form-field>
+						</div>
 					</div>
-					<!--end::Form-->
-				</ng-template>
-			</mat-tab>
+				</div>
+			</form>
+		</div>
 <!--			<mat-tab [disabled]="!user || !user.id">-->
 <!--				<ng-template mat-tab-label>-->
 <!--					<i class="mat-tab-label-icon fa fa-address-book"></i>-->
@@ -123,6 +114,5 @@
 <!--					<kt-change-password [userId]="user.id"></kt-change-password>-->
 <!--				</ng-template>-->
 <!--			</mat-tab>-->
-		</mat-tab-group>
 	</kt-portlet-body>
 </kt-portlet>
