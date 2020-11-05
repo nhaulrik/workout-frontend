@@ -1,32 +1,32 @@
 // Angular
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 // RxJS
-import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 // NGRX
-import { Store, select } from '@ngrx/store';
-import { Update } from '@ngrx/entity';
-import { AppState } from '../../../../../core/reducers';
+import {select, Store} from '@ngrx/store';
+import {Update} from '@ngrx/entity';
+import {AppState} from '../../../../../core/reducers';
 // Layout
-import { SubheaderService, LayoutConfigService } from '../../../../../core/_base/layout';
-import { LayoutUtilsService, MessageType } from '../../../../../core/_base/crud';
+import {LayoutConfigService, SubheaderService} from '../../../../../core/_base/layout';
+import {LayoutUtilsService, MessageType} from '../../../../../core/_base/crud';
 // Services and Models
 import {
-	User,
-	UserUpdated,
-	Address,
-	SocialNetworks,
-	selectHasUsersInStore,
-	selectUserById,
-	UserOnServerCreated,
 	selectLastCreatedUserId,
-	selectUsersActionLoading
+	selectUserById,
+	selectUsersActionLoading,
+	UserOnServerCreated,
+	UserUpdated
 } from '../../../../../core/auth';
+//Domain services
+import {UserService} from '../../../../../core/database';
+import {User} from '../../../../../core/database/_models/user';
 
 @Component({
 	selector: 'kt-user-edit',
 	templateUrl: './user-edit.component.html',
+	providers: [UserService],
 })
 export class UserEditComponent implements OnInit, OnDestroy {
 	// Public properties
@@ -35,9 +35,6 @@ export class UserEditComponent implements OnInit, OnDestroy {
 	oldUser: User;
 	selectedTab = 0;
 	loading$: Observable<boolean>;
-	rolesSubject = new BehaviorSubject<number[]>([]);
-	addressSubject = new BehaviorSubject<Address>(new Address());
-	soicialNetworksSubject = new BehaviorSubject<SocialNetworks>(new SocialNetworks());
 	userForm: FormGroup;
 	hasFormErrors = false;
 	// Private properties
@@ -55,12 +52,15 @@ export class UserEditComponent implements OnInit, OnDestroy {
 	 * @param layoutConfigService: LayoutConfigService
 	 */
 	constructor(private activatedRoute: ActivatedRoute,
-		           private router: Router,
-		           private userFB: FormBuilder,
-		           private subheaderService: SubheaderService,
-		           private layoutUtilsService: LayoutUtilsService,
-		           private store: Store<AppState>,
-		           private layoutConfigService: LayoutConfigService) { }
+				private router: Router,
+				private userFB: FormBuilder,
+				private subheaderService: SubheaderService,
+				private layoutUtilsService: LayoutUtilsService,
+				private store: Store<AppState>,
+				private layoutConfigService: LayoutConfigService,
+				private userService: UserService
+	) {
+	}
 
 	/**
 	 * @ Lifecycle sequences => https://angular.io/guide/lifecycle-hooks
@@ -77,10 +77,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
 			if (id && id > 0) {
 				this.store.pipe(select(selectUserById(id))).subscribe(res => {
 					if (res) {
-						this.user = res;
-						this.rolesSubject.next(this.user.roles);
-						this.addressSubject.next(this.user.address);
-						this.soicialNetworksSubject.next(this.user.socialNetworks);
+						// this.user = res;
 						this.oldUser = Object.assign({}, this.user);
 						this.initUser();
 					}
@@ -88,9 +85,6 @@ export class UserEditComponent implements OnInit, OnDestroy {
 			} else {
 				this.user = new User();
 				this.user.clear();
-				this.rolesSubject.next(this.user.roles);
-				this.addressSubject.next(this.user.address);
-				this.soicialNetworksSubject.next(this.user.socialNetworks);
 				this.oldUser = Object.assign({}, this.user);
 				this.initUser();
 			}
@@ -129,12 +123,10 @@ export class UserEditComponent implements OnInit, OnDestroy {
 	 */
 	createForm() {
 		this.userForm = this.userFB.group({
-			username: [this.user.username, Validators.required],
-			fullname: [this.user.fullname, Validators.required],
-			email: [this.user.email, Validators.email],
-			phone: [this.user.phone],
-			companyName: [this.user.companyName],
-			occupation: [this.user.occupation]
+			lastname: [this.user.firstName, Validators.required],
+			firstname: [this.user.lastName, Validators.required],
+			birthday: [this.user.birthday, Validators.required],
+			gender: [this.user.gender, Validators.required]
 		});
 	}
 
@@ -212,20 +204,10 @@ export class UserEditComponent implements OnInit, OnDestroy {
 		const controls = this.userForm.controls;
 		const _user = new User();
 		_user.clear();
-		_user.roles = this.rolesSubject.value;
-		_user.address = this.addressSubject.value;
-		_user.socialNetworks = this.soicialNetworksSubject.value;
-		_user.accessToken = this.user.accessToken;
-		_user.refreshToken = this.user.refreshToken;
-		_user.pic = this.user.pic;
-		_user.id = this.user.id;
-		_user.username = controls.username.value;
-		_user.email = controls.email.value;
-		_user.fullname = controls.fullname.value;
-		_user.occupation = controls.occupation.value;
-		_user.phone = controls.phone.value;
-		_user.companyName = controls.companyName.value;
-		_user.password = this.user.password;
+		_user.firstName = controls.firstname.value;
+		_user.lastName = controls.lastname.value;
+		_user.gender = controls.gender.value;
+		_user.birthday = controls.birthday.value;
 		return _user;
 	}
 
@@ -236,19 +218,24 @@ export class UserEditComponent implements OnInit, OnDestroy {
 	 * @param withBack: boolean
 	 */
 	addUser(_user: User, withBack: boolean = false) {
-		this.store.dispatch(new UserOnServerCreated({ user: _user }));
-		const addSubscription = this.store.pipe(select(selectLastCreatedUserId)).subscribe(newId => {
-			const message = `New user successfully has been added.`;
-			this.layoutUtilsService.showActionNotification(message, MessageType.Create, 5000, true, true);
-			if (newId) {
-				if (withBack) {
-					this.goBackWithId();
-				} else {
-					this.refreshUser(true, newId);
-				}
-			}
+		this.userService.addUser(_user).subscribe(response => {
 		});
-		this.subscriptions.push(addSubscription);
+
+
+
+		// this.store.dispatch(new UserOnServerCreated({ user: _user }));
+		// const addSubscription = this.store.pipe(select(selectLastCreatedUserId)).subscribe(newId => {
+		// 	const message = `New user successfully has been added.`;
+		// 	this.layoutUtilsService.showActionNotification(message, MessageType.Create, 5000, true, true);
+		// 	if (newId) {
+		// 		if (withBack) {
+		// 			this.goBackWithId();
+		// 		} else {
+		// 			this.refreshUser(true, newId);
+		// 		}
+		// 	}
+		// });
+		// this.subscriptions.push(addSubscription);
 	}
 
 	/**
@@ -261,18 +248,18 @@ export class UserEditComponent implements OnInit, OnDestroy {
 		// Update User
 		// tslint:disable-next-line:prefer-const
 
-		const updatedUser: Update<User> = {
-			id: _user.id,
-			changes: _user
-		};
-		this.store.dispatch(new UserUpdated( { partialUser: updatedUser, user: _user }));
-		const message = `User successfully has been saved.`;
-		this.layoutUtilsService.showActionNotification(message, MessageType.Update, 5000, true, true);
-		if (withBack) {
-			this.goBackWithId();
-		} else {
-			this.refreshUser(false);
-		}
+		// const updatedUser: Update<User> = {
+		// 	id: _user.id,
+		// 	changes: _user
+		// };
+		// this.store.dispatch(new UserUpdated( { partialUser: updatedUser, user: _user }));
+		// const message = `User successfully has been saved.`;
+		// this.layoutUtilsService.showActionNotification(message, MessageType.Update, 5000, true, true);
+		// if (withBack) {
+		// 	this.goBackWithId();
+		// } else {
+		// 	this.refreshUser(false);
+		// }
 	}
 
 	/**
@@ -284,7 +271,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
 			return result;
 		}
 
-		result = `Edit user - ${this.user.fullname}`;
+		result = `Edit user - ${this.user.firstName} ${this.user.lastName} `;
 		return result;
 	}
 
@@ -296,4 +283,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
 	onAlertClose($event) {
 		this.hasFormErrors = false;
 	}
+
+	genders: String[] = ['Male', 'Female']
+
 }

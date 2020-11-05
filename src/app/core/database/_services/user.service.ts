@@ -4,6 +4,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 
 import {throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
+import {User} from '../_models/user';
 
 const httpOptions = {
 	headers: new HttpHeaders({
@@ -14,17 +15,49 @@ const httpOptions = {
 
 @Injectable()
 export class UserService {
-	getUsersUrl = 'http://localhost:9090/graphql';
+	graphQLEndpoint = 'http://localhost:9090/graphql';
 	getUsersPayload = '{"query":"{\\n  users {\\n    firstName\\n    lastName\\n    id\\n  }\\n}","variables":null,"operationName":null}';
+
+	addUserQuery = '{"query":"mutation {\\n  addUser (\\n    firstName:\\"{firstName}\\"    lastName:\\"{lastName}\\"    gender:\\"{gender}\\"    birthday:\\"{birthday}\\"    ) }","variables":null}';
+
 
 	constructor(private http: HttpClient) {
 	}
 
 	getUsers() {
-		return this.http.post(this.getUsersUrl, this.getUsersPayload, httpOptions)
+		return this.http.post(this.graphQLEndpoint, this.getUsersPayload, httpOptions)
 			.pipe(
 				catchError(this.handleError)
 			)
+	}
+
+	addUser(user: User) {
+		var query = this.addUserQuery;
+		var birthday = this.formatDateToString(user.birthday);
+
+		query = query.replace('{firstName}', user.firstName)
+			.replace('{lastName}', user.lastName)
+			.replace('{gender}', user.gender)
+			.replace('{birthday}', birthday);
+
+		return this.http.post(this.graphQLEndpoint, query, httpOptions)
+			.pipe(
+				catchError(this.handleError)
+			)
+	}
+
+	formatDateToString(dateObject) {
+		if (dateObject != undefined && dateObject != '') {
+			const date = '{date}-{month}-{year}';
+			const fullMonth = dateObject.getMonth() < 10 ? '0' + (dateObject.getMonth() + 1) : dateObject.getMonth() + 1;
+			const fullDay = dateObject.getDate() < 10 ? '0' + dateObject.getDate() : dateObject.getDate();
+			const formattedDate = date
+				.replace('{date}', fullDay)
+				.replace('{month}', fullMonth)
+				.replace('{year}', dateObject.getFullYear());
+
+			return formattedDate;
+		}
 	}
 
 	private handleError(error: HttpErrorResponse) {
@@ -42,5 +75,4 @@ export class UserService {
 		return throwError(
 			'Something bad happened; please try again later.');
 	}
-
 }
