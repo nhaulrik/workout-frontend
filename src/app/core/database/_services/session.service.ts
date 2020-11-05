@@ -16,7 +16,7 @@ export class SessionService {
 	graphQLEndpoint = 'http://localhost:9090/graphql';
 	getSessionPayload = '{"query":"{\\n sessions (userId:{userId} date:\\"{date}\\") {id localDateTime location programme splitName userId}}","variables": null}';
 	getSessionsForMonthPayload = '{"query":"{\\n sessions (month:{month} year:{year} ) {id localDateTime location programme splitName userId}}","variables": null}';
-	getSessionWithWorkoutSetPayload = '{"query":"{\\n sessions (userId:{userId} date:\\"{date}\\") {id localDateTime location programme splitName userId workoutSet {\\n      id\\n      repetitionMaximum\\n      repetitions\\n      sessionId\\n      exerciseId\\n      setNumber\\n      single\\n      weight\\n    }\\n  }\\n}\\n","variables":null,"operationName":null}';
+	getSessionWithWorkoutSetPayload = '{"query":"{\\n sessions (date:\\"{date}\\") {id localDateTime location programme splitName userId workoutSet {\\n      id\\n      repetitionMaximum\\n      repetitions\\n      sessionId\\n      exerciseId\\n      setNumber\\n      single\\n      weight\\n    }\\n  }\\n}\\n","variables":null,"operationName":null}';
 
 	addSessionQuery = '{"query":"mutation {\\n  addSession (\\n    id:{id}     splitName:\\"{splitName}\\"    location:\\"{location}\\"    programme:\\"{programme}\\"    time:\\"{time}\\"    userId:{userId}) }","variables":null}';
 	deleteSessionQuery = '{"query":"query {\\n  deleteSessions (ids:[{id}])\\n}\\n","variables":null}'
@@ -25,9 +25,8 @@ export class SessionService {
 	}
 
 
-	getSessionWithWorkoutSet(userId: number, date: string) {
+	getSessionWithWorkoutSet(date: string) {
 		const query = this.getSessionWithWorkoutSetPayload
-			.replace('{userId}', userId.toString())
 			.replace('{date}', date);
 
 		return this.http.post(this.graphQLEndpoint, query, httpOptions)

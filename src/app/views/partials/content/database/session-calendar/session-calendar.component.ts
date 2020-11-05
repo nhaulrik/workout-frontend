@@ -10,13 +10,12 @@ import {Session} from '../../../../../core/database/_models/session';
 })
 export class SessionCalendarComponent implements OnInit {
 
-	@Output() selectedDateChange = new EventEmitter();
-	@Input() selectedDate: number;
+	@Output() dateChanged = new EventEmitter();
+	@Input() selectedDate: Date;
 
-	change(day) {
-		this.selectedDate = day;
-		this.selectedDateChange.emit(day);
-		debugger;
+	dayChanged(day) {
+		this.selectedDate.setDate(day)
+		this.dateChanged.emit(this.selectedDate);
 	}
 
 	constructor(
@@ -27,7 +26,7 @@ export class SessionCalendarComponent implements OnInit {
 	sessionMap: Map<number, number> = new Map<number, number>();
 
 	ngOnInit() {
-		this.getSessionsForMonth(6, 2020);
+		this.getSessionsForMonth(this.selectedDate.getMonth() + 1, this.selectedDate.getFullYear());
 	}
 
 	getSessionsForMonth(month: number, year: number) {
@@ -45,7 +44,7 @@ export class SessionCalendarComponent implements OnInit {
 	daysInMonth(month: number, year: number): number {
 		var days = new Date(year, month, 0).getDate();
 
-		var dayArray = Array(days).fill().map((x, i) => i); // [0,1,2,3,4]
+		var dayArray = Array(days).fill().map((x, i) => i + 1); // [1,2,3,4]
 		return dayArray;
 	}
 

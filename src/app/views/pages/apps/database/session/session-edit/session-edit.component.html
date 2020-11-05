@@ -6,83 +6,74 @@
 			<kt-portlet-body>
 				<ng-container ktPortletTools>
 					<kt-session-calendar
-						[(selectedDate)]="calendarDay"
+						[(selectedDate)]="selectedDate"
+						(dateChanged)="dateChanged($event)"
 					></kt-session-calendar>
 				</ng-container>
 			</kt-portlet-body>
 		</kt-portlet>
-		<kt-portlet [class]="'kt-portlet--height-fluid'">
+		<kt-portlet *ngFor="let sessionEntity of sessions" [class]="'kt-portlet--height-fluid'">
 			<kt-portlet-header [title]="'Workout'">
 				<ng-container ktPortletTools>
 					<table class="workout-details">
 						<tr>
 							<td class="session-property">
 								<kt-user-selector
-									[(selectedUserId)]="session.userId"
 									[disabled]="!isEditable && hasOldSession()"
 								></kt-user-selector>
 							</td>
-							<td class="session-property">
-								<mat-select placeholder="Choose"
-											[(ngModel)]="session.location"
-											[disabled]="!isEditable && hasOldSession()"
-											(selectionChange)="sessionUpdated()"
-								>
-									<mat-option value="Home">Home</mat-option>
-									<mat-option value="FW Viby">FW Viby</mat-option>
-								</mat-select>
-							</td>
-							<td class="session-property">
-								<mat-select placeholder="Programme"
-											[(ngModel)]="session.programme"
-											[disabled]="!isEditable && hasOldSession()"
-											(selectionChange)="sessionUpdated()"
-								>
-									<mat-option value="Stronglifts 5x5">Stronglifts 5x5</mat-option>
-									<mat-option value="Max Muscle Plan">Max Muscle Plan</mat-option>
-									<mat-option value="Custom">Custom</mat-option>
-								</mat-select>
-							</td>
-							<td class="session-property">
-								<input placeholder="Split"
-									   [(ngModel)]="session.splitName"
-									   [disabled]="!isEditable && hasOldSession()"
-								>
-							</td>
-							<td class="session-property">
-								<input [matDatepicker]="picker"
-									   (ngModelChange)="dateUpdated($event)"
-									   [(ngModel)]="datePickerValue"
-									   placeholder="Date"
-								>
-								<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-								<mat-datepicker #picker [startAt]="date"></mat-datepicker>
-							</td>
-							<td class="session-editor">
-								<mat-slide-toggle
-									*ngIf="hasOldSession()"
-									class="edit-toggle"
-									[(ngModel)]="isEditable"
-									(ngModelChange)="child.isEditable = $event"
-								>Edit
-								</mat-slide-toggle>
-							</td>
-							<td class="session-editor">
-								<button
-									(click)="createNewSession()"
-									*ngIf="sessionIsValid() && !hasOldSession()" mat-raised-button color="primary">
-									Create
-								</button>
-								<button *ngIf="!sessionIsValid() && !hasOldSession()" mat-raised-button
-										color="disabled">
-									Create
-								</button>
-								<button *ngIf="hasOldSession()" mat-raised-button color="warn"
-										(click)="deleteSession()"
-								>Delete
-								</button>
-							</td>
-						</tr>
+							<!--<td class="session-property">-->
+								<!--<mat-select placeholder="Choose"-->
+											<!--[(ngModel)]="session.location"-->
+											<!--[disabled]="!isEditable && hasOldSession()"-->
+											<!--(selectionChange)="sessionUpdated()"-->
+								<!--&gt;-->
+									<!--<mat-option value="Home">Home</mat-option>-->
+									<!--<mat-option value="FW Viby">FW Viby</mat-option>-->
+								<!--</mat-select>-->
+							<!--</td>-->
+							<!--<td class="session-property">-->
+								<!--<mat-select placeholder="Programme"-->
+											<!--[(ngModel)]="session.programme"-->
+											<!--[disabled]="!isEditable && hasOldSession()"-->
+											<!--(selectionChange)="sessionUpdated()"-->
+								<!--&gt;-->
+									<!--<mat-option value="Stronglifts 5x5">Stronglifts 5x5</mat-option>-->
+									<!--<mat-option value="Max Muscle Plan">Max Muscle Plan</mat-option>-->
+									<!--<mat-option value="Custom">Custom</mat-option>-->
+								<!--</mat-select>-->
+							<!--</td>-->
+							<!--<td class="session-property">-->
+								<!--<input placeholder="Split"-->
+									   <!--[(ngModel)]="session.splitName"-->
+									   <!--[disabled]="!isEditable && hasOldSession()"-->
+								<!--&gt;-->
+							<!--</td>-->
+							<!--<td class="session-editor">-->
+								<!--<mat-slide-toggle-->
+									<!--*ngIf="hasOldSession()"-->
+									<!--class="edit-toggle"-->
+									<!--[(ngModel)]="isEditable"-->
+									<!--(ngModelChange)="child.isEditable = $event"-->
+								<!--&gt;Edit-->
+								<!--</mat-slide-toggle>-->
+							<!--</td>-->
+							<!--<td class="session-editor">-->
+								<!--<button-->
+									<!--(click)="createNewSession()"-->
+									<!--*ngIf="sessionIsValid() && !hasOldSession()" mat-raised-button color="primary">-->
+									<!--Create-->
+								<!--</button>-->
+								<!--<button *ngIf="!sessionIsValid() && !hasOldSession()" mat-raised-button-->
+										<!--color="disabled">-->
+									<!--Create-->
+								<!--</button>-->
+								<!--<button *ngIf="hasOldSession()" mat-raised-button color="warn"-->
+										<!--(click)="deleteSession()"-->
+								<!--&gt;Delete-->
+								<!--</button>-->
+							<!--</td>-->
+						<!--</tr>-->
 					</table>
 				</ng-container>
 			</kt-portlet-header>
@@ -90,6 +81,7 @@
 				<kt-session-table
 					[hasPersistedSession]="hasOldSession()"
 					[tableEnabled]="isEditable"
+					[session]="sessionEntity"
 				></kt-session-table>
 			</kt-portlet-body>
 		</kt-portlet>

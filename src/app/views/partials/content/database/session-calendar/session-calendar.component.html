@@ -2,8 +2,8 @@
 	<tr>
 		<td
 			*ngFor="let day of daysInMonth(6, 2020)"
-			[ngClass]="sessionMap.get(day) != null ? 'has-session' : 'no-session'"
-			(click)="change(day)"
+			[ngClass]="{'has-session' : sessionMap.get(day) != null, 'is-selected' : selectedDate.getDate() == day}"
+			(click)="dayChanged(day)"
 		>{{day}}</td>
 	</tr>
 </table>

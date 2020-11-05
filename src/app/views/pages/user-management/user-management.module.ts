@@ -25,6 +25,9 @@ import { ChangePasswordComponent } from './users/_subs/change-password/change-pa
 import { AddressComponent } from './users/_subs/address/address.component';
 import { SocialNetworksComponent } from './users/_subs/social-networks/social-networks.component';
 
+// Core => Services
+import {UserService} from '../../../core/database';
+
 // Material
 import {
 	MatInputModule,
@@ -62,16 +65,16 @@ const routes: Routes = [
 		children: [
 			{
 				path: '',
-				redirectTo: 'roles',
+				redirectTo: 'users',
 				pathMatch: 'full'
-			},
-			{
-				path: 'roles',
-				component: RolesListComponent
 			},
 			{
 				path: 'users',
 				component: UsersListComponent
+			},
+			{
+				path: 'roles',
+				component: RolesListComponent
 			},
 			{
 				path: 'users:id',
@@ -148,7 +151,8 @@ const routes: Routes = [
 		},
 		HttpUtilsService,
 		TypesUtilsService,
-		LayoutUtilsService
+		LayoutUtilsService,
+		UserService
 	],
 	entryComponents: [
 		ActionNotificationComponent,

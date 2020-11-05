@@ -4,6 +4,7 @@ import {WorkoutSetService} from '../../../../../core/database';
 import {ExerciseService} from '../../../../../core/database/_services/exercise.service';
 import {GraphQlResponse} from '../../../../../core/database/_models/graphQlResponse';
 import {WorkoutSet} from '../../../../../core/database/_models/workoutSet';
+import {Session} from '../../../../../core/database/_models/session';
 
 @Component({
 	selector: 'kt-session-table',
@@ -21,6 +22,7 @@ export class SessionTableComponent implements OnInit {
 
 	exerciseMap: Map<number, Map<number, WorkoutSet>> = new Map<number, Map<number, WorkoutSet>>();
 
+	@Input() session: Session;
 	@Input() tableEnabled: any;
 	@Input() hasPersistedSession: boolean;
 
@@ -30,6 +32,10 @@ export class SessionTableComponent implements OnInit {
 	ngOnInit() {
 		this.getExercises();
 		this.setInitialExerciseMap();
+		this.populateTableWithWorkoutSet(this.session.workoutSet);
+		this.sessionId = this.session.id;
+		this.userId = this.session.userId;
+		debugger;
 	}
 
 	setInitialExerciseMap() {

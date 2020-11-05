@@ -457,7 +457,7 @@ export class MenuConfig {
 					root: true,
 					bullet: 'dot',
 					icon: 'flaticon2-user-outline-symbol',
-					page: '/user-management/roles'
+					page: '/user-management/users'
 				},
 			]
 		},

@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {ExerciseService} from '../../../../../../core/database/_services/exercise.service';
 import {UserService} from '../../../../../../core/database/_services/user.service';
 import {GraphQlResponse} from '../../../../../../core/database/_models/graphQlResponse';
@@ -16,19 +16,17 @@ import {Session} from '../../../../../../core/database/_models/session';
 })
 export class SessionEditComponent implements OnInit, AfterViewInit {
 
-	datePickerValue: any = new Date();
+	selectedDate: any = new Date();
 
-	session: Session = this.getEmptySession(null);
+	sessions: Session[] = [];
 	exercises: Exercise[] = [];
 	workoutSet: WorkoutSet[] = [];
 
 	isEditable: boolean = false;
 
-	calendarDay: number;
-
 	exerciseMap: Map<number, Map<number, WorkoutSet>> = new Map<number, Map<number, WorkoutSet>>();
 
-	@ViewChild(SessionTableComponent, {static: true}) child;
+	@ViewChildren(SessionTableComponent) child;
 	@ViewChild(UserSelectorComponent, {static: true}) userSelectorChild;
 	@ViewChild(SessionCalendarComponent, {static: true}) sessionCalendarChild;
 
@@ -38,9 +36,13 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 	) {
 	}
 
+	dateChanged(date) {
+		this.getSession(date);
+	}
+
 	ngOnInit() {
 		this.getExercises();
-		this.dateUpdated(new Date());
+		this.getSession(new Date());
 	}
 
 	getExercises() {
@@ -51,33 +53,35 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 	}
 
 	getSession(date) {
-		if (this.session.userId != null) {
-			this.sessionService.getSessionWithWorkoutSet(this.session.userId, date)
-				.subscribe(response => {
-					if ((response as GraphQlResponse).data.sessions.length > 0) {
-						this.session = (response as GraphQlResponse).data.sessions[0];
-						this.session.localDateTime = new Date((response as GraphQlResponse).data.sessions[0].localDateTime);
-						this.child.setInitialExerciseMap();
-						this.child.populateTableWithWorkoutSet((response as GraphQlResponse).data.sessions[0].workoutSet);
-						this.child.sessionId = (response as GraphQlResponse).data.sessions[0].id;
-						this.child.userId = (response as GraphQlResponse).data.sessions[0].userId;
-						this.isEditable = false; // disable editing of loaded session
-					} else {
-						this.session = this.getEmptySession();
-						this.child.setInitialExerciseMap();
-					}
-				});
-		}
+		var formattedDate = this.formatDateToString(date);
+
+		this.sessionService.getSessionWithWorkoutSet(formattedDate)
+			.subscribe(response => {
+				if ((response as GraphQlResponse).data.sessions.length > 0) {
+					this.sessions = (response as GraphQlResponse).data.sessions;
+					debugger;
+					// check that session is updating correctly when changing dates
+					//this.session.localDateTime = new Date((response as GraphQlResponse).data.sessions[0].localDateTime);
+					//this.child.setInitialExerciseMap();
+					//this.child.populateTableWithWorkoutSet((response as GraphQlResponse).data.sessions[0].workoutSet);
+					//this.child.sessionId = (response as GraphQlResponse).data.sessions[0].id;
+					//this.child.userId = (response as GraphQlResponse).data.sessions[0].userId;
+					this.isEditable = false; // disable editing of loaded session
+				} else {
+					this.session = this.getEmptySession();
+					// this.child.setInitialExerciseMap();r
+				}
+			});
 	}
 
 	sessionIsValid(): boolean {
 		var user = this.session != null ? this.session.userId : '';
 
 		return (
-			this.hasValue(this.session.localDateTime) &&
-			this.hasValue(this.session.programme) &&
-			this.hasValue(this.session.location) &&
-			this.hasValue(this.session.splitName) &&
+			this.hasValue(this.sessions[0].localDateTime) &&
+			this.hasValue(this.sessions[0].programme) &&
+			this.hasValue(this.sessions[0].location) &&
+			this.hasValue(this.sessions[0].splitName) &&
 			this.hasValue(user));
 	}
 
@@ -122,20 +126,13 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 		return '';
 	}
 
-	dateUpdated(dateObject) {
-		if (dateObject != undefined) {
-			this.session.localDateTime = dateObject;
-
-			var formattedDate = this.formatDateToString(dateObject);
-
-			// this.session = this.getEmptySession()
-			this.child.setInitialExerciseMap();
-			this.getSession(formattedDate);
-		}
-	}
-
 	ngAfterViewInit(): void {
-		this.exerciseMap = this.child.exerciseMap;
+		// debugger;
+		// this.child.changes.subscribe((comps: QueryList<SessionTableComponent>) =>
+		// {
+		// 	// Now you can access the child component
+		// 	this.exerciseMap = this.child.exerciseMap;
+		// })
 	}
 
 	getEmptySession(userId: number) {
@@ -157,8 +154,11 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 	}
 
 	hasOldSession() {
-		const sessionIsPersisted = this.session.id != null;
-		return sessionIsPersisted;
+		if (this.session.length > 0) {
+			const sessionIsPersisted = this.session[0].id != null;
+			return sessionIsPersisted;
+		}
+		return false;
 	}
 
 	sessionUpdated() {
