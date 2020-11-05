@@ -6,19 +6,12 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Observable, Subscription} from 'rxjs';
 // NGRX
 import {select, Store} from '@ngrx/store';
-import {Update} from '@ngrx/entity';
 import {AppState} from '../../../../../core/reducers';
 // Layout
 import {LayoutConfigService, SubheaderService} from '../../../../../core/_base/layout';
 import {LayoutUtilsService, MessageType} from '../../../../../core/_base/crud';
 // Services and Models
-import {
-	selectLastCreatedUserId,
-	selectUserById,
-	selectUsersActionLoading,
-	UserOnServerCreated,
-	UserUpdated
-} from '../../../../../core/auth';
+import {selectLastCreatedUserId, selectUserById, selectUsersActionLoading, UserOnServerCreated} from '../../../../../core/auth';
 //Domain services
 import {UserService} from '../../../../../core/database';
 import {User} from '../../../../../core/database/_models/user';
@@ -220,22 +213,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
 	addUser(_user: User, withBack: boolean = false) {
 		this.userService.addUser(_user).subscribe(response => {
 		});
-
-
-
-		// this.store.dispatch(new UserOnServerCreated({ user: _user }));
-		// const addSubscription = this.store.pipe(select(selectLastCreatedUserId)).subscribe(newId => {
-		// 	const message = `New user successfully has been added.`;
-		// 	this.layoutUtilsService.showActionNotification(message, MessageType.Create, 5000, true, true);
-		// 	if (newId) {
-		// 		if (withBack) {
-		// 			this.goBackWithId();
-		// 		} else {
-		// 			this.refreshUser(true, newId);
-		// 		}
-		// 	}
-		// });
-		// this.subscriptions.push(addSubscription);
+		this.router.navigate(['../'], {relativeTo: this.activatedRoute});
 	}
 
 	/**

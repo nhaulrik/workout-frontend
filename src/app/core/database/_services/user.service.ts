@@ -16,7 +16,7 @@ const httpOptions = {
 @Injectable()
 export class UserService {
 	graphQLEndpoint = 'http://localhost:9090/graphql';
-	getUsersPayload = '{"query":"{\\n  users {\\n    firstName\\n    lastName\\n    id\\n  }\\n}","variables":null,"operationName":null}';
+	getUsersPayload = '{"query":"{\\n  users {\\n     id\\n    firstName\\n    lastName\\n    birthday\\n    gender\\n    id\\n  }\\n}","variables":null,"operationName":null}';
 
 	addUserQuery = '{"query":"mutation {\\n  addUser (\\n    firstName:\\"{firstName}\\"    lastName:\\"{lastName}\\"    gender:\\"{gender}\\"    birthday:\\"{birthday}\\"    ) }","variables":null}';
 

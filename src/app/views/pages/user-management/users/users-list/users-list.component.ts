@@ -14,7 +14,7 @@ import {GraphQlResponse} from '../../../../../core/database/_models/graphQlRespo
 export class UsersListComponent implements OnInit {
 
 	dataSource;
-	displayedColumns: string[] = ['id', 'name'];
+	displayedColumns: string[] = ['id', 'firstName', 'lastName', 'gender', 'birthday'];
 
 	constructor(
 		private userService: UserService) {
@@ -30,6 +30,7 @@ export class UsersListComponent implements OnInit {
 	getUsers() {
 		this.userService.getUsers()
 			.subscribe(response => {
+				debugger;
 				this.dataSource = new MatTableDataSource((response as GraphQlResponse).data.users);
 				this.dataSource.sort = this.sort;
 			})

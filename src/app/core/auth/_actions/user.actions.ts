@@ -2,9 +2,9 @@
 import { Action } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
 // CRUD
-import { User } from '../_models/user.model';
 // Models
 import { QueryParamsModel } from '../../_base/crud';
+import {User} from '../../database/_models/user';
 
 export enum UserActionTypes {
     AllUsersRequested = '[Users Module] All Users Requested',
