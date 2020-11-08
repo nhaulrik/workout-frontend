@@ -59,7 +59,6 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 			.subscribe(response => {
 				if ((response as GraphQlResponse).data.sessions.length > 0) {
 					this.sessions = (response as GraphQlResponse).data.sessions;
-					debugger;
 					// check that session is updating correctly when changing dates
 					//this.session.localDateTime = new Date((response as GraphQlResponse).data.sessions[0].localDateTime);
 					//this.child.setInitialExerciseMap();

@@ -35,7 +35,6 @@ export class SessionTableComponent implements OnInit {
 		this.populateTableWithWorkoutSet(this.session.workoutSet);
 		this.sessionId = this.session.id;
 		this.userId = this.session.userId;
-		debugger;
 	}
 
 	setInitialExerciseMap() {

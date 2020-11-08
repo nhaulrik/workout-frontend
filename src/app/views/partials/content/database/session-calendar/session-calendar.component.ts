@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {SessionService} from '../../../../../core/database';
 import {GraphQlResponse} from '../../../../../core/database/_models/graphQlResponse';
 import {Session} from '../../../../../core/database/_models/session';
+import {GraphQlSession} from '../../../../../core/database/_models/graphQlSession';
 
 @Component({
 	selector: 'kt-session-calendar',
@@ -34,7 +35,7 @@ export class SessionCalendarComponent implements OnInit {
 		this.sessionService.getSessionsForMonth(month, year)
 			.subscribe(response => {
 				var graphQlResponse = (response as GraphQlResponse);
-				graphQlResponse.data.sessions.forEach((session: Session) => {
+				graphQlResponse.data.sessions.forEach((session: GraphQlSession) => {
 					var date = new Date(session.localDateTime);
 					this.sessionMap.set(date.getDate(), session.id);
 				});
