@@ -4,16 +4,11 @@ import {RouterModule, Routes} from '@angular/router';
 // Components
 import {BaseComponent} from './views/theme/base/base.component';
 import {ErrorPageComponent} from './views/theme/content/error-page/error-page.component';
-// Auth
-import {AuthGuard} from './core/auth';
 
 const routes: Routes = [
-	{path: 'auth', loadChildren: () => import('app/views/pages/auth/auth.module').then(m => m.AuthModule)},
-
 	{
 		path: '',
 		component: BaseComponent,
-		canActivate: [AuthGuard],
 		children: [
 			{
 				path: 'dashboard',

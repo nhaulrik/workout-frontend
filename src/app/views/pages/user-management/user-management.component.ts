@@ -8,7 +8,6 @@ import { Store, select } from '@ngrx/store';
 // AppState
 import { AppState } from '../../../core/reducers';
 // Auth
-import { Permission } from '../../../core/auth';
 
 const userManagementPermissionId = 2;
 @Component({
@@ -19,7 +18,6 @@ const userManagementPermissionId = 2;
 export class UserManagementComponent implements OnInit {
 	// Public properties
 	// hasUserAccess$: Observable<boolean>;
-	currentUserPermission$: Observable<Permission[]>;
 
 	/**
 	 * Component constructor

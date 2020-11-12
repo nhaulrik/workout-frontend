@@ -10,8 +10,6 @@ import {AppState} from '../../../../../core/reducers';
 // Layout
 import {LayoutConfigService, SubheaderService} from '../../../../../core/_base/layout';
 import {LayoutUtilsService, MessageType} from '../../../../../core/_base/crud';
-// Services and Models
-import {selectLastCreatedUserId, selectUserById, selectUsersActionLoading, UserOnServerCreated} from '../../../../../core/auth';
 //Domain services
 import {UserService} from '../../../../../core/database';
 import {User} from '../../../../../core/database/_models/user';
@@ -63,26 +61,26 @@ export class UserEditComponent implements OnInit, OnDestroy {
 	 * On init
 	 */
 	ngOnInit() {
-		this.loading$ = this.store.pipe(select(selectUsersActionLoading));
-
-		const routeSubscription =  this.activatedRoute.params.subscribe(params => {
-			const id = params.id;
-			if (id && id > 0) {
-				this.store.pipe(select(selectUserById(id))).subscribe(res => {
-					if (res) {
-						// this.user = res;
-						this.oldUser = Object.assign({}, this.user);
-						this.initUser();
-					}
-				});
-			} else {
-				this.user = new User();
-				this.user.clear();
-				this.oldUser = Object.assign({}, this.user);
-				this.initUser();
-			}
-		});
-		this.subscriptions.push(routeSubscription);
+		// this.loading$ = this.store.pipe(select(selectUsersActionLoading));
+		//
+		// const routeSubscription =  this.activatedRoute.params.subscribe(params => {
+		// 	const id = params.id;
+		// 	if (id && id > 0) {
+		// 		this.store.pipe(select(selectUserById(id))).subscribe(res => {
+		// 			if (res) {
+		// 				// this.user = res;
+		// 				this.oldUser = Object.assign({}, this.user);
+		// 				this.initUser();
+		// 			}
+		// 		});
+		// 	} else {
+		// 		this.user = new User();
+		// 		this.user.clear();
+		// 		this.oldUser = Object.assign({}, this.user);
+		// 		this.initUser();
+		// 	}
+		// });
+		// this.subscriptions.push(routeSubscription);
 	}
 
 	ngOnDestroy() {
@@ -182,10 +180,10 @@ export class UserEditComponent implements OnInit, OnDestroy {
 
 		const editedUser = this.prepareUser();
 
-		if (editedUser.id > 0) {
-			this.updateUser(editedUser, withBack);
-			return;
-		}
+		// if (editedUser.id > 0) {
+		// 	this.updateUser(editedUser, withBack);
+		// 	return;
+		// }
 
 		this.addUser(editedUser, withBack);
 	}

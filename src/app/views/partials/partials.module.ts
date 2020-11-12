@@ -59,9 +59,6 @@ import {
 	Subheader4Component,
 	Subheader5Component,
 	SubheaderSearchComponent,
-	UserProfile2Component,
-	UserProfile3Component,
-	UserProfileComponent,
 } from './layout';
 // General
 import {NoticeComponent} from './content/general/notice/notice.component';
@@ -108,9 +105,6 @@ import { SessionCalendarComponent } from './content/database/session-calendar/se
 		QuickActionComponent,
 		SearchDefaultComponent,
 		SearchDropdownComponent,
-		UserProfileComponent,
-		UserProfile2Component,
-		UserProfile3Component,
 		CartComponent,
 
 		ErrorComponent,
@@ -158,9 +152,6 @@ import { SessionCalendarComponent } from './content/database/session-calendar/se
 		QuickActionComponent,
 		SearchDefaultComponent,
 		SearchDropdownComponent,
-		UserProfileComponent,
-		UserProfile2Component,
-		UserProfile3Component,
 		CartComponent,
 
 		ErrorComponent,

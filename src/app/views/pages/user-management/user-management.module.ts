@@ -47,10 +47,6 @@ import {
 	MatSnackBarModule,
 	MatTooltipModule
 } from '@angular/material';
-import {
-	usersReducer,
-	UserEffects
-} from '../../../core/auth';
 
 const routes: Routes = [
 	{
@@ -96,8 +92,6 @@ const routes: Routes = [
 		HttpClientModule,
 		PartialsModule,
 		RouterModule.forChild(routes),
-		StoreModule.forFeature('users', usersReducer),
-        EffectsModule.forFeature([UserEffects]),
 		FormsModule,
 		ReactiveFormsModule,
 		TranslateModule.forChild(),
