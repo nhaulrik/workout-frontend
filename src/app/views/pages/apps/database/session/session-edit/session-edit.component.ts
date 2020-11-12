@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild, ViewChildren} from '@angular/core';
 import {ExerciseService} from '../../../../../../core/database/_services/exercise.service';
 import {UserService} from '../../../../../../core/database/_services/user.service';
 import {GraphQlResponse} from '../../../../../../core/database/_models/graphQlResponse';
@@ -7,17 +7,21 @@ import {SessionCalendarComponent, SessionTableComponent, UserSelectorComponent} 
 import {WorkoutSet} from '../../../../../../core/database/_models/workoutSet';
 import {SessionService} from '../../../../../../core/database';
 import {Session} from '../../../../../../core/database/_models/session';
+import {User} from '../../../../../../core/database/_models/user';
 
 @Component({
 	selector: 'kt-session-edit',
 	templateUrl: './session-edit.component.html',
-	providers: [ExerciseService, UserService],
+	providers: [ExerciseService, UserService, SessionService],
 	styleUrls: ['./session-edit.component.scss'],
 })
 export class SessionEditComponent implements OnInit, AfterViewInit {
 
 	selectedDate: any = new Date();
 
+	usersToAdd: string[] = [];
+
+	users: User[] = [];
 	sessions: Session[] = [];
 	exercises: Exercise[] = [];
 	workoutSet: WorkoutSet[] = [];
@@ -32,8 +36,19 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 
 	constructor(
 		private exerciseService: ExerciseService,
-		private sessionService: SessionService
+		private sessionService: SessionService,
+		private userService: UserService
 	) {
+	}
+
+	addUser(userId: string, event: any) {
+		if (event.checked) {
+			if (!this.usersToAdd.includes(userId)) {
+				this.usersToAdd.push(userId);
+			}
+		} else {
+			this.usersToAdd = this.usersToAdd.filter(u => u !== userId);
+		}
 	}
 
 	dateChanged(date) {
@@ -41,7 +56,19 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 	}
 
 	ngOnInit() {
+		this.getUsers();
 		this.getExercises();
+
+		// 			this.sessions = (response as GraphQlResponse).data.sessions.map(s => ({
+		// 				id: s.id,
+		// 				userId: s.userId,
+		// 				location: s.location,
+		// 				programme: s.programme,
+		// 				splitName: s.splitName,
+		// 				localDateTime: s.localDateTime,
+		// 				exerciseMap: null
+		// 			}));
+
 		this.getSession(new Date());
 	}
 
@@ -55,34 +82,32 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 	getSession(date) {
 		var formattedDate = this.formatDateToString(date);
 
-		this.sessionService.getSessionWithWorkoutSet(formattedDate)
+		this.sessionService.getSessionsForDate(formattedDate)
 			.subscribe(response => {
 				if ((response as GraphQlResponse).data.sessions.length > 0) {
-					this.sessions = (response as GraphQlResponse).data.sessions;
-					// check that session is updating correctly when changing dates
-					//this.session.localDateTime = new Date((response as GraphQlResponse).data.sessions[0].localDateTime);
-					//this.child.setInitialExerciseMap();
-					//this.child.populateTableWithWorkoutSet((response as GraphQlResponse).data.sessions[0].workoutSet);
-					//this.child.sessionId = (response as GraphQlResponse).data.sessions[0].id;
-					//this.child.userId = (response as GraphQlResponse).data.sessions[0].userId;
-					this.isEditable = false; // disable editing of loaded session
-				} else {
-					this.session = this.getEmptySession();
-					// this.child.setInitialExerciseMap();r
+					this.sessions = (response as GraphQlResponse).data.sessions.map(s => ({
+						id: s.id,
+						userId: s.userId,
+						location: s.location,
+						programme: s.programme,
+						splitName: s.splitName,
+						localDateTime: s.localDateTime,
+						exerciseMap: null
+					}));
 				}
 			});
 	}
 
-	sessionIsValid(): boolean {
-		var user = this.session != null ? this.session.userId : '';
-
-		return (
-			this.hasValue(this.sessions[0].localDateTime) &&
-			this.hasValue(this.sessions[0].programme) &&
-			this.hasValue(this.sessions[0].location) &&
-			this.hasValue(this.sessions[0].splitName) &&
-			this.hasValue(user));
-	}
+	// sessionIsValid(): boolean {
+	// 	var user = this.session != null ? this.session.userId : '';
+	//
+	// 	return (
+	// 		this.hasValue(this.sessions[0].localDateTime) &&
+	// 		this.hasValue(this.sessions[0].programme) &&
+	// 		this.hasValue(this.sessions[0].location) &&
+	// 		this.hasValue(this.sessions[0].splitName) &&
+	// 		this.hasValue(user));
+	// }
 
 	hasValue(str) {
 		return !(!str || 0 === str.length);
@@ -134,64 +159,53 @@ export class SessionEditComponent implements OnInit, AfterViewInit {
 		// })
 	}
 
-	getEmptySession(userId: number) {
+	// hasOldSession() {
+	// 	if (this.session.length > 0) {
+	// 		const sessionIsPersisted = this.session[0].id != null;
+	// 		return sessionIsPersisted;
+	// 	}
+	// 	return false;
+	// }
 
-		var userIdVal = null;
-		if (userId != null) {
-			userIdVal = userId;
-		}
+	// sessionUpdated() {
+	// 	if (this.session.id != null) {
+	// 		this.sessionService.addSession(this.session).subscribe(response => {
+	// 			debugger;
+	// 		});
+	// 	}
+	// }
 
-		return {
-			'id': null,
-			'userId': userIdVal,
-			'localDateTime': this.datePickerValue,
-			'exerciseMap': new Map<number, Map<number, WorkoutSet>>(),
-			'location': '',
-			'programme': '',
-			'splitName': ''
-		};
+	// createNewSession() {
+	// 	let sessionIsValid = this.sessionIsValid();
+	// 	let hasExistingSession = this.hasOldSession();
+	//
+	// 	if (sessionIsValid && !hasExistingSession) {
+	// 		this.sessionService.addSession(this.session).subscribe(response => {
+	// 			this.session.id = (response as GraphQlResponse).data.addSession;
+	// 			this.child.sessionId = this.session.id;
+	// 			this.child.userId = this.session.userId;
+	// 			this.isEditable = true; // enable editing of newly created session
+	// 			this.sessionCalendarChild.updateCalendar();
+	// 		});
+	// 	}
+	// }
+
+	// deleteSession() {
+	// 	if (this.session.id != null) {
+	// 		this.sessionService.deleteSession(this.session.id).subscribe(response => {
+	// 			debugger;
+	// 			this.session = this.getEmptySession(this.session.userId)
+	// 			this.child.setInitialExerciseMap();
+	// 			this.sessionCalendarChild.updateCalendar();
+	// 		});
+	// 	}
+	// }
+
+	private getUsers() {
+		this.userService.getUsers().subscribe(response => {
+			if ((response as GraphQlResponse).data.users.length > 0) {
+				this.users = (response as GraphQlResponse).data.users;
+			}
+		})
 	}
-
-	hasOldSession() {
-		if (this.session.length > 0) {
-			const sessionIsPersisted = this.session[0].id != null;
-			return sessionIsPersisted;
-		}
-		return false;
-	}
-
-	sessionUpdated() {
-		if (this.session.id != null) {
-			this.sessionService.addSession(this.session).subscribe(response => {
-				debugger;
-			});
-		}
-	}
-
-	createNewSession() {
-		let sessionIsValid = this.sessionIsValid();
-		let hasExistingSession = this.hasOldSession();
-
-		if (sessionIsValid && !hasExistingSession) {
-			this.sessionService.addSession(this.session).subscribe(response => {
-				this.session.id = (response as GraphQlResponse).data.addSession;
-				this.child.sessionId = this.session.id;
-				this.child.userId = this.session.userId;
-				this.isEditable = true; // enable editing of newly created session
-				this.sessionCalendarChild.updateCalendar();
-			});
-		}
-	}
-
-	deleteSession() {
-		if (this.session.id != null) {
-			this.sessionService.deleteSession(this.session.id).subscribe(response => {
-				debugger;
-				this.session = this.getEmptySession(this.session.userId)
-				this.child.setInitialExerciseMap();
-				this.sessionCalendarChild.updateCalendar();
-			});
-		}
-	}
-
 }

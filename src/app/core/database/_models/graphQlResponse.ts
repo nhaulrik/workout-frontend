@@ -2,9 +2,9 @@
 
 import {Muscle} from './muscle';
 import {Exercise} from './exercise';
-import {User} from '../../auth';
 import {WorkoutSet} from './workoutSet';
 import {GraphQlSession} from './graphQlSession';
+import {User} from './user';
 
 export interface GraphQlResponse {
 	data: GraphQlData;

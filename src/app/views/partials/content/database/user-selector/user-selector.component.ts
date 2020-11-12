@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {UserService} from '../../../../../core/database';
-import {User} from '../../../../../core/auth';
 import {GraphQlResponse} from '../../../../../core/database/_models/graphQlResponse';
+import {User} from '../../../../../core/database/_models/user';
 
 @Component({
 	selector: 'kt-user-selector',

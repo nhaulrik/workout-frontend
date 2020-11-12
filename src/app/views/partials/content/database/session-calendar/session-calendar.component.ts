@@ -45,8 +45,8 @@ export class SessionCalendarComponent implements OnInit {
 	daysInMonth(month: number, year: number): number {
 		var days = new Date(year, month, 0).getDate();
 
-		var dayArray = Array(days).fill().map((x, i) => i + 1); // [1,2,3,4]
-		return dayArray;
+		// var dayArray = Array(days).fill(0).map((x, i) => i + 1); // [1,2,3,4]
+		return days;
 	}
 
 	updateCalendar() {

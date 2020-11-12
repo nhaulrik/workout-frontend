@@ -26,7 +26,7 @@ export class SessionService {
 	}
 
 
-	getSessionWithWorkoutSet(date: string) {
+	getSessionsForDate(date: string) {
 		const query = this.getSessionWithWorkoutSetPayload
 			.replace('{date}', date);
 
@@ -36,7 +36,7 @@ export class SessionService {
 			)
 	}
 
-	getSession(userId: number, date: string) {
+	getSession(userId: string, date: string) {
 		const query = this.getSessionPayload
 			.replace('{userId}', userId.toString())
 			.replace('{date}', date);

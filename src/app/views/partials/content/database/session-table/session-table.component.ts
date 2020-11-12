@@ -32,7 +32,7 @@ export class SessionTableComponent implements OnInit {
 	ngOnInit() {
 		this.getExercises();
 		this.setInitialExerciseMap();
-		this.populateTableWithWorkoutSet(this.session.workoutSet);
+		// this.populateTableWithWorkoutSet(this.session.workoutSet);
 		this.sessionId = this.session.id;
 		this.userId = this.session.userId;
 	}
@@ -179,7 +179,7 @@ export class SessionTableComponent implements OnInit {
 				workoutSetArray
 			).subscribe(response => {
 				var bla = (response as GraphQlResponse);
-				workoutSet.id = bla.data.addWorkoutSetList[0];
+				// workoutSet.id = bla.data.addWorkoutSetList[0];
 			});
 		}
 	}

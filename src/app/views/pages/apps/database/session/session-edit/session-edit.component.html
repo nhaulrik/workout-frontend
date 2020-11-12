@@ -10,28 +10,42 @@
 						(dateChanged)="dateChanged($event)"
 					></kt-session-calendar>
 				</ng-container>
-			</kt-portlet-body>
-		</kt-portlet>
-		<kt-portlet [class]="'kt-portlet--height-fluid'">
-			<kt-portlet-header [title]="'Workout'">
-				<ng-container ktPortletTools>
-					<table class="workout-details">
-						<tr>
-							<td class="session-property">
-								<kt-user-selector
-									[disabled]="!isEditable && hasOldSession()"
-								></kt-user-selector>
-							</td>
-					</table>
+
+				<br>
+				<ng-container>
+					<h2>No sessions found</h2>
+					<p>Select users for the new session</p>
+					<span>
+						<mat-slide-toggle
+							*ngFor="let user of users"
+							(change)="addUser(user.id, $event)">{{user.firstName}} {{user.lastName}}</mat-slide-toggle>
+					</span>
+					<br>
+					<button [disabled]="usersToAdd.length == 0" class="col-lg-2">Create session</button>
 				</ng-container>
-			</kt-portlet-header>
-			<kt-portlet-body>
-				<kt-session-table
-					[hasPersistedSession]="hasOldSession()"
-					[tableEnabled]="isEditable"
-					[session]="session"
-				></kt-session-table>
+
 			</kt-portlet-body>
 		</kt-portlet>
+		<!--		<kt-portlet [class]="'kt-portlet&#45;&#45;height-fluid'">-->
+		<!--			<kt-portlet-header [title]="'Workout'">-->
+		<!--				<ng-container ktPortletTools>-->
+		<!--					<table class="workout-details">-->
+		<!--						<tr>-->
+		<!--							<td class="session-property">-->
+		<!--								<kt-user-selector-->
+		<!--									[disabled]="!isEditable && hasOldSession()"-->
+		<!--								></kt-user-selector>-->
+		<!--							</td>-->
+		<!--					</table>-->
+		<!--				</ng-container>-->
+		<!--			</kt-portlet-header>-->
+		<!--			<kt-portlet-body>-->
+		<!--				<kt-session-table-->
+		<!--					[hasPersistedSession]="hasOldSession()"-->
+		<!--					[tableEnabled]="isEditable"-->
+		<!--					[session]="session"-->
+		<!--				></kt-session-table>-->
+		<!--			</kt-portlet-body>-->
+		<!--		</kt-portlet>-->
 	</div>
 </div>

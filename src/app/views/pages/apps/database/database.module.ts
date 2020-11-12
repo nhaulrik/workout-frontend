@@ -15,8 +15,6 @@ import {EffectsModule} from '@ngrx/effects';
 import {PartialsModule} from '../../../partials/partials.module';
 // Core
 import {FakeApiService} from '../../../../core/_base/layout';
-// Auth
-import {ModuleGuard} from '../../../../core/auth';
 
 // Core => Services
 import {MuscleService} from '../../../../core/database/_services/muscle.service';
@@ -132,7 +130,6 @@ const routes: Routes = [
 	],
 	providers: [
 		{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
-		ModuleGuard,
 		InterceptService,
 		{
 			provide: HTTP_INTERCEPTORS,
