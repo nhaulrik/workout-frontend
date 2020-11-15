@@ -22,9 +22,20 @@
 							(change)="addUser(user.id, $event)">{{user.firstName}} {{user.lastName}}</mat-slide-toggle>
 					</span>
 					<br>
-					<button [disabled]="usersToAdd.length == 0" class="col-lg-2" (click)="createSession()">Create session</button>
+					<button [disabled]="usersToAdd.length == 0" class="col-lg-2" (click)="createSession()">Create
+						session
+					</button>
 				</ng-container>
-
+			</kt-portlet-body>
+		</kt-portlet>
+		<kt-portlet [class]="'kt-portlet'" *ngFor="let session of sessions">
+			<kt-portlet-header [title]="session.userId">
+			</kt-portlet-header>
+			<kt-portlet-body>
+				<ng-container ktPortletTools>
+					<kt-session-table>
+					</kt-session-table>
+				</ng-container>
 			</kt-portlet-body>
 		</kt-portlet>
 	</div>

@@ -38,7 +38,6 @@ export class SessionEditComponent implements OnInit {
 	createSession(): void {
 		if (this.usersToAdd.length > 0) {
 			this.sessionService.createSessions(this.usersToAdd, this.selectedDate).subscribe(response => {
-				debugger;
 			})
 		}
 	}
@@ -58,7 +57,6 @@ export class SessionEditComponent implements OnInit {
 
 		this.sessionService.getSessionsForDate(formattedDate)
 			.subscribe(response => {
-				debugger;
 				if ((response as GraphQlResponse).data.sessions.length > 0) {
 					this.sessions = (response as GraphQlResponse).data.sessions.map(s => ({
 						id: s.id,

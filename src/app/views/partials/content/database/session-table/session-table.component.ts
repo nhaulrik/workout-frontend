@@ -10,7 +10,7 @@ import {Session} from '../../../../../core/database/_models/session';
 	selector: 'kt-session-table',
 	templateUrl: './session-table.component.html',
 	styleUrls: ['./session-table.component.scss'],
-	providers: [WorkoutSetService]
+	providers: [WorkoutSetService, ExerciseService]
 })
 export class SessionTableComponent implements OnInit {
 	exercises: Exercise[] = [];
@@ -22,19 +22,19 @@ export class SessionTableComponent implements OnInit {
 
 	exerciseMap: Map<number, Map<number, WorkoutSet>> = new Map<number, Map<number, WorkoutSet>>();
 
-	@Input() session: Session;
-	@Input() tableEnabled: any;
-	@Input() hasPersistedSession: boolean;
+	// @Input() session: Session;
+	// @Input() tableEnabled: any;
+	// @Input() hasPersistedSession: boolean;
 
 	constructor(private exerciseService: ExerciseService, private workoutSetService: WorkoutSetService) {
 	}
 
 	ngOnInit() {
-		this.getExercises();
-		this.setInitialExerciseMap();
-		// this.populateTableWithWorkoutSet(this.session.workoutSet);
-		this.sessionId = this.session.id;
-		this.userId = this.session.user.id;
+		// this.getExercises();
+		// this.setInitialExerciseMap();
+		// // this.populateTableWithWorkoutSet(this.session.workoutSet);
+		// this.sessionId = this.session.id;
+		// this.userId = this.session.userId;
 	}
 
 	setInitialExerciseMap() {
@@ -123,7 +123,7 @@ export class SessionTableComponent implements OnInit {
 	}
 
 	inputsEnabled() {
-		return this.tableEnabled && this.hasPersistedSession && this.userId != null;
+		// return this.tableEnabled && this.hasPersistedSession && this.userId != null;
 	}
 
 	exerciseUpdated(exerciseIndex, event) {
