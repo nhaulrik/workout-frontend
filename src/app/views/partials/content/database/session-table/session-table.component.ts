@@ -22,15 +22,13 @@ export class SessionTableComponent implements OnInit {
 
 	exerciseMap: Map<number, Map<number, WorkoutSet>> = new Map<number, Map<number, WorkoutSet>>();
 
-	// @Input() session: Session;
-	// @Input() tableEnabled: any;
-	// @Input() hasPersistedSession: boolean;
+	@Input() session: Session;
 
 	constructor(private exerciseService: ExerciseService, private workoutSetService: WorkoutSetService) {
 	}
 
 	ngOnInit() {
-		// this.getExercises();
+		this.getExercises();
 		// this.setInitialExerciseMap();
 		// // this.populateTableWithWorkoutSet(this.session.workoutSet);
 		// this.sessionId = this.session.id;
@@ -122,9 +120,6 @@ export class SessionTableComponent implements OnInit {
 		return hasData;
 	}
 
-	inputsEnabled() {
-		// return this.tableEnabled && this.hasPersistedSession && this.userId != null;
-	}
 
 	exerciseUpdated(exerciseIndex, event) {
 
