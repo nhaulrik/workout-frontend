@@ -22,6 +22,8 @@ export class SessionService {
 	addSessionQuery = '{"query":"mutation {\\n  addSession (\\n    id:{id}     splitName:\\"{splitName}\\"    location:\\"{location}\\"    programme:\\"{programme}\\"    time:\\"{time}\\"    userId:{userId}) }","variables":null}';
 	deleteSessionQuery = '{"query":"query {\\n  deleteSessions (ids:[{id}])\\n}\\n","variables":null}'
 
+	createSessionQuery = '{"query":"mutation { createSession (date: \\"[date]\\", userIds: [[userIds]])}","variables":null}'
+
 	constructor(private http: HttpClient) {
 	}
 
@@ -126,4 +128,17 @@ export class SessionService {
 			'Something bad happened; please try again later.');
 	}
 
+	createSessions(userIds: string[], date: Date) {
+		let formattedDate = this.formatDateToString(date);
+
+		var quotedAndCommaSeparated = "\\\"" + userIds.join("\\\",\\\"") + "\\\"".replace("'", "\"");
+		let payload = this.createSessionQuery
+			.replace("[userIds]", quotedAndCommaSeparated)
+			.replace("[date]", formattedDate);
+
+		return this.http.post(this.graphQLEndpoint, payload, httpOptions)
+			.pipe(
+				catchError(this.handleError)
+			)
+	}
 }

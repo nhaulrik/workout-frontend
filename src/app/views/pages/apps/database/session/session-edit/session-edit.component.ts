@@ -13,7 +13,7 @@ import {Session} from '../../../../../../core/database/_models/session';
 })
 export class SessionEditComponent implements OnInit {
 
-	selectedDate: any = new Date();
+	selectedDate: Date = new Date();
 	usersToAdd: string[] = [];
 
 	users: User[] = [];
@@ -35,7 +35,16 @@ export class SessionEditComponent implements OnInit {
 		}
 	}
 
+	createSession(): void {
+		if (this.usersToAdd.length > 0) {
+			this.sessionService.createSessions(this.usersToAdd, this.selectedDate).subscribe(response => {
+				debugger;
+			})
+		}
+	}
+
 	dateChanged(date) {
+		this.selectedDate = date;
 		this.getSession(date);
 	}
 
@@ -49,6 +58,7 @@ export class SessionEditComponent implements OnInit {
 
 		this.sessionService.getSessionsForDate(formattedDate)
 			.subscribe(response => {
+				debugger;
 				if ((response as GraphQlResponse).data.sessions.length > 0) {
 					this.sessions = (response as GraphQlResponse).data.sessions.map(s => ({
 						id: s.id,
@@ -56,7 +66,7 @@ export class SessionEditComponent implements OnInit {
 						programme: s.programme,
 						splitName: s.splitName,
 						localDateTime: s.localDateTime,
-						user: s.user,
+						userId: s.userId,
 						workoutSet: s.workoutSet
 					}));
 				}

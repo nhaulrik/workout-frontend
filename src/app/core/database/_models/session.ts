@@ -8,6 +8,6 @@ export class Session {
 	splitName: string;
 	localDateTime: Date;
 
-	user: User;
+	userId: string;
 	workoutSet: WorkoutSet[];
 }

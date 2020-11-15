@@ -13,7 +13,7 @@
 				</ng-container>
 
 				<br>
-				<ng-container>
+				<ng-container *ngIf="sessions.length == 0">
 					<h2>No sessions found</h2>
 					<p>Select users for the new session</p>
 					<span>
@@ -22,7 +22,7 @@
 							(change)="addUser(user.id, $event)">{{user.firstName}} {{user.lastName}}</mat-slide-toggle>
 					</span>
 					<br>
-					<button [disabled]="usersToAdd.length == 0" class="col-lg-2">Create session</button>
+					<button [disabled]="usersToAdd.length == 0" class="col-lg-2" (click)="createSession()">Create session</button>
 				</ng-container>
 
 			</kt-portlet-body>
