@@ -1,6 +1,6 @@
 export interface Exercise {
-	bodyPart: string;
-	id: number;
+	id: string;
 	name: string;
+	bodyPart: string;
 	isCompound: boolean;
 }

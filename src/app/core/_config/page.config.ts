@@ -186,7 +186,7 @@ export class PageConfig {
 		},
 		database: {
 			muscles: {
-				page: {title: 'muscles', desc: 'this is where you find muscles'}
+				page: {title: 'muscles', desc: 'this is where you find muscleDtos'}
 			},
 			sessions: {
 				page: {title: 'Session view', desc: ''},

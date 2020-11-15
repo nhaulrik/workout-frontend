@@ -7,7 +7,7 @@
 @mixin kt-media-size($image-size, $font-size) {
     img {
         width: 100%;
-        max-width: $image-size; 
+        max-width: $image-size;
         height: $image-size;
     }
 
@@ -21,11 +21,11 @@
     }
 
     &.kt-media--fixed {
-        width: $image-size; 
+        width: $image-size;
         height: $image-size;
 
         img {
-            width: $image-size; 
+            width: $image-size;
             height: $image-size;
             max-width: auto;
         }

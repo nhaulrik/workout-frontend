@@ -1,4 +1,4 @@
-export interface Muscle {
+export class Muscle {
   bodyPart: string;
   id: number;
   name: string;

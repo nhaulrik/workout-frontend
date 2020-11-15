@@ -17,8 +17,8 @@ export class SessionTableComponent implements OnInit {
 	defaultExerciseAmount: number[] = [0, 1, 2, 3, 4, 5, 6, 7];
 	defaultWorkoutSetAmount: number[] = [0, 1, 2, 3, 4];
 
-	sessionId: number;
-	userId: number;
+	sessionId: string;
+	userId: string;
 
 	exerciseMap: Map<number, Map<number, WorkoutSet>> = new Map<number, Map<number, WorkoutSet>>();
 
@@ -34,7 +34,7 @@ export class SessionTableComponent implements OnInit {
 		this.setInitialExerciseMap();
 		// this.populateTableWithWorkoutSet(this.session.workoutSet);
 		this.sessionId = this.session.id;
-		this.userId = this.session.userId;
+		this.userId = this.session.user.id;
 	}
 
 	setInitialExerciseMap() {
@@ -67,7 +67,7 @@ export class SessionTableComponent implements OnInit {
 		return '';
 	}
 
-	getExerciseIdForIndex(index: number): number {
+	getExerciseIdForIndex(index: number): string {
 
 		const exerciseId = this.exerciseMap.get(index).get(0).exerciseId
 
@@ -87,10 +87,10 @@ export class SessionTableComponent implements OnInit {
 
 		if (workoutSet != null) {
 			for (let ws of workoutSet) {
-				if (exerciseMap.get(ws.exerciseId.toString()) != undefined) {
-					exerciseMap.get(ws.exerciseId.toString()).push(ws);
+				if (exerciseMap.get(ws.exerciseId) != undefined) {
+					exerciseMap.get(ws.exerciseId).push(ws);
 				} else {
-					exerciseMap.set(ws.exerciseId.toString(), [ws]);
+					exerciseMap.set(ws.exerciseId, [ws]);
 				}
 			}
 		} else {
@@ -118,7 +118,7 @@ export class SessionTableComponent implements OnInit {
 		const hasData =
 			(this.exerciseMap.get(exerciseIndex).get(setIndex).repetitions > 0 ||
 				this.exerciseMap.get(exerciseIndex).get(setIndex).weight > 0) ||
-			this.exerciseMap.get(exerciseIndex).get(0).exerciseId > 0;
+			this.exerciseMap.get(exerciseIndex).get(0).exerciseId != null;
 		return hasData;
 	}
 

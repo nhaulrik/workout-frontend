@@ -39,7 +39,7 @@ export class WorkoutSetService {
 		workoutSetObject = workoutSetObject
 			.replace('{single}', 'false')
 			.replace('{repetitionMaximum}', workoutSet.repetitionMaximum.toString())
-			.replace('{exerciseId}', workoutSet.exerciseId.toString())
+			.replace('{exerciseId}', workoutSet.exerciseId)
 			.replace('{weight}', workoutSet.weight.toString())
 			.replace('{sessionId}', workoutSet.sessionId.toString())
 			.replace('{repetitions}', workoutSet.repetitions.toString())
@@ -61,7 +61,7 @@ export class WorkoutSetService {
 		var mutationObjects = '';
 		workoutSet.forEach((ws: WorkoutSet) => {
 
-			if (ws.sessionId > 0 && ws.exerciseId > 0) {
+			if (ws.sessionId != null && ws.exerciseId != null) {
 				mutationObjects += this.getWorkoutSetPartialPayload(ws);
 
 				if (workoutSet.indexOf(ws) + 1 != workoutSet.length) {

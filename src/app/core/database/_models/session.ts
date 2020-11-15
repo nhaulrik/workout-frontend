@@ -1,11 +1,13 @@
 import {WorkoutSet} from './workoutSet';
+import {User} from './user';
 
-export interface Session {
-	id: number;
-	userId: number;
-	localDateTime: any;
+export class Session {
+	id: string
 	location: string;
 	programme: string;
 	splitName: string;
-	exerciseMap: Map<number,  Map<number, WorkoutSet>>;
+	localDateTime: Date;
+
+	user: User;
+	workoutSet: WorkoutSet[];
 }

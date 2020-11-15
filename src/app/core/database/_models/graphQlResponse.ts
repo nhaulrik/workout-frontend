@@ -3,18 +3,17 @@
 import {Muscle} from './muscle';
 import {Exercise} from './exercise';
 import {WorkoutSet} from './workoutSet';
-import {GraphQlSession} from './graphQlSession';
+import {Session} from './session';
 import {User} from './user';
 
-export interface GraphQlResponse {
+export class GraphQlResponse {
 	data: GraphQlData;
 }
 
-export interface GraphQlData {
-	muscles: Muscle[];
-	exercises: Exercise[];
-	users: User[];
-	sessions: GraphQlSession[];
-	workoutSet: WorkoutSet[];
-	addSession: number;
+export class GraphQlData {
+	muscles: Muscle[] = [];
+	exercises: Exercise[] = [];
+	users: User[] = [];
+	sessions: Session[] = [];
+	workoutSets: WorkoutSet[] = [];
 }

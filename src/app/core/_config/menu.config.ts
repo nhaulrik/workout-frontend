@@ -440,7 +440,7 @@ export class MenuConfig {
 					submenu: [
 						{
 							title: 'Muscles',
-							page: '/database/muscles'
+							page: '/database/muscleDtos'
 						},
 						{
 							title: 'Customers',
