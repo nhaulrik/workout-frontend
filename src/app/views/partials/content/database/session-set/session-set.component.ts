@@ -28,4 +28,9 @@ export class SessionSetComponent implements OnInit {
 		debugger;
 	}
 
+	deleteWorkoutSet(setNumber: number) {
+			if(confirm("Are you sure to delete set number "+setNumber + "?")) {
+				console.log("Implement delete functionality here");
+			}
+	}
 }

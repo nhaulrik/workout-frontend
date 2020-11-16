@@ -29,7 +29,10 @@
 				[setNumber]="workoutSetMap.get(sessionExercises.get(exerciseIndex))"
 			></kt-session-set>
 		</td>
-		<td class="add-workout-set" *ngIf="workoutSetMap.get(sessionExercises.get(exerciseIndex)) >= 0 && workoutSetMap.get(sessionExercises.get(exerciseIndex)) < 5"><img (click)="addWorkoutSet(sessionExercises.get(exerciseIndex))" src="assets/plugins/mapplic/images/plus.png"></td>
+		<td class="add-workout-set"
+			*ngIf="workoutSetMap.get(sessionExercises.get(exerciseIndex)) >= 0 && workoutSetMap.get(sessionExercises.get(exerciseIndex)) < 5">
+			<img (click)="addWorkoutSet(sessionExercises.get(exerciseIndex))"
+				 src="assets/plugins/mapplic/images/plus.png"></td>
 	</tr>
 	<button (click)="debug()">DEBUG</button>
 	</tbody>
