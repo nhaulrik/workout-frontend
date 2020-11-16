@@ -198,6 +198,9 @@ import { SessionSetComponent } from './content/database/session-set/session-set.
 		MatSlideToggleModule,
 		MatButtonToggleModule,
 	],
+	entryComponents: [
+		SessionSetComponent
+	]
 })
 export class PartialsModule {
 }

@@ -1,39 +1,9 @@
-<table class="session-table">
-	<thead>
-	<tr>
-		<th>Exercise</th>
-		<th>Set1</th>
-		<th>Set2</th>
-		<th>Set3</th>
-		<th>Set4</th>
-		<th>Set5</th>
-	</tr>
-	</thead>
-	<tbody>
-	<tr *ngFor="let exerciseIndex of [0]">
-		<td class="exercise-field">
-			<mat-select
-				placeholder="select exercise"
-				[ngModel]="sessionExercises.get(exerciseIndex)"
-				(ngModelChange)="updateExerciseId(exerciseIndex, $event)"
-			>
-				<mat-option *ngFor="let exercise of exerciseDictionary"
-							[value]="exercise.id"
-				>{{exercise.name}}</mat-option>
-			</mat-select>
-		</td>
-		<td *ngFor="let workoutSet of getWorkoutSetAmount(workoutSetMap.get(sessionExercises.get(exerciseIndex)))">
-			<kt-session-set
-				[exerciseId]="sessionExercises.get(exerciseIndex)"
-				[sessionId]="sessionId"
-				[setNumber]="workoutSetMap.get(sessionExercises.get(exerciseIndex))"
-			></kt-session-set>
-		</td>
-		<td class="add-workout-set"
-			*ngIf="workoutSetMap.get(sessionExercises.get(exerciseIndex)) >= 0 && workoutSetMap.get(sessionExercises.get(exerciseIndex)) < 5">
-			<img (click)="addWorkoutSet(sessionExercises.get(exerciseIndex))"
-				 src="assets/plugins/mapplic/images/plus.png"></td>
-	</tr>
-	<button (click)="debug()">DEBUG</button>
-	</tbody>
-</table>
+<mat-select placeholder="select exercise">
+	<mat-option *ngFor="let exercise of exerciseDictionary"
+				[value]="exercise.id"
+	>{{exercise.name}}</mat-option>
+</mat-select>
+<div class="exercise-container">
+	<div #viewContainerRef></div>
+</div>
+<button mat-button color="primary" (click)="createComponent()">Add</button>

@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {WorkoutSet} from '../../../../../core/database/_models/workoutSet';
+import {SessionTableComponent} from '..';
 
 @Component({
 	selector: 'kt-session-set',
@@ -10,6 +11,9 @@ export class SessionSetComponent implements OnInit {
 
 	constructor() {
 	}
+
+	public unique_key: number;
+	public parentRef: SessionTableComponent;
 
 	@Input() exerciseId: string;
 	@Input() setNumber: number;
@@ -24,6 +28,11 @@ export class SessionSetComponent implements OnInit {
 		weight: null
 	}
 
+	removeWorkoutSet() {
+		console.log(this.unique_key)
+		this.parentRef.remove(this.unique_key)
+	}
+
 	ngOnInit() {
 		debugger;
 	}
@@ -33,4 +42,8 @@ export class SessionSetComponent implements OnInit {
 				console.log("Implement delete functionality here");
 			}
 	}
+}
+// Interface
+export interface myinterface {
+	remove(index: number);
 }
