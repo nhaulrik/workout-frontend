@@ -3,7 +3,6 @@ import {Exercise} from '../../../../../core/database/_models/exercise';
 import {WorkoutSetService} from '../../../../../core/database';
 import {ExerciseService} from '../../../../../core/database/_services/exercise.service';
 import {GraphQlResponse} from '../../../../../core/database/_models/graphQlResponse';
-import {WorkoutSet} from '../../../../../core/database/_models/workoutSet';
 import {Session} from '../../../../../core/database/_models/session';
 
 @Component({
@@ -22,16 +21,22 @@ export class SessionTableComponent implements OnInit {
 	sessionId: string;
 	userId: string;
 
-	sessionExercises: Map<number, string> = new Map <number, string>();
-	workoutSetMap: Map<string, WorkoutSet[]> = new Map<string, WorkoutSet[]>();
+	sessionExercises: Map<number, string> = new Map<number, string>();
+	workoutSetMap: Map<string, number> = new Map<string, number>();
 
 	@Input() session: Session;
 
 	constructor(private exerciseService: ExerciseService, private workoutSetService: WorkoutSetService) {
 	}
 
+	getWorkoutSetAmount(number: number) {
+		if (number == undefined) {
+			return [];
+		}
+		return Array(number).fill(0).map((x,i)=>i); // [0,1,2,3,4]
+	}
+
 	ngOnInit() {
-		this.sessionExercises.set(0,"bla");
 		this.getExercises();
 		// this.setInitialExerciseMap();
 		// // this.populateTableWithWorkoutSet(this.session.workoutSet);
@@ -211,19 +216,31 @@ export class SessionTableComponent implements OnInit {
 
 	addWorkoutSet(exerciseId: string) {
 
-		if (this.workoutSetMap.get(exerciseId) == undefined) {
-			this.workoutSetMap.set(exerciseId,[]);
+		debugger;
+		let currentAmountOfWorkoutSet = this.workoutSetMap.get(exerciseId);
+
+		if (currentAmountOfWorkoutSet == undefined) {
+			this.workoutSetMap.set(exerciseId, 0);
+			currentAmountOfWorkoutSet++;
 		}
 
-		let workoutSet: WorkoutSet = {
-			id: null,
-			exerciseId: exerciseId,
-			repetitionMaximum: null,
-			repetitions: null,
-			sessionId: this.sessionId,
-			setNumber: this.workoutSetMap.get(exerciseId) == undefined ? 1 : this.workoutSetMap.get(exerciseId).length + 1,
-			weight: null
+		this.workoutSetMap.set(exerciseId, currentAmountOfWorkoutSet + 1);
+	}
+
+	updateExerciseId(exerciseIndex: number, $event: string) {
+		let exerciseId = $event;
+		let currentAmountOfWorkoutSet = this.workoutSetMap.get(exerciseId);
+
+		let currentExerciseId = this.sessionExercises.get(exerciseIndex)
+
+		if (currentAmountOfWorkoutSet == undefined && currentExerciseId == undefined) {
+			currentAmountOfWorkoutSet = 0;
+		} else {
+			currentAmountOfWorkoutSet = this.workoutSetMap.get(currentExerciseId);
 		}
-		this.workoutSetMap.get(exerciseId).push(workoutSet);
+
+		this.sessionExercises.set(exerciseIndex, exerciseId);
+		this.workoutSetMap.set(exerciseId, currentAmountOfWorkoutSet);
+
 	}
 }

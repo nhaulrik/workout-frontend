@@ -15,19 +15,21 @@
 			<mat-select
 				placeholder="select exercise"
 				[ngModel]="sessionExercises.get(exerciseIndex)"
-				(ngModelChange)="sessionExercises.set(exerciseIndex, $event)"
+				(ngModelChange)="updateExerciseId(exerciseIndex, $event)"
 			>
 				<mat-option *ngFor="let exercise of exerciseDictionary"
 							[value]="exercise.id"
 				>{{exercise.name}}</mat-option>
 			</mat-select>
 		</td>
-		<td *ngFor="let workoutSet of workoutSetMap.get(sessionExercises.get(exerciseIndex))">
+		<td *ngFor="let workoutSet of getWorkoutSetAmount(workoutSetMap.get(sessionExercises.get(exerciseIndex)))">
 			<kt-session-set
-				[workoutSet]="workoutSet"
+				[exerciseId]="sessionExercises.get(exerciseIndex)"
+				[sessionId]="sessionId"
+				[setNumber]="workoutSetMap.get(sessionExercises.get(exerciseIndex))"
 			></kt-session-set>
 		</td>
-		<td *ngIf="workoutSetMap.get(sessionExercises.get(exerciseIndex)) == undefined"><img (click)="addWorkoutSet(sessionExercises.get(exerciseIndex))" src="assets/plugins/mapplic/images/plus.png"></td>
+		<td class="add-workout-set" *ngIf="workoutSetMap.get(sessionExercises.get(exerciseIndex)) >= 0 && workoutSetMap.get(sessionExercises.get(exerciseIndex)) < 5"><img (click)="addWorkoutSet(sessionExercises.get(exerciseIndex))" src="assets/plugins/mapplic/images/plus.png"></td>
 	</tr>
 	<button (click)="debug()">DEBUG</button>
 	</tbody>
