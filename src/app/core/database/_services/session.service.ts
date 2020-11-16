@@ -69,7 +69,7 @@ export class SessionService {
 			.replace('{location}', session.location)
 			.replace('{programme}', session.programme)
 			.replace('{time}', dateObject)
-			.replace('{userId}', session.user.id);
+			.replace('{userId}', session.userId);
 
 		if (session.id != null) {
 			query = query.replace('{id}', session.id.toString());

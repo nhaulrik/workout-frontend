@@ -9,41 +9,26 @@
 		<th>Set5</th>
 	</tr>
 	</thead>
-<!--	<tbody>-->
-<!--	<tr *ngFor="let exerciseIndex of defaultExerciseAmount">-->
-<!--		<td class="exercise-field">-->
-<!--			<mat-select-->
-<!--				[(ngModel)]="exerciseMap.get(exerciseIndex).get(0).exerciseId"-->
-<!--				placeholder="select exercise"-->
-<!--				[disabled]="!inputsEnabled()"-->
-<!--				(selectionChange)="exerciseUpdated(exerciseIndex, $event)"-->
-<!--			>-->
-<!--				<mat-option *ngFor="let exercise of exercises" [value]="exercise.id">{{exercise.name}}</mat-option>-->
-<!--			</mat-select>-->
-<!--		</td>-->
-
-<!--		<td class="input-container" *ngFor="let setIndex of defaultWorkoutSetAmount">-->
-<!--				<span *ngIf="shouldShowInput(exerciseIndex, setIndex)">-->
-<!--					<input type="number" class="table-input"-->
-<!--						   [(ngModel)]="exerciseMap.get(exerciseIndex).get(setIndex).repetitions"-->
-<!--						   [disabled]="!inputsEnabled()"-->
-<!--						   (change)="workoutSetUpdated(exerciseIndex, setIndex)"-->
-<!--					>-->
-<!--					x-->
-<!--					<input type="number" step="0.5" class="table-input"-->
-<!--						   [(ngModel)]="exerciseMap.get(exerciseIndex).get(setIndex).weight"-->
-<!--						   [disabled]="!inputsEnabled()"-->
-<!--						   (change)="workoutSetUpdated(exerciseIndex, setIndex)"-->
-<!--					>-->
-<!--					kg-->
-<!--				</span>-->
-<!--		</td>-->
-<!--		<td class="delete-workoutset">-->
-<!--			<button mat-icon-button-->
-<!--					(click)="deleteWorkoutSet(exerciseIndex)">-->
-<!--				<mat-icon aria-label="Example icon-button with a heart icon">delete</mat-icon>-->
-<!--			</button>-->
-<!--		</td>-->
-<!--	</tr>-->
-<!--	</tbody>-->
+	<tbody>
+	<tr *ngFor="let exerciseIndex of [0]">
+		<td class="exercise-field">
+			<mat-select
+				placeholder="select exercise"
+				[ngModel]="sessionExercises.get(exerciseIndex)"
+				(ngModelChange)="sessionExercises.set(exerciseIndex, $event)"
+			>
+				<mat-option *ngFor="let exercise of exerciseDictionary"
+							[value]="exercise.id"
+				>{{exercise.name}}</mat-option>
+			</mat-select>
+		</td>
+		<td *ngFor="let workoutSet of workoutSetMap.get(sessionExercises.get(exerciseIndex))">
+			<kt-session-set
+				[workoutSet]="workoutSet"
+			></kt-session-set>
+		</td>
+		<td *ngIf="workoutSetMap.get(sessionExercises.get(exerciseIndex)) == undefined"><img (click)="addWorkoutSet(sessionExercises.get(exerciseIndex))" src="assets/plugins/mapplic/images/plus.png"></td>
+	</tr>
+	<button (click)="debug()">DEBUG</button>
+	</tbody>
 </table>

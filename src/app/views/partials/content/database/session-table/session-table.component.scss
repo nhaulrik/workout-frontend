@@ -1,15 +1,12 @@
 .session-table {
-	width: 100%;
+	width: auto;
 }
 
 .session-table th, td {
+	width: 110px;
 	padding: 5px;
 	border: 1px solid black;
 	border-collapse: collapse;
-}
-
-.input-container {
-	width: 120px;
 }
 
 .delete-workoutset  {
@@ -22,18 +19,6 @@
 	width: 220px;
 }
 
-
-.table-input {
-	text-align: center;
-	width: 30%;
-	border: 0px none;
-}
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-	-webkit-appearance: none;
-	margin: 0;
-}
 
 .workout-details mat-form-field {
 	padding-top: 10px;

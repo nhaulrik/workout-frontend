@@ -75,6 +75,7 @@ import {UserSelectorComponent} from './content/database/user-selector/user-selec
 import { SessionDetailsComponent } from './content/database/session-details/session-details.component';
 import { SessionTableComponent } from './content/database/session-table/session-table.component';
 import { SessionCalendarComponent } from './content/database/session-calendar/session-calendar.component';
+import { SessionSetComponent } from './content/database/session-set/session-set.component';
 
 @NgModule({
 	declarations: [
@@ -114,6 +115,7 @@ import { SessionCalendarComponent } from './content/database/session-calendar/se
 		SessionDetailsComponent,
 		SessionTableComponent,
 		SessionCalendarComponent,
+		SessionSetComponent,
 	],
 	exports: [
 		ExerciseSelectorComponent,
