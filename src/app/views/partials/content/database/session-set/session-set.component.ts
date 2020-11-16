@@ -22,10 +22,10 @@ export class SessionSetComponent implements OnInit {
 		id: null,
 		exerciseId: this.exerciseId,
 		repetitionMaximum: null,
-		repetitions: null,
+		repetitions: 0,
 		sessionId: this.sessionId,
 		setNumber: this.setNumber,
-		weight: null
+		weight: 0
 	}
 
 	removeWorkoutSet() {

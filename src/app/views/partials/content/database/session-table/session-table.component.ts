@@ -22,7 +22,7 @@ export class SessionTableComponent implements OnInit, myinterface {
 
 	@Input() session: Session;
 
-	@ViewChild('viewContainerRef', {static: false, read: ViewContainerRef}) VCR: ViewContainerRef;
+	@ViewChild('viewWorkoutSetRef', {static: false, read: ViewContainerRef}) VCR: ViewContainerRef;
 
 	child_unique_key: number = 0;
 	componentsReferences = Array<ComponentRef<SessionSetComponent>>()

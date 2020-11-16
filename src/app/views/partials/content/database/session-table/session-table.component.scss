@@ -16,8 +16,10 @@
 .exercise-container {
 	width: 100%;
 	padding: 5px;
-	//border: 1px solid black;
-	//border-collapse: collapse;
+}
+
+button {
+	margin-bottom:5px;
 }
 
 .add-workout-set {
@@ -25,7 +27,6 @@
 }
 
 .workout-details mat-form-field {
-	padding-top: 10px;
 	width: 120px;
 	height: 100%;
 }
