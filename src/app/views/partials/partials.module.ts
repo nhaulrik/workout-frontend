@@ -201,7 +201,8 @@ import {WorkoutSetComponent} from './content/database/workout-set/workout-set.co
 		MatButtonToggleModule,
 	],
 	entryComponents: [
-		WorkoutSetComponent
+		WorkoutSetComponent,
+		WorkoutExerciseComponent
 	]
 })
 export class PartialsModule {

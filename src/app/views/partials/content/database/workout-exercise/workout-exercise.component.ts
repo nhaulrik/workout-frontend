@@ -1,16 +1,15 @@
-import {Component, ComponentFactoryResolver, ComponentRef, Input, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
+import {Component, ComponentFactoryResolver, ComponentRef, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {Exercise} from '../../../../../core/database/_models/exercise';
-import {WorkoutSetService} from '../../../../../core/database';
 import {ExerciseService} from '../../../../../core/database/_services/exercise.service';
 import {GraphQlResponse} from '../../../../../core/database/_models/graphQlResponse';
-import {Session} from '../../../../../core/database/_models/session';
 import {myinterface, WorkoutSetComponent} from '../workout-set/workout-set.component';
+import {SessionEditComponent} from '../../../../pages/apps/database/session/session-edit/session-edit.component';
 
 @Component({
 	selector: 'kt-workout-exercise',
 	templateUrl: './workout-exercise.component.html',
 	styleUrls: ['./workout-exercise.component.scss'],
-	providers: [WorkoutSetService, ExerciseService]
+	providers: [ExerciseService]
 })
 export class WorkoutExerciseComponent implements OnInit, myinterface {
 	exerciseDictionary: Exercise[] = [];
@@ -18,10 +17,11 @@ export class WorkoutExerciseComponent implements OnInit, myinterface {
 	sessionId: string;
 
 	sessionExercises: Map<number, string> = new Map<number, string>();
+
+	public unique_key: number;
+	public parentRef: SessionEditComponent;
+
 	workoutSetMap: Map<string, number> = new Map<string, number>();
-
-	@Input() session: Session;
-
 	@ViewChild('viewWorkoutSetRef', {static: false, read: ViewContainerRef}) VCR: ViewContainerRef;
 
 	child_unique_key: number = 0;
@@ -33,8 +33,11 @@ export class WorkoutExerciseComponent implements OnInit, myinterface {
 	) {
 	}
 
+	ngOnInit() {
+		this.getExercises();
+	}
+
 	createComponent() {
-		debugger;
 		let componentFactory = this.CFR.resolveComponentFactory(WorkoutSetComponent);
 
 		let childComponentRef = this.VCR.createComponent(componentFactory);
@@ -73,10 +76,6 @@ export class WorkoutExerciseComponent implements OnInit, myinterface {
 		return Array(number).fill(0).map((x, i) => i); // [0,1,2,3,4]
 	}
 
-	ngOnInit() {
-		this.getExercises();
-	}
-
 	getExercises() {
 		this.exerciseService.getExercises()
 			.subscribe(response => {
@@ -111,4 +110,9 @@ export class WorkoutExerciseComponent implements OnInit, myinterface {
 		this.workoutSetMap.set(exerciseId, currentAmountOfWorkoutSet);
 
 	}
+}
+
+// Interface
+export interface myinterface {
+	remove(index: number);
 }

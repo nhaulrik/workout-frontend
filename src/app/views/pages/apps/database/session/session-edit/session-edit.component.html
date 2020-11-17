@@ -33,9 +33,8 @@
 			</kt-portlet-header>
 			<kt-portlet-body>
 				<ng-container ktPortletTools>
-					<kt-workout-exercise
-					[session]="session">
-					</kt-workout-exercise>
+					<div #viewWorkoutExerciseRef></div>
+					<button mat-button color="primary" (click)="createComponent()">Add Exercise</button>
 				</ng-container>
 			</kt-portlet-body>
 		</kt-portlet>

@@ -1,9 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ComponentFactoryResolver, ComponentRef, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {UserService} from '../../../../../../core/database/_services/user.service';
 import {GraphQlResponse} from '../../../../../../core/database/_models/graphQlResponse';
 import {SessionService} from '../../../../../../core/database';
 import {User} from '../../../../../../core/database/_models/user';
 import {Session} from '../../../../../../core/database/_models/session';
+import {WorkoutExerciseComponent} from '../../../../../partials/content/database';
 
 @Component({
 	selector: 'kt-session-edit',
@@ -19,7 +20,12 @@ export class SessionEditComponent implements OnInit {
 	users: User[] = [];
 	sessions: Session[] = [];
 
+	@ViewChild('viewWorkoutExerciseRef', {static: false, read: ViewContainerRef}) VCR: ViewContainerRef;
+	child_unique_key: number = 0;
+	componentsReferences = Array<ComponentRef<WorkoutExerciseComponent>>()
+
 	constructor(
+		private CFR: ComponentFactoryResolver,
 		private sessionService: SessionService,
 		private userService: UserService
 	) {
@@ -102,6 +108,38 @@ export class SessionEditComponent implements OnInit {
 
 	getUser(userId: string) {
 		let user = this.users.filter(user => user.id == userId)[0];
-		return user.firstName + " " + user.lastName;
+		return user.firstName + ' ' + user.lastName;
+	}
+
+
+	createComponent() {
+		let componentFactory = this.CFR.resolveComponentFactory(WorkoutExerciseComponent);
+
+		let childComponentRef = this.VCR.createComponent(componentFactory);
+
+		let childComponent = childComponentRef.instance;
+		childComponent.unique_key = ++this.child_unique_key;
+		childComponent.parentRef = this;
+
+		// add reference for newly created component
+		this.componentsReferences.push(childComponentRef);
+	}
+
+	remove(key: number) {
+		if (this.VCR.length < 1) return;
+
+		let componentRef = this.componentsReferences.filter(
+			x => x.instance.unique_key == key
+		)[0];
+
+		let vcrIndex: number = this.VCR.indexOf(componentRef as any);
+
+		// removing component from container
+		this.VCR.remove(vcrIndex);
+
+		// removing component from the list
+		this.componentsReferences = this.componentsReferences.filter(
+			x => x.instance.unique_key !== key
+		);
 	}
 }
