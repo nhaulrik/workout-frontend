@@ -4,3 +4,4 @@ export { UserSelectorComponent } from './user-selector/user-selector.component';
 export { SessionDetailsComponent } from './session-details/session-details.component';
 export { SessionTableComponent} from './session-table/session-table.component';
 export { SessionCalendarComponent} from './session-calendar/session-calendar.component';
+export { WorkoutSetComponent} from './workout-set/workout-set.component';

@@ -4,7 +4,7 @@ import {WorkoutSetService} from '../../../../../core/database';
 import {ExerciseService} from '../../../../../core/database/_services/exercise.service';
 import {GraphQlResponse} from '../../../../../core/database/_models/graphQlResponse';
 import {Session} from '../../../../../core/database/_models/session';
-import {myinterface, SessionSetComponent} from '../session-set/session-set.component';
+import {myinterface, WorkoutSetComponent} from '../workout-set/workout-set.component';
 
 @Component({
 	selector: 'kt-session-table',
@@ -25,7 +25,7 @@ export class SessionTableComponent implements OnInit, myinterface {
 	@ViewChild('viewWorkoutSetRef', {static: false, read: ViewContainerRef}) VCR: ViewContainerRef;
 
 	child_unique_key: number = 0;
-	componentsReferences = Array<ComponentRef<SessionSetComponent>>()
+	componentsReferences = Array<ComponentRef<WorkoutSetComponent>>()
 
 	constructor(
 		private CFR: ComponentFactoryResolver,
@@ -35,7 +35,7 @@ export class SessionTableComponent implements OnInit, myinterface {
 
 	createComponent() {
 		debugger;
-		let componentFactory = this.CFR.resolveComponentFactory(SessionSetComponent);
+		let componentFactory = this.CFR.resolveComponentFactory(WorkoutSetComponent);
 
 		let childComponentRef = this.VCR.createComponent(componentFactory);
 

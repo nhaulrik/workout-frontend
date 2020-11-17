@@ -3,11 +3,11 @@ import {WorkoutSet} from '../../../../../core/database/_models/workoutSet';
 import {SessionTableComponent} from '..';
 
 @Component({
-	selector: 'kt-session-set',
-	templateUrl: './session-set.component.html',
-	styleUrls: ['./session-set.component.scss']
+	selector: 'kt-workout-set',
+	templateUrl: './workout-set.component.html',
+	styleUrls: ['./workout-set.component.scss']
 })
-export class SessionSetComponent implements OnInit {
+export class WorkoutSetComponent implements OnInit {
 
 	constructor() {
 	}

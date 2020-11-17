@@ -75,7 +75,7 @@ import {UserSelectorComponent} from './content/database/user-selector/user-selec
 import { SessionDetailsComponent } from './content/database/session-details/session-details.component';
 import { SessionTableComponent } from './content/database/session-table/session-table.component';
 import { SessionCalendarComponent } from './content/database/session-calendar/session-calendar.component';
-import { SessionSetComponent } from './content/database/session-set/session-set.component';
+import {WorkoutSetComponent} from './content/database/workout-set/workout-set.component';
 
 @NgModule({
 	declarations: [
@@ -115,7 +115,7 @@ import { SessionSetComponent } from './content/database/session-set/session-set.
 		SessionDetailsComponent,
 		SessionTableComponent,
 		SessionCalendarComponent,
-		SessionSetComponent,
+		WorkoutSetComponent,
 	],
 	exports: [
 		ExerciseSelectorComponent,
@@ -199,7 +199,7 @@ import { SessionSetComponent } from './content/database/session-set/session-set.
 		MatButtonToggleModule,
 	],
 	entryComponents: [
-		SessionSetComponent
+		WorkoutSetComponent
 	]
 })
 export class PartialsModule {
