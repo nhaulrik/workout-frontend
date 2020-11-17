@@ -2,7 +2,7 @@
 <div class="row">
 	<div class="col-xl-10">
 		<kt-portlet [class]="'kt-portlet'">
-			<kt-portlet-header [title]="'Date'">
+			<kt-portlet-header [title]="selectedDate.toDateString()">
 			</kt-portlet-header>
 			<kt-portlet-body>
 				<ng-container ktPortletTools>
@@ -29,7 +29,7 @@
 			</kt-portlet-body>
 		</kt-portlet>
 		<kt-portlet [class]="'kt-portlet'" *ngFor="let session of sessions">
-			<kt-portlet-header [title]="session.userId">
+			<kt-portlet-header [title]="getUser(session.userId)">
 			</kt-portlet-header>
 			<kt-portlet-body>
 				<ng-container ktPortletTools>

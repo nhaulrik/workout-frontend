@@ -99,4 +99,9 @@ export class SessionEditComponent implements OnInit {
 			}
 		})
 	}
+
+	getUser(userId: string) {
+		let user = this.users.filter(user => user.id == userId)[0];
+		return user.firstName + " " + user.lastName;
+	}
 }
