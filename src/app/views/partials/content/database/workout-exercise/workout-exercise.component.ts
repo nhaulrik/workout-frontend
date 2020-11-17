@@ -108,6 +108,11 @@ export class WorkoutExerciseComponent implements OnInit, myinterface {
 		this.workoutSetMap.set(exerciseId, currentAmountOfWorkoutSet);
 
 	}
+
+	removeWorkoutExercise() {
+		console.log(this.unique_key)
+		this.parentRef.remove(this.unique_key)
+	}
 }
 
 // Interface

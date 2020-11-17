@@ -48,7 +48,7 @@ export class SessionComponent implements OnInit, myinterface {
 		}
 	}
 
-	createComponent() {
+	createWorkoutExerciseComponent() {
 		let componentFactory = this.CFR.resolveComponentFactory(WorkoutExerciseComponent);
 
 		let childComponentRef = this.VCR.createComponent(componentFactory);
