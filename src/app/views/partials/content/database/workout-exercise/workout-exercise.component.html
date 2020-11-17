@@ -9,7 +9,8 @@
 				<div class="row align-items-center">
 					<div class="col"></div>
 					<div class="col-6">
-						<mat-select placeholder="select exercise">
+						<mat-select placeholder="select exercise"
+									[(ngModel)]="exerciseId">
 							<mat-option *ngFor="let exercise of exerciseDictionary"
 										[value]="exercise.id"
 							>{{exercise.name}}</mat-option>
@@ -26,7 +27,7 @@
 				<div class="row workout-set">
 					<div #viewWorkoutSetRef></div>
 				</div>
-				<div class="row align-items-center">
+				<div class="row align-items-center" *ngIf="exerciseId != undefined">
 					<button mat-button color="primary" (click)="createComponent()">Add</button>
 				</div>
 			</div>

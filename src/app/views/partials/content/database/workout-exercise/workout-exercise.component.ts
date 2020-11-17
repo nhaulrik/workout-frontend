@@ -4,6 +4,7 @@ import {ExerciseService} from '../../../../../core/database/_services/exercise.s
 import {GraphQlResponse} from '../../../../../core/database/_models/graphQlResponse';
 import {myinterface, WorkoutSetComponent} from '../workout-set/workout-set.component';
 import {SessionComponent} from '../session/session.component';
+import {MatOptionSelectionChange} from '@angular/material';
 
 @Component({
 	selector: 'kt-workout-exercise',
@@ -13,8 +14,8 @@ import {SessionComponent} from '../session/session.component';
 })
 export class WorkoutExerciseComponent implements OnInit, myinterface {
 	exerciseDictionary: Exercise[] = [];
-	sessionId: string;
 	sessionExercises: Map<number, string> = new Map<number, string>();
+	exerciseId: string;
 
 	public unique_key: number;
 	public parentRef: SessionComponent;
