@@ -78,6 +78,7 @@ import {SessionDetailsComponent} from './content/database/session-details/sessio
 import {WorkoutExerciseComponent} from './content/database/workout-exercise/workout-exercise.component';
 import {SessionCalendarComponent} from './content/database/session-calendar/session-calendar.component';
 import {WorkoutSetComponent} from './content/database/workout-set/workout-set.component';
+import { SessionComponent } from './content/database/session/session.component';
 
 @NgModule({
 	declarations: [
@@ -118,6 +119,7 @@ import {WorkoutSetComponent} from './content/database/workout-set/workout-set.co
 		WorkoutExerciseComponent,
 		SessionCalendarComponent,
 		WorkoutSetComponent,
+		SessionComponent,
 	],
 	exports: [
 		ExerciseSelectorComponent,
