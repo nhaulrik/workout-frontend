@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ComponentFactoryResolver, ComponentRef, Input, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
+import {Component, ComponentFactoryResolver, ComponentRef, Input, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {Exercise} from '../../../../../core/database/_models/exercise';
 import {WorkoutSetService} from '../../../../../core/database';
 import {ExerciseService} from '../../../../../core/database/_services/exercise.service';
@@ -7,12 +7,12 @@ import {Session} from '../../../../../core/database/_models/session';
 import {myinterface, WorkoutSetComponent} from '../workout-set/workout-set.component';
 
 @Component({
-	selector: 'kt-session-table',
-	templateUrl: './session-table.component.html',
-	styleUrls: ['./session-table.component.scss'],
+	selector: 'kt-workout-exercise',
+	templateUrl: './workout-exercise.component.html',
+	styleUrls: ['./workout-exercise.component.scss'],
 	providers: [WorkoutSetService, ExerciseService]
 })
-export class SessionTableComponent implements OnInit, myinterface {
+export class WorkoutExerciseComponent implements OnInit, myinterface {
 	exerciseDictionary: Exercise[] = [];
 
 	sessionId: string;

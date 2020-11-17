@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {WorkoutSet} from '../../../../../core/database/_models/workoutSet';
-import {SessionTableComponent} from '..';
+import {WorkoutExerciseComponent} from '..';
 
 @Component({
 	selector: 'kt-workout-set',
@@ -13,7 +13,7 @@ export class WorkoutSetComponent implements OnInit {
 	}
 
 	public unique_key: number;
-	public parentRef: SessionTableComponent;
+	public parentRef: WorkoutExerciseComponent;
 
 	@Input() exerciseId: string;
 	@Input() setNumber: number;

@@ -5,7 +5,8 @@ import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {
 	MatAutocompleteModule,
-	MatButtonModule, MatButtonToggleModule,
+	MatButtonModule,
+	MatButtonToggleModule,
 	MatCardModule,
 	MatCheckboxModule,
 	MatDatepickerModule,
@@ -18,7 +19,8 @@ import {
 	MatProgressBarModule,
 	MatProgressSpinnerModule,
 	MatRadioModule,
-	MatSelectModule, MatSlideToggleModule,
+	MatSelectModule,
+	MatSlideToggleModule,
 	MatSnackBarModule,
 	MatSortModule,
 	MatTableModule,
@@ -72,9 +74,9 @@ import {InlineSVGModule} from 'ng-inline-svg';
 import {CartComponent} from './layout/topbar/cart/cart.component';
 import {ExerciseSelectorComponent} from './content/database/exercise-selector/exercise-selector.component';
 import {UserSelectorComponent} from './content/database/user-selector/user-selector.component';
-import { SessionDetailsComponent } from './content/database/session-details/session-details.component';
-import { SessionTableComponent } from './content/database/session-table/session-table.component';
-import { SessionCalendarComponent } from './content/database/session-calendar/session-calendar.component';
+import {SessionDetailsComponent} from './content/database/session-details/session-details.component';
+import {WorkoutExerciseComponent} from './content/database/workout-exercise/workout-exercise.component';
+import {SessionCalendarComponent} from './content/database/session-calendar/session-calendar.component';
 import {WorkoutSetComponent} from './content/database/workout-set/workout-set.component';
 
 @NgModule({
@@ -113,7 +115,7 @@ import {WorkoutSetComponent} from './content/database/workout-set/workout-set.co
 		ExerciseSelectorComponent,
 		UserSelectorComponent,
 		SessionDetailsComponent,
-		SessionTableComponent,
+		WorkoutExerciseComponent,
 		SessionCalendarComponent,
 		WorkoutSetComponent,
 	],
@@ -121,7 +123,7 @@ import {WorkoutSetComponent} from './content/database/workout-set/workout-set.co
 		ExerciseSelectorComponent,
 		UserSelectorComponent,
 		SessionDetailsComponent,
-		SessionTableComponent,
+		WorkoutExerciseComponent,
 		SessionCalendarComponent,
 
 		WidgetModule,
