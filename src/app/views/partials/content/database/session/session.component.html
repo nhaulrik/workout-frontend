@@ -1,1 +1,15 @@
-<p>session works!</p>
+<!--This is the entry page for the sessions-->
+<div class="row">
+	<div class="col-xl-10">
+		<kt-portlet [class]="'kt-portlet'">
+			<kt-portlet-header [title]="'some session name here'">
+			</kt-portlet-header>
+			<kt-portlet-body>
+			</kt-portlet-body>
+		</kt-portlet>
+		<ng-container ktPortletTools>
+			<div #viewWorkoutExerciseRef></div>
+			<button mat-button color="primary">Add Exercise</button>
+		</ng-container>
+	</div>
+</div>

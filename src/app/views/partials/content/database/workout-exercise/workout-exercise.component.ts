@@ -3,7 +3,7 @@ import {Exercise} from '../../../../../core/database/_models/exercise';
 import {ExerciseService} from '../../../../../core/database/_services/exercise.service';
 import {GraphQlResponse} from '../../../../../core/database/_models/graphQlResponse';
 import {myinterface, WorkoutSetComponent} from '../workout-set/workout-set.component';
-import {SessionEditComponent} from '../../../../pages/apps/database/session/session-edit/session-edit.component';
+import {SessionComponent} from '../session/session.component';
 
 @Component({
 	selector: 'kt-workout-exercise',
@@ -13,13 +13,11 @@ import {SessionEditComponent} from '../../../../pages/apps/database/session/sess
 })
 export class WorkoutExerciseComponent implements OnInit, myinterface {
 	exerciseDictionary: Exercise[] = [];
-
 	sessionId: string;
-
 	sessionExercises: Map<number, string> = new Map<number, string>();
 
 	public unique_key: number;
-	public parentRef: SessionEditComponent;
+	public parentRef: SessionComponent;
 
 	workoutSetMap: Map<string, number> = new Map<string, number>();
 	@ViewChild('viewWorkoutSetRef', {static: false, read: ViewContainerRef}) VCR: ViewContainerRef;

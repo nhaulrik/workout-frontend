@@ -2,39 +2,15 @@
 <div class="row">
 	<div class="col-xl-10">
 		<kt-portlet [class]="'kt-portlet'">
-			<kt-portlet-header [title]="selectedDate.toDateString()">
+			<kt-portlet-header [title]="'session edit component'">
 			</kt-portlet-header>
 			<kt-portlet-body>
+				<kt-session-calendar
+					[selectedDate]="selectedDate"
+					(dateChanged)="dateChanged($event)"
+				></kt-session-calendar>
 				<ng-container ktPortletTools>
-					<kt-session-calendar
-						[(selectedDate)]="selectedDate"
-						(dateChanged)="dateChanged($event)"
-					></kt-session-calendar>
-				</ng-container>
-
-				<br>
-				<ng-container *ngIf="sessions.length == 0">
-					<h2>No sessions found</h2>
-					<p>Select users for the new session</p>
-					<span>
-						<mat-slide-toggle
-							*ngFor="let user of users"
-							(change)="addUser(user.id, $event)">{{user.firstName}} {{user.lastName}}</mat-slide-toggle>
-					</span>
-					<br>
-					<button [disabled]="usersToAdd.length == 0" class="col-lg-2" (click)="createSession()">Create
-						session
-					</button>
-				</ng-container>
-			</kt-portlet-body>
-		</kt-portlet>
-		<kt-portlet [class]="'kt-portlet'" *ngFor="let session of sessions">
-			<kt-portlet-header [title]="getUser(session.userId)">
-			</kt-portlet-header>
-			<kt-portlet-body>
-				<ng-container ktPortletTools>
-					<div #viewWorkoutExerciseRef></div>
-					<button mat-button color="primary" (click)="createComponent()">Add Exercise</button>
+					<div #viewSessionRef></div>
 				</ng-container>
 			</kt-portlet-body>
 		</kt-portlet>

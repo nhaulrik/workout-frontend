@@ -1,10 +1,9 @@
-import {Component, ComponentFactoryResolver, ComponentRef, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
+import {AfterViewInit, Component, ComponentFactoryResolver, ComponentRef, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {UserService} from '../../../../../../core/database/_services/user.service';
-import {GraphQlResponse} from '../../../../../../core/database/_models/graphQlResponse';
 import {SessionService} from '../../../../../../core/database';
-import {User} from '../../../../../../core/database/_models/user';
+import {SessionComponent} from '../../../../../partials/content/database/session/session.component';
+import {GraphQlResponse} from '../../../../../../core/database/_models/graphQlResponse';
 import {Session} from '../../../../../../core/database/_models/session';
-import {WorkoutExerciseComponent} from '../../../../../partials/content/database';
 
 @Component({
 	selector: 'kt-session-edit',
@@ -12,17 +11,12 @@ import {WorkoutExerciseComponent} from '../../../../../partials/content/database
 	providers: [UserService, SessionService],
 	styleUrls: ['./session-edit.component.scss'],
 })
-export class SessionEditComponent implements OnInit {
+export class SessionEditComponent implements OnInit, AfterViewInit, myinterface {
 
 	selectedDate: Date = new Date();
-	usersToAdd: string[] = [];
-
-	users: User[] = [];
-	sessions: Session[] = [];
-
-	@ViewChild('viewWorkoutExerciseRef', {static: false, read: ViewContainerRef}) VCR: ViewContainerRef;
+	@ViewChild('viewSessionRef', {static: false, read: ViewContainerRef}) VCR: ViewContainerRef;
 	child_unique_key: number = 0;
-	componentsReferences = Array<ComponentRef<WorkoutExerciseComponent>>()
+	componentsReferences = Array<ComponentRef<SessionComponent>>()
 
 	constructor(
 		private CFR: ComponentFactoryResolver,
@@ -31,40 +25,30 @@ export class SessionEditComponent implements OnInit {
 	) {
 	}
 
-	addUser(userId: string, event: any) {
-		if (event.checked) {
-			if (!this.usersToAdd.includes(userId)) {
-				this.usersToAdd.push(userId);
-			}
-		} else {
-			this.usersToAdd = this.usersToAdd.filter(u => u !== userId);
-		}
+
+	ngOnInit() {
+		// this.loadSessions(new Date());
 	}
 
-	createSession(): void {
-		if (this.usersToAdd.length > 0) {
-			this.sessionService.createSessions(this.usersToAdd, this.selectedDate).subscribe(response => {
-			})
-		}
+	ngAfterViewInit(): void {
+		debugger;
+		this.loadSessions(new Date())
 	}
 
 	dateChanged(date) {
 		this.selectedDate = date;
-		this.getSession(date);
+		this.loadSessions(date);
 	}
 
-	ngOnInit() {
-		this.getUsers();
-		this.getSession(new Date());
-	}
+	loadSessions(date) {
+		let formattedDate = this.formatDateToString(date);
 
-	getSession(date) {
-		var formattedDate = this.formatDateToString(date);
+		let sessions: Session[] = [];
 
 		this.sessionService.getSessionsForDate(formattedDate)
 			.subscribe(response => {
 				if ((response as GraphQlResponse).data.sessions.length > 0) {
-					this.sessions = (response as GraphQlResponse).data.sessions.map(s => ({
+					sessions = (response as GraphQlResponse).data.sessions.map(s => ({
 						id: s.id,
 						location: s.location,
 						programme: s.programme,
@@ -73,6 +57,8 @@ export class SessionEditComponent implements OnInit {
 						userId: s.userId,
 						workoutSet: s.workoutSet
 					}));
+					debugger;
+					sessions.forEach(session => this.createComponent(session));
 				}
 			});
 	}
@@ -98,28 +84,16 @@ export class SessionEditComponent implements OnInit {
 		return '';
 	}
 
-	private getUsers() {
-		this.userService.getUsers().subscribe(response => {
-			if ((response as GraphQlResponse).data.users.length > 0) {
-				this.users = (response as GraphQlResponse).data.users;
-			}
-		})
-	}
-
-	getUser(userId: string) {
-		let user = this.users.filter(user => user.id == userId)[0];
-		return user.firstName + ' ' + user.lastName;
-	}
-
-
-	createComponent() {
-		let componentFactory = this.CFR.resolveComponentFactory(WorkoutExerciseComponent);
+	createComponent(session: Session) {
+		let componentFactory = this.CFR.resolveComponentFactory(SessionComponent);
 
 		let childComponentRef = this.VCR.createComponent(componentFactory);
 
 		let childComponent = childComponentRef.instance;
 		childComponent.unique_key = ++this.child_unique_key;
 		childComponent.parentRef = this;
+
+		childComponent.session = session;
 
 		// add reference for newly created component
 		this.componentsReferences.push(childComponentRef);
@@ -142,4 +116,9 @@ export class SessionEditComponent implements OnInit {
 			x => x.instance.unique_key !== key
 		);
 	}
+}
+
+// Interface
+export interface myinterface {
+	remove(index: number);
 }
