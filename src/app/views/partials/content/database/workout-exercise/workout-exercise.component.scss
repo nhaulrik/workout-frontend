@@ -1,6 +1,34 @@
-.container {
+.exercise-container {
 	width: 100%;
 	border: 1px solid black;
 	border-radius: 5px;
 	padding: 15px;
+}
+
+img {
+	float: right;
+}
+
+.mat-select {
+	text-align: center;
+	text-align-last: center;
+	font-size: 1.5em;
+
+	/* webkit*/
+}
+mat-option {
+	text-align: center;
+	/* reset to left*/
+}
+
+::ng-deep .mat-select-content{
+	font-size: 1.25em;
+}
+
+::ng-deep .mat-select-arrow{
+	visibility: hidden;
+}
+
+::ng-deep .mat-select-placeholder{
+	font-size: 1.25em;
 }

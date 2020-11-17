@@ -1,20 +1,35 @@
 <div class="container">
-	<div class="row">
-		<mat-select class="col-4" placeholder="select exercise">
-			<mat-option *ngFor="let exercise of exerciseDictionary"
-						[value]="exercise.id"
-			>{{exercise.name}}</mat-option>
-		</mat-select>
-		<div class="col">
+	<div class="row align-items-center">
+		<div>
 			<img src="assets/media/icons/svg/General/Trash.svg" alt="Delete"
 				 (click)="removeWorkoutExercise()"/>
 		</div>
-	</div>
-	<mat-divider></mat-divider>
-	<div class="row workout-set">
-		<div #viewWorkoutSetRef></div>
-	</div>
-	<div class="row">
-		<button mat-button color="primary" (click)="createComponent()">Add</button>
+		<div class="col-11">
+			<div class="exercise-container">
+				<div class="row align-items-center">
+					<div class="col"></div>
+					<div class="col-6">
+						<mat-select placeholder="select exercise">
+							<mat-option *ngFor="let exercise of exerciseDictionary"
+										[value]="exercise.id"
+							>{{exercise.name}}</mat-option>
+						</mat-select>
+					</div>
+					<div class="col"></div>
+
+				</div>
+				<div class="row align-items-center" style="height: 15px;">
+					<div class="col">
+						<mat-divider></mat-divider>
+					</div>
+				</div>
+				<div class="row workout-set">
+					<div #viewWorkoutSetRef></div>
+				</div>
+				<div class="row align-items-center">
+					<button mat-button color="primary" (click)="createComponent()">Add</button>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
