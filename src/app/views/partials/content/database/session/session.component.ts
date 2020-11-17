@@ -78,6 +78,26 @@ export class SessionComponent implements OnInit, myinterface {
 			x => x.instance.unique_key !== key
 		);
 	}
+
+	getUserName() {
+		if (this.session.users != undefined && this.session.users.length > 0) {
+			return this.session.users[0].firstName + ' ' + this.session.users[0].lastName;
+		} else {
+			return this.session.userId;
+		}
+	}
+
+
+	getColor() {
+		let gender: string = this.session.users[0].gender;
+		if (gender == 'MALE') {
+			return '#f1fbf7'
+		} else if (gender == 'FEMALE'){
+			return '#f6dde8'
+		} else {
+			return 'white';
+		}
+	}
 }
 
 // Interface

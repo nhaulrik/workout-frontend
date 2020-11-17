@@ -9,5 +9,6 @@ export class Session {
 	localDateTime: Date;
 
 	userId: string;
+	users: User[];
 	workoutSet: WorkoutSet[];
 }

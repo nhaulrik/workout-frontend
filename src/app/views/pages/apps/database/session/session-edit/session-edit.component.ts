@@ -25,9 +25,7 @@ export class SessionEditComponent implements OnInit, AfterViewInit, myinterface 
 	) {
 	}
 
-
 	ngOnInit() {
-		// this.loadSessions(new Date());
 	}
 
 	ngAfterViewInit(): void {
@@ -55,16 +53,13 @@ export class SessionEditComponent implements OnInit, AfterViewInit, myinterface 
 						splitName: s.splitName,
 						localDateTime: s.localDateTime,
 						userId: s.userId,
-						workoutSet: s.workoutSet
+						workoutSet: s.workoutSet,
+						users: s.users
 					}));
 					debugger;
 					sessions.forEach(session => this.createComponent(session));
 				}
 			});
-	}
-
-	hasValue(str) {
-		return !(!str || 0 === str.length);
 	}
 
 	formatDateToString(dateObject) {
