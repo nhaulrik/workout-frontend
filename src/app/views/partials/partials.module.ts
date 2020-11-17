@@ -10,7 +10,7 @@ import {
 	MatCardModule,
 	MatCheckboxModule,
 	MatDatepickerModule,
-	MatDialogModule,
+	MatDialogModule, MatDividerModule,
 	MatIconModule,
 	MatInputModule,
 	MatMenuModule,
@@ -201,6 +201,7 @@ import {SessionComponent} from './content/database/session/session.component';
 		NgbTooltipModule,
 		MatSlideToggleModule,
 		MatButtonToggleModule,
+		MatDividerModule,
 	],
 	entryComponents: [
 		WorkoutSetComponent,

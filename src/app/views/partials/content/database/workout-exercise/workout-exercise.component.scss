@@ -1,32 +1,6 @@
-.session-table {
-	width: auto;
-}
-
-.session-table th, td {
-	width: 175px;
-	padding: 5px;
-	border: 1px solid black;
-	border-collapse: collapse;
-}
-
-.exercise-field {
-	width: 220px;
-}
-
-.exercise-container {
+.container {
 	width: 100%;
-	padding: 5px;
-}
-
-button {
-	margin-bottom:5px;
-}
-
-.add-workout-set {
-	text-align: center;
-}
-
-.workout-details mat-form-field {
-	width: 120px;
-	height: 100%;
+	border: 1px solid black;
+	border-radius: 5px;
+	padding: 15px;
 }
