@@ -3,6 +3,13 @@
 	<div class="col-12">
 		<kt-portlet [class]="'kt-portlet'">
 			<kt-portlet-header [title]="getUserName()" [style.background-color]="getColor()">
+				<ng-container ktPortletTools>
+					<h4 class="kt-portlet__head-title">
+						<span>{{session.programme}}</span>
+						<span> : </span>
+						<span> {{session.splitName}}</span>
+					</h4>
+				</ng-container>
 			</kt-portlet-header>
 			<kt-portlet-body>
 				<div #viewWorkoutExerciseRef></div>
