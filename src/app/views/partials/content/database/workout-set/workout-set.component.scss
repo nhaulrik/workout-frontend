@@ -1,16 +1,16 @@
 
 .table-input {
 	text-align: center;
-	width: 15%;
+	width: 12%;
 	border: 0px none;
 }
 
 .workout-set {
-	width: 230px;
-	border: 1px solid black;
-	border-radius: 5px;
+	width: 180px;
+	border-right: 1px solid black;
 	margin:5px;
 	padding:5px;
+	float:left;
 }
 
 input::-webkit-outer-spin-button,

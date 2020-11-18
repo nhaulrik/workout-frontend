@@ -1,15 +1,12 @@
 <!--This is the entry page for the sessions-->
 <div class="row">
-	<div class="col-xl-12">
+	<div class="col-12">
 		<kt-portlet [class]="'kt-portlet'">
 			<kt-portlet-header [title]="getUserName()" [style.background-color]="getColor()">
 			</kt-portlet-header>
 			<kt-portlet-body>
-				<ng-container ktPortletTools>
-					<div #viewWorkoutExerciseRef></div>
-					<button mat-button color="primary" (click)="createWorkoutExerciseComponent()">Add Exercise
-					</button>
-				</ng-container>
+				<div #viewWorkoutExerciseRef></div>
+				<button mat-button color="primary" (click)="createWorkoutExerciseComponent()">Add Exercise</button>
 			</kt-portlet-body>
 		</kt-portlet>
 	</div>

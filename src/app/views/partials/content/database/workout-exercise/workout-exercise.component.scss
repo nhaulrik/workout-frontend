@@ -1,38 +1,32 @@
 .container {
-	margin: 10px;
-}
-
-.exercise-container {
 	width: 100%;
-	border: 1px solid black;
-	border-radius: 5px;
-	padding: 15px;
+	background-color: #0abb87;
 }
 
-img {
-	float: right;
+.workout-set {
+	float: left;
 }
 
-.mat-select {
-	text-align: center;
-	text-align-last: center;
-	font-size: 1.5em;
-
-	/* webkit*/
-}
-mat-option {
-	text-align: center;
-	/* reset to left*/
-}
-
-::ng-deep .mat-select-content{
-	font-size: 1.25em;
-}
-
-::ng-deep .mat-select-arrow{
-	visibility: hidden;
-}
-
-::ng-deep .mat-select-placeholder{
-	font-size: 1.25em;
-}
+//.mat-select {
+//	text-align: center;
+//	text-align-last: center;
+//	font-size: 1.5em;
+//
+//	/* webkit*/
+//}
+//mat-option {
+//	text-align: center;
+//	/* reset to left*/
+//}
+//
+//::ng-deep .mat-select-content{
+//	font-size: 1.25em;
+//}
+//
+//::ng-deep .mat-select-arrow{
+//	visibility: hidden;
+//}
+//
+//::ng-deep .mat-select-placeholder{
+//	font-size: 1.25em;
+//}
