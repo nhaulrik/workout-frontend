@@ -3,12 +3,18 @@
 	<div class="col-12">
 		<kt-portlet [class]="'kt-portlet'">
 			<kt-portlet-header [title]="getUserName()" [style.background-color]="getColor()">
-				<ng-container ktPortletTools>
-					<h4 class="kt-portlet__head-title">
-						<span>{{session.programme}}</span>
+				<ng-container ktPortletTools class="col1">
+					<div class="kt-portlet__head-title">
+						<input class="session-details-container"
+							   placeholder="programme"
+							   [ngModel]="session.programme"
+						/>
 						<span> : </span>
-						<span> {{session.splitName}}</span>
-					</h4>
+						<input class="session-details-container"
+							   [ngModel]="session.splitName"
+							   placeholder="split name"
+						/>
+					</div>
 				</ng-container>
 			</kt-portlet-header>
 			<kt-portlet-body>
