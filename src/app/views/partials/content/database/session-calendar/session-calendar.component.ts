@@ -12,6 +12,7 @@ export class SessionCalendarComponent implements OnInit {
 
 	@Output() dateChanged = new EventEmitter();
 	@Input() selectedDate: Date;
+	@Input() sessionDates: Date[];
 
 	dayChanged(day) {
 		this.selectedDate.setDate(day)
@@ -23,8 +24,6 @@ export class SessionCalendarComponent implements OnInit {
 	) {
 	}
 
-	sessionMap: Map<Date, boolean> = new Map<Date, boolean>();
-
 	ngOnInit() {
 		this.getSessionsForMonth(this.selectedDate.getMonth() + 1, this.selectedDate.getFullYear());
 	}
@@ -35,19 +34,25 @@ export class SessionCalendarComponent implements OnInit {
 				let graphQlResponse = (response as GraphQlResponse);
 
 				if (graphQlResponse.data.sessions != undefined) {
-					graphQlResponse.data.sessions.forEach((session: Session) => {
-						let date = new Date(session.localDateTime);
-						this.sessionMap.set(date, true);
-					});
+					this.sessionDates = graphQlResponse.data.sessions.map((session: Session) => session.localDateTime);
 				}
 			});
 	}
 
-	daysInMonth(month: number, year: number): number[] {
-		var days = new Date(year, month, 0).getDate();
-
-		var dayArray = Array(days).fill(0).map((x, i) => i + 1); // [1,2,3,4]
+	daysInMonth(date: Date): number[] {
+		let days = new Date(date.getFullYear(), date.getMonth(), 0).getDate();
+		let dayArray = Array(days).fill(0).map((x, i) => i + 1); // [1,2,3,4]
 		return dayArray;
 	}
 
+	getSessionClass(day: number): string {
+
+		if (this.selectedDate.getDate() === day) {
+			return 'is-selected';
+		}
+
+		// let dates: number[] = this.sessionDates.map(sessionDate => new Date(sessionDate).getDate());
+		let dayHasSession: boolean = this.sessionDates.filter(date => day === new Date(date).getDate()).length > 0;
+		return dayHasSession ? 'has-session' : 'no-session';
+	}
 }

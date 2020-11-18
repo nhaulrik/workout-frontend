@@ -1,7 +1,7 @@
 <table border="1">
 	<tr>
-		<td
-			*ngFor="let day of daysInMonth(6, 2020)"
+		<td *ngFor="let day of daysInMonth(selectedDate)"
+			[ngClass]="getSessionClass(day)"
 			(click)="dayChanged(day)"
 		>{{day}}</td>
 	</tr>
