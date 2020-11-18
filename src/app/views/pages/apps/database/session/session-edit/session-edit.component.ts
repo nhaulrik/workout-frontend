@@ -16,7 +16,7 @@ export class SessionEditComponent implements OnInit, AfterViewInit, myinterface 
 	selectedDate: Date = new Date();
 	@ViewChild('viewSessionRef', {static: false, read: ViewContainerRef}) VCR: ViewContainerRef;
 	child_unique_key: number = 0;
-	componentsReferences = Array<ComponentRef<SessionComponent>>()
+	sessionReferences = Array<ComponentRef<SessionComponent>>()
 
 	constructor(
 		private CFR: ComponentFactoryResolver,
@@ -29,7 +29,6 @@ export class SessionEditComponent implements OnInit, AfterViewInit, myinterface 
 	}
 
 	ngAfterViewInit(): void {
-		debugger;
 		this.loadSessions(new Date())
 	}
 
@@ -56,10 +55,18 @@ export class SessionEditComponent implements OnInit, AfterViewInit, myinterface 
 						workoutSet: s.workoutSet,
 						users: s.users
 					}));
-					debugger;
-					sessions.forEach(session => this.createComponent(session));
+					sessions.forEach(session => {
+						if (!this.sessionExists(session.id)) {
+							this.createComponent(session)
+						}
+					});
 				}
 			});
+	}
+
+	sessionExists(sessionId: string): boolean {
+		let sessionExists: boolean = this.sessionReferences.filter(sessionComponent => String(sessionComponent.instance.session.id) === String(sessionId)).length > 0;
+		return sessionExists;
 	}
 
 	formatDateToString(dateObject) {
@@ -91,13 +98,13 @@ export class SessionEditComponent implements OnInit, AfterViewInit, myinterface 
 		childComponent.session = session;
 
 		// add reference for newly created component
-		this.componentsReferences.push(childComponentRef);
+		this.sessionReferences.push(childComponentRef);
 	}
 
 	remove(key: number) {
 		if (this.VCR.length < 1) return;
 
-		let componentRef = this.componentsReferences.filter(
+		let componentRef = this.sessionReferences.filter(
 			x => x.instance.unique_key == key
 		)[0];
 
@@ -107,7 +114,7 @@ export class SessionEditComponent implements OnInit, AfterViewInit, myinterface 
 		this.VCR.remove(vcrIndex);
 
 		// removing component from the list
-		this.componentsReferences = this.componentsReferences.filter(
+		this.sessionReferences = this.sessionReferences.filter(
 			x => x.instance.unique_key !== key
 		);
 	}

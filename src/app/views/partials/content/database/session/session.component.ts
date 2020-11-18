@@ -28,7 +28,6 @@ export class SessionComponent implements OnInit, myinterface {
 	}
 
 	ngOnInit() {
-		debugger;
 	}
 
 	addUser(userId: string, event: any) {
