@@ -34,7 +34,6 @@ export class WorkoutSetComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		debugger;
 	}
 
 	deleteWorkoutSet(setNumber: number) {

@@ -1,4 +1,13 @@
-import {AfterViewInit, Component, ComponentFactoryResolver, ComponentRef, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
+import {
+	AfterViewInit,
+	ChangeDetectorRef,
+	Component,
+	ComponentFactoryResolver,
+	ComponentRef,
+	OnInit,
+	ViewChild,
+	ViewContainerRef
+} from '@angular/core';
 import {UserService} from '../../../../../../core/database/_services/user.service';
 import {SessionService} from '../../../../../../core/database';
 import {SessionComponent} from '../../../../../partials/content/database/session/session.component';
@@ -21,7 +30,8 @@ export class SessionEditComponent implements OnInit, AfterViewInit, myinterface 
 	constructor(
 		private CFR: ComponentFactoryResolver,
 		private sessionService: SessionService,
-		private userService: UserService
+		private userService: UserService,
+		private ref: ChangeDetectorRef
 	) {
 	}
 
@@ -60,7 +70,13 @@ export class SessionEditComponent implements OnInit, AfterViewInit, myinterface 
 							this.createComponent(session)
 						}
 					});
+				} else {
+					this.sessionReferences.forEach(sessionComponent => {
+						let key: number = sessionComponent.instance.unique_key
+						this.remove(key)
+					})
 				}
+				this.ref.detectChanges();
 			});
 	}
 
@@ -117,6 +133,10 @@ export class SessionEditComponent implements OnInit, AfterViewInit, myinterface 
 		this.sessionReferences = this.sessionReferences.filter(
 			x => x.instance.unique_key !== key
 		);
+	}
+
+	getTitle(): string {
+		return 'Session date: ' + this.formatDateToString(this.selectedDate);
 	}
 }
 
