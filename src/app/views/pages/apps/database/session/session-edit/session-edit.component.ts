@@ -136,7 +136,7 @@ export class SessionEditComponent implements OnInit, AfterViewInit, myinterface 
 	}
 
 	getTitle(): string {
-		return 'Session date: ' + this.formatDateToString(this.selectedDate);
+		return 'Selected session date: ' + this.formatDateToString(this.selectedDate);
 	}
 }
 

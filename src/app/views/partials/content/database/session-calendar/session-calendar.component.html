@@ -1,9 +1,24 @@
-<table border="1">
-	<tr>
-		<td *ngFor="let day of daysInMonth(selectedDate)"
-			[ngClass]="getSessionClass(day)"
-			(click)="dayChanged(day)"
-		>{{day}}</td>
-	</tr>
-</table>
-
+<ng-container ktPortletTools>
+	<table class="center" border="1">
+		<tr>
+			<td><-</td>
+			<td>{{currentMonth}}</td>
+			<td>-></td>
+		</tr>
+		<tr>
+			<td><-</td>
+			<td>{{selectedDate.getFullYear()}}</td>
+			<td>-></td>
+		</tr>
+	</table>
+	<mat-divider></mat-divider>
+	<table border="1">
+		<tr>
+			<td *ngFor="let day of daysInMonth(selectedDate)"
+				[ngClass]="getSessionClass(day)"
+				(click)="dayChanged(day)"
+			>{{day}}
+			</td>
+		</tr>
+	</table>
+</ng-container>

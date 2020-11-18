@@ -13,6 +13,7 @@ export class SessionCalendarComponent implements OnInit {
 	@Output() dateChanged = new EventEmitter();
 	@Input() selectedDate: Date;
 	@Input() sessionDates: Date[];
+	currentMonth: string;
 
 	dayChanged(day) {
 		this.selectedDate.setDate(day)
@@ -26,6 +27,8 @@ export class SessionCalendarComponent implements OnInit {
 
 	ngOnInit() {
 		this.getSessionsForMonth(this.selectedDate.getMonth() + 1, this.selectedDate.getFullYear());
+
+		this.currentMonth = this.selectedDate.toLocaleString('default', { month: 'long' });
 	}
 
 	getSessionsForMonth(month: number, year: number) {
@@ -47,12 +50,16 @@ export class SessionCalendarComponent implements OnInit {
 
 	getSessionClass(day: number): string {
 
-		if (this.selectedDate.getDate() === day) {
+		let isSelected : boolean = this.selectedDate.getDate() === day;
+		let dayHasSession: boolean = this.sessionDates.filter(date => day === new Date(date).getDate()).length > 0;
+
+		if (dayHasSession && isSelected) {
+			return 'is-selected-with-session';
+		} else if (dayHasSession) {
+			return 'has-session';
+		} else if (isSelected) {
 			return 'is-selected';
 		}
-
-		// let dates: number[] = this.sessionDates.map(sessionDate => new Date(sessionDate).getDate());
-		let dayHasSession: boolean = this.sessionDates.filter(date => day === new Date(date).getDate()).length > 0;
-		return dayHasSession ? 'has-session' : 'no-session';
+		return '';
 	}
 }

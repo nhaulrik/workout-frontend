@@ -2,16 +2,30 @@ table {
 	width: 100%;
 }
 
-table td {
+td {
 	text-align: center;
-	width: 10px;
+	width: 20px;
 }
 
 .has-session {
-	background-color: #0abb87;
+	background-color: #c7c3ee;
 }
 
 .is-selected {
 	font-weight: bold;
+	border: 3px solid;
+}
+
+.is-selected-with-session {
+	background-color: #c7c3ee;
+	font-weight: bold;
+	border: 3px solid;
+}
+
+table.center {
+	margin-left:auto;
+	margin-right:auto;
+	width: 20%;
+	text-align: center;
 	border: 3px solid;
 }
