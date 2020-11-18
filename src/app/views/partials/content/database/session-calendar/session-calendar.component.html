@@ -1,19 +1,20 @@
 <ng-container ktPortletTools>
-	<table class="center" border="1">
+	<table class="center">
 		<tr>
-			<td><-</td>
+			<td><img src="assets/media/icons/svg/Navigation/Angle-left.svg" alt="Left"/></td>
 			<td>{{currentMonth}}</td>
-			<td>-></td>
+			<td><img src="assets/media/icons/svg/Navigation/Angle-right.svg" alt="Right"/></td>
 		</tr>
 		<tr>
-			<td><-</td>
+			<td><img src="assets/media/icons/svg/Navigation/Angle-left.svg" alt="Left"/></td>
 			<td>{{selectedDate.getFullYear()}}</td>
-			<td>-></td>
+			<td><img src="assets/media/icons/svg/Navigation/Angle-right.svg" alt="Right"/></td>
 		</tr>
 	</table>
-	<mat-divider></mat-divider>
+	<br>
 	<table border="1">
 		<tr>
+			<td style="background-color: lightgray;">Date</td>
 			<td *ngFor="let day of daysInMonth(selectedDate)"
 				[ngClass]="getSessionClass(day)"
 				(click)="dayChanged(day)"

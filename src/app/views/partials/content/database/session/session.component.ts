@@ -90,9 +90,9 @@ export class SessionComponent implements OnInit, myinterface {
 	getColor() {
 		let gender: string = this.session.users[0].gender;
 		if (gender == 'MALE') {
-			return '#7d8dc7'
+			return '#b9bfd7'
 		} else if (gender == 'FEMALE') {
-			return '#d05898'
+			return '#e0b5cc'
 		} else {
 			return 'white';
 		}
