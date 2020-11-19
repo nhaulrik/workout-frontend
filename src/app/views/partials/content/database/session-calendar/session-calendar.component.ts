@@ -65,14 +65,20 @@ export class SessionCalendarComponent implements OnInit {
 		return '';
 	}
 
-	previousMonth() {
+	changeMonth(amount: number) {
 		let date = this.selectedDate;
-		let newMonth = date.getMonth() - 1;
+		let newMonth = date.getMonth() + amount;
 		if(newMonth < 0){
 			newMonth += 12;
 			date.setFullYear(date.getFullYear() - 1);
 		}
 		date.setMonth(newMonth);
+		this.ngOnInit();
+	}
+
+	changeYear(amount: number) {
+		let currentYear = this.selectedDate.getFullYear();
+		this.selectedDate.setFullYear(currentYear + amount);
 		this.ngOnInit();
 	}
 }
