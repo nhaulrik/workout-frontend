@@ -1,7 +1,7 @@
 <ng-container ktPortletTools>
 	<table class="center">
 		<tr>
-			<td><img src="assets/media/icons/svg/Navigation/Angle-left.svg" alt="Left"/></td>
+			<td (click)="previousMonth()"><img src="assets/media/icons/svg/Navigation/Angle-left.svg" alt="Left"/></td>
 			<td>{{currentMonth}}</td>
 			<td><img src="assets/media/icons/svg/Navigation/Angle-right.svg" alt="Right"/></td>
 		</tr>
@@ -15,7 +15,7 @@
 	<table border="1">
 		<tr>
 			<td style="background-color: lightgray;">Date</td>
-			<td *ngFor="let day of daysInMonth(selectedDate)"
+			<td *ngFor="let day of daysInMonth()"
 				[ngClass]="getSessionClass(day)"
 				(click)="dayChanged(day)"
 			>{{day}}

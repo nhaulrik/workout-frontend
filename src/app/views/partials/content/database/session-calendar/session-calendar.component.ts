@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {SessionService} from '../../../../../core/database';
 import {GraphQlResponse} from '../../../../../core/database/_models/graphQlResponse';
 import {Session} from '../../../../../core/database/_models/session';
@@ -21,7 +21,8 @@ export class SessionCalendarComponent implements OnInit {
 	}
 
 	constructor(
-		private sessionService: SessionService
+		private sessionService: SessionService,
+		private ref: ChangeDetectorRef
 	) {
 	}
 
@@ -38,13 +39,14 @@ export class SessionCalendarComponent implements OnInit {
 				if (graphQlResponse.data.sessions != undefined) {
 					this.sessionDates = graphQlResponse.data.sessions.map((session: Session) => session.localDateTime);
 				}
+				this.ref.detectChanges();
 			});
 	}
 
-	daysInMonth(date: Date): number[] {
-		let days = new Date(date.getFullYear(), date.getMonth(), 0).getDate();
-		let dayArray = Array(days).fill(0).map((x, i) => i); // [1,2,3,4]
-
+	daysInMonth(): number[] {
+		//Month is 0 based so 1 is added
+		let days = new Date(this.selectedDate.getFullYear(), this.selectedDate.getMonth() + 1, 0).getDate();
+		let dayArray = Array(days).fill(0).map((x, i) => i + 1); // [1,2,3,4]
 		return dayArray;
 	}
 
@@ -61,5 +63,16 @@ export class SessionCalendarComponent implements OnInit {
 			return 'is-selected';
 		}
 		return '';
+	}
+
+	previousMonth() {
+		let date = this.selectedDate;
+		let newMonth = date.getMonth() - 1;
+		if(newMonth < 0){
+			newMonth += 12;
+			date.setFullYear(date.getFullYear() - 1);
+		}
+		date.setMonth(newMonth);
+		this.ngOnInit();
 	}
 }
