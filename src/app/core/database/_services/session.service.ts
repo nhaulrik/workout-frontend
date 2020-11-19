@@ -49,7 +49,9 @@ export class SessionService {
 			)
 	}
 
-	getSessionsForMonth(month: number, year: number) {
+	getSessionsForMonth(date: Date) {
+		let month = date.getMonth() + 1;
+		let year = date.getFullYear();
 		const query = this.getSessionsForMonthPayload
 			.replace('{month}', month.toString())
 			.replace('{year}', year.toString());
@@ -97,10 +99,16 @@ export class SessionService {
 	formatDateToString(dateObject) {
 		if (dateObject != undefined && dateObject != '') {
 			const date = '{date}-{month}-{year} {hh}:{mm}';
-			const fullHours = dateObject.getHours() < 10 ? '0' + dateObject.getHours() : dateObject.getHours();
-			const fullMinutes = dateObject.getMinutes() < 10 ? '0' + dateObject.getMinutes() : dateObject.getMinutes();
-			const fullMonth = dateObject.getMonth() < 10 ? '0' + (dateObject.getMonth() + 1) : dateObject.getMonth() + 1;
-			const fullDay = dateObject.getDate() < 10 ? '0' + dateObject.getDate() : dateObject.getDate();
+
+			let hours = dateObject.getHours;
+			let minutes = dateObject.getMinutes();
+			let month = dateObject.getMonth();
+			let day = dateObject.getDate();
+
+			const fullHours = dateObject.getHours() < 10 ? '0' + hours : hours;
+			const fullMinutes = dateObject.getMinutes() < 10 ? '0' + minutes : minutes;
+			const fullMonth = dateObject.getMonth() + 1 < 10 ? '0' + month + 1 : month + 1;
+			const fullDay = dateObject.getDate() < 10 ? '0' + day : date;
 			const formattedDate = date
 				.replace('{date}', fullDay)
 				.replace('{month}', fullMonth)

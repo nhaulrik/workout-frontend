@@ -12,7 +12,7 @@ export class SessionCalendarComponent implements OnInit {
 
 	@Output() dateChanged = new EventEmitter();
 	@Input() selectedDate: Date;
-	@Input() sessionDates: Date[];
+	sessionDates: Date[] = [];
 	currentMonth: string;
 
 	dayChanged(day) {
@@ -26,13 +26,12 @@ export class SessionCalendarComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		this.getSessionsForMonth(this.selectedDate.getMonth() + 1, this.selectedDate.getFullYear());
-
-		this.currentMonth = this.selectedDate.toLocaleString('default', { month: 'long' });
+		this.getSessionsForMonth(this.selectedDate);
+		this.currentMonth = this.selectedDate.toLocaleString('default', {month: 'long'});
 	}
 
-	getSessionsForMonth(month: number, year: number) {
-		this.sessionService.getSessionsForMonth(month, year)
+	getSessionsForMonth(date: Date) {
+		this.sessionService.getSessionsForMonth(date)
 			.subscribe(response => {
 				let graphQlResponse = (response as GraphQlResponse);
 
@@ -44,13 +43,14 @@ export class SessionCalendarComponent implements OnInit {
 
 	daysInMonth(date: Date): number[] {
 		let days = new Date(date.getFullYear(), date.getMonth(), 0).getDate();
-		let dayArray = Array(days).fill(0).map((x, i) => i + 1); // [1,2,3,4]
+		let dayArray = Array(days).fill(0).map((x, i) => i); // [1,2,3,4]
+
 		return dayArray;
 	}
 
 	getSessionClass(day: number): string {
 
-		let isSelected : boolean = this.selectedDate.getDate() === day;
+		let isSelected: boolean = this.selectedDate.getDate() === day;
 		let dayHasSession: boolean = this.sessionDates.filter(date => day === new Date(date).getDate()).length > 0;
 
 		if (dayHasSession && isSelected) {
