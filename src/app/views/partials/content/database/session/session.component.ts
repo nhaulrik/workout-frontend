@@ -43,13 +43,6 @@ export class SessionComponent implements OnInit, myinterface {
 		}
 	}
 
-	createSession(): void {
-		if (this.usersToAdd.length > 0) {
-			// this.sessionService.createSessions(this.usersToAdd, this.selectedDate).subscribe(response => {
-			// })
-		}
-	}
-
 	createWorkoutExerciseComponent() {
 		let componentFactory = this.CFR.resolveComponentFactory(WorkoutExerciseComponent);
 

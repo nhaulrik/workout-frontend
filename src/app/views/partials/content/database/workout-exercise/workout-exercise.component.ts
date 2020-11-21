@@ -4,7 +4,6 @@ import {ExerciseService} from '../../../../../core/database/_services/exercise.s
 import {GraphQlResponse} from '../../../../../core/database/_models/graphQlResponse';
 import {myinterface, WorkoutSetComponent} from '../workout-set/workout-set.component';
 import {SessionComponent} from '../session/session.component';
-import {MatOptionSelectionChange} from '@angular/material';
 
 @Component({
 	selector: 'kt-workout-exercise',
