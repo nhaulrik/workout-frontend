@@ -3,11 +3,13 @@ import {Session} from '../../../../../core/database/_models/session';
 import {User} from '../../../../../core/database/_models/user';
 import {WorkoutExerciseComponent} from '..';
 import {SessionEditComponent} from '../../../../pages/apps/database/session/session-edit/session-edit.component';
+import {SessionService} from '../../../../../core/database';
+import {GraphQlResponse} from '../../../../../core/database/_models/graphQlResponse';
 
 @Component({
 	selector: 'kt-session',
 	templateUrl: './session.component.html',
-	styleUrls: ['./session.component.scss']
+	styleUrls: ['./session.component.scss'],
 })
 export class SessionComponent implements OnInit, myinterface {
 	session: Session;
@@ -23,7 +25,8 @@ export class SessionComponent implements OnInit, myinterface {
 	componentsReferences = Array<ComponentRef<WorkoutExerciseComponent>>()
 
 	constructor(
-		private CFR: ComponentFactoryResolver
+		private CFR: ComponentFactoryResolver,
+		private sessionService: SessionService,
 	) {
 	}
 
@@ -96,6 +99,13 @@ export class SessionComponent implements OnInit, myinterface {
 		} else {
 			return 'white';
 		}
+	}
+
+	updateSessionDetails() {
+		this.sessionService.postSessionDetails(this.session).subscribe(response => {
+			let data = (response as GraphQlResponse).data;
+
+		});
 	}
 }
 

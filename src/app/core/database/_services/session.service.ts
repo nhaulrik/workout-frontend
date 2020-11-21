@@ -19,8 +19,11 @@ export class SessionService {
 	getSessionsForMonthPayload = '{"query":"{\\n sessions (month:{month} year:{year} ) {id localDateTime users { id }}}","variables": null}';
 	getSessionWithWorkoutSetPayload = '{"query":"{\\n sessions (date:\\"{date}\\") {id localDateTime location programme splitName userId users {\\n      firstName\\n      lastName\\n      gender\\n      birthday    }\\n  }\\n}\\n","variables":null,"operationName":null}';
 
-	addSessionQuery = '{"query":"mutation {\\n  addSession (\\n    id:{id}     splitName:\\"{splitName}\\"    location:\\"{location}\\"    programme:\\"{programme}\\"    time:\\"{time}\\"    userId:{userId}) }","variables":null}';
+	addSessionQuery = '{"query":"mutation {\\n  addSession (\\n    id:\\"{id}\\"     splitName:\\"{splitName}\\"    location:\\"{location}\\"    programme:\\"{programme}\\"    time:\\"{time}\\"    userId:{userId}) }","variables":null}';
 	deleteSessionQuery = '{"query":"query {\\n  deleteSessions (ids:[{id}])\\n}\\n","variables":null}'
+
+	postSessionDetailsQuery = '{"query":"mutation {  postSession(    id:\\"{sessionId}\\"  splitName:\\"{splitName}\\"    location: \\"{location}\\"    time: \\"{time}\\"    userId: \\"{userId}\\"    programme: \\"{programme}\\"  )}","variables":null}';
+
 
 	createSessionQuery = '{"query":"mutation { createSession (date: \\"[date]\\", userIds: [[userIds]])}","variables":null}'
 
@@ -96,25 +99,25 @@ export class SessionService {
 			)
 	}
 
-	formatDateToString(dateObject) {
-		if (dateObject != undefined && dateObject != '') {
+	formatDateToString(dateObject: Date) {
+		if (dateObject != undefined) {
 			const date = '{date}-{month}-{year} {hh}:{mm}';
 
-			let hours = dateObject.getHours;
-			let minutes = dateObject.getMinutes();
-			let month = dateObject.getMonth();
-			let day = dateObject.getDate();
+			let hours : number = dateObject.getHours();
+			let minutes : number = dateObject.getMinutes();
+			let month : number = dateObject.getMonth();
+			let day : number = dateObject.getDate();
 
 			const fullHours = dateObject.getHours() < 10 ? '0' + hours : hours;
 			const fullMinutes = dateObject.getMinutes() < 10 ? '0' + minutes : minutes;
 			const fullMonth = dateObject.getMonth() + 1 < 10 ? '0' + month + 1 : month + 1;
-			const fullDay = dateObject.getDate() < 10 ? '0' + day : date;
+			const fullDay = dateObject.getDate() < 10 ? '0' + day : day.toString();
 			const formattedDate = date
 				.replace('{date}', fullDay)
-				.replace('{month}', fullMonth)
-				.replace('{year}', dateObject.getFullYear())
-				.replace('{hh}', fullHours)
-				.replace('{mm}', fullMinutes);
+				.replace('{month}', fullMonth.toString())
+				.replace('{year}', dateObject.getFullYear().toString())
+				.replace('{hh}', fullHours.toString())
+				.replace('{mm}', fullMinutes.toString());
 
 			return formattedDate;
 		}
@@ -139,14 +142,30 @@ export class SessionService {
 	createSessions(userIds: string[], date: Date) {
 		let formattedDate = this.formatDateToString(date);
 
-		var quotedAndCommaSeparated = "\\\"" + userIds.join("\\\",\\\"") + "\\\"".replace("'", "\"");
+		var quotedAndCommaSeparated = '\\"' + userIds.join('\\",\\"') + '\\"'.replace('\'', '"');
 		let payload = this.createSessionQuery
-			.replace("[userIds]", quotedAndCommaSeparated)
-			.replace("[date]", formattedDate);
+			.replace('[userIds]', quotedAndCommaSeparated)
+			.replace('[date]', formattedDate);
 
 		return this.http.post(this.graphQLEndpoint, payload, httpOptions)
 			.pipe(
 				catchError(this.handleError)
 			)
+	}
+
+	postSessionDetails(session: Session) {
+		let query = this.postSessionDetailsQuery;
+		query = session.splitName != null ? query.replace('{splitName}', session.splitName) : query.replace('{splitName}', null);
+		query = session.programme != null ? query.replace('{programme}', session.programme) : query.replace('{programme}', null);
+		query = session.id != null ? query.replace('{sessionId}', session.id) : query.replace('{sessionId}', null);
+		query = session.localDateTime != null ? query.replace('{time}', this.formatDateToString(new Date(session.localDateTime))) : query.replace('{time}', null);
+		query = session.location != null ? query.replace('{location}', session.location) : query.replace('{location}', null);
+		query = session.userId != null ? query.replace('{userId}', session.userId) : query.replace('{userId}', null);
+
+		return this.http.post(this.graphQLEndpoint, query, httpOptions)
+			.pipe(
+				catchError(this.handleError)
+			)
+
 	}
 }

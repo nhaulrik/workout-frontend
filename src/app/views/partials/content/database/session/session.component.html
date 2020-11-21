@@ -7,11 +7,13 @@
 					<div class="kt-portlet__head-title">
 						<input class="session-details-container"
 							   placeholder="programme"
-							   [ngModel]="session.programme"
+							   [(ngModel)]="session.programme"
+							   (ngModelChange)="updateSessionDetails()"
 						/>
 						<span> : </span>
 						<input class="session-details-container"
-							   [ngModel]="session.splitName"
+							   [(ngModel)]="session.splitName"
+							   (ngModelChange)="updateSessionDetails()"
 							   placeholder="split name"
 						/>
 					</div>
