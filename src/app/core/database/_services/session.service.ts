@@ -19,9 +19,6 @@ export class SessionService {
 	getSessionsForMonthPayload = '{"query":"{\\n sessions (month:{month} year:{year} ) {id localDateTime users { id }}}","variables": null}';
 	getSessionWithWorkoutSetPayload = '{"query":"{\\n sessions (date:\\"{date}\\") {id localDateTime location programme splitName userId users {\\n      firstName\\n      lastName\\n      gender\\n      birthday    }\\n  }\\n}\\n","variables":null,"operationName":null}';
 
-	addSessionQuery = '{"query":"mutation {\\n  addSession (\\n    id:\\"{id}\\"     splitName:\\"{splitName}\\"    location:\\"{location}\\"    programme:\\"{programme}\\"    time:\\"{time}\\"    userId:{userId}) }","variables":null}';
-	deleteSessionQuery = '{"query":"query {\\n  deleteSessions (ids:[{id}])\\n}\\n","variables":null}'
-
 	postSessionDetailsQuery = '{"query":"mutation {  postSession(    id:\\"{sessionId}\\"  splitName:\\"{splitName}\\"    location: \\"{location}\\"    time: \\"{time}\\"    userId: \\"{userId}\\"    programme: \\"{programme}\\"  )}","variables":null}';
 
 
@@ -41,57 +38,12 @@ export class SessionService {
 			)
 	}
 
-	getSession(userId: string, date: string) {
-		const query = this.getSessionPayload
-			.replace('{userId}', userId.toString())
-			.replace('{date}', date);
-
-		return this.http.post(this.graphQLEndpoint, query, httpOptions)
-			.pipe(
-				catchError(this.handleError)
-			)
-	}
-
 	getSessionsForMonth(date: Date) {
 		let month = date.getMonth() + 1;
 		let year = date.getFullYear();
 		const query = this.getSessionsForMonthPayload
 			.replace('{month}', month.toString())
 			.replace('{year}', year.toString());
-
-		return this.http.post(this.graphQLEndpoint, query, httpOptions)
-			.pipe(
-				catchError(this.handleError)
-			)
-	}
-
-	addSession(session: Session) {
-		var query = this.addSessionQuery;
-
-		var dateObject = this.formatDateToString(session.localDateTime);
-
-		query = query.replace('{splitName}', session.splitName)
-			.replace('{location}', session.location)
-			.replace('{programme}', session.programme)
-			.replace('{time}', dateObject)
-			.replace('{userId}', session.userId);
-
-		if (session.id != null) {
-			query = query.replace('{id}', session.id.toString());
-		} else {
-			query = query.replace('{id}', null);
-		}
-
-		return this.http.post(this.graphQLEndpoint, query, httpOptions)
-			.pipe(
-				catchError(this.handleError)
-			)
-	}
-
-	deleteSession(id: number) {
-		var query = this.deleteSessionQuery;
-
-		query = query.replace('{id}', id.toString());
 
 		return this.http.post(this.graphQLEndpoint, query, httpOptions)
 			.pipe(
