@@ -49,7 +49,6 @@ export class WorkoutSetComponent implements OnInit {
 	updateWorkoutSet() {
 		this.workoutSetService.postWorkoutSet(this.workoutSet).subscribe(response => {
 			let data = (response as GraphQlResponse).data;
-			debugger;
 		});
 
 	}

@@ -54,6 +54,7 @@ export class SessionEditComponent implements OnInit, AfterViewInit, myinterface 
 
 		this.sessionService.getSessionsForDate(formattedDate)
 			.subscribe(response => {
+				debugger;
 				if ((response as GraphQlResponse).data.sessions.length > 0) {
 					sessions = (response as GraphQlResponse).data.sessions.map(s => ({
 						id: s.id,

@@ -119,8 +119,6 @@ addWorkoutSetListTemplate = '{"query": "mutation {\\n  addWorkoutSetList(workout
 		query = workoutSet.sessionId != null ? query.replace('{sessionId}', workoutSet.sessionId) : query.replace('{sessionId}', null);
 		query = workoutSet.exerciseId != null ? query.replace('{exerciseId}', workoutSet.exerciseId) : query.replace('{exerciseId}', null);
 
-		debugger;
-
 		return this.http.post(this.graphQLEndpoint, query, httpOptions)
 			.pipe(
 				catchError(this.handleError)
