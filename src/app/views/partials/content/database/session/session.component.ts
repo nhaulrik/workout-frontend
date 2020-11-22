@@ -51,6 +51,7 @@ export class SessionComponent implements OnInit, myinterface {
 		let childComponent = childComponentRef.instance;
 		childComponent.unique_key = ++this.child_unique_key;
 		childComponent.parentRef = this;
+		childComponent.sessionId = this.session.id;
 
 		// add reference for newly created component
 		this.componentsReferences.push(childComponentRef);

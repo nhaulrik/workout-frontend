@@ -1,5 +1,3 @@
-import {Exercise} from './exercise';
-
 export class WorkoutSet {
 	id: string;
 	sessionId: string;
@@ -8,4 +6,5 @@ export class WorkoutSet {
 	weight: number;
 	repetitionMaximum: number;
 	setNumber: number;
+	single: boolean;
 }

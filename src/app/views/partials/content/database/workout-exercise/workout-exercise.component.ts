@@ -13,8 +13,8 @@ import {SessionComponent} from '../session/session.component';
 })
 export class WorkoutExerciseComponent implements OnInit, myinterface {
 	exerciseDictionary: Exercise[] = [];
-	sessionExercises: Map<number, string> = new Map<number, string>();
 	exerciseId: string;
+	sessionId: string;
 
 	public unique_key: number;
 	public parentRef: SessionComponent;
@@ -53,30 +53,6 @@ export class WorkoutExerciseComponent implements OnInit, myinterface {
 		this.workoutSetMap.set(exerciseId, currentAmountOfWorkoutSet + 1);
 	}
 
-	// getWorkoutSetAmount(number: number) {
-	// 	if (number == undefined) {
-	// 		return [];
-	// 	}
-	// 	return Array(number).fill(0).map((x, i) => i); // [0,1,2,3,4]
-	// }
-
-	// updateExerciseId(exerciseIndex: number, $event: string) {
-	// 	let exerciseId = $event;
-	// 	let currentAmountOfWorkoutSet = this.workoutSetMap.get(exerciseId);
-	//
-	// 	let currentExerciseId = this.sessionExercises.get(exerciseIndex)
-	//
-	// 	if (currentAmountOfWorkoutSet == undefined && currentExerciseId == undefined) {
-	// 		currentAmountOfWorkoutSet = 0;
-	// 	} else {
-	// 		currentAmountOfWorkoutSet = this.workoutSetMap.get(currentExerciseId);
-	// 	}
-	//
-	// 	this.sessionExercises.set(exerciseIndex, exerciseId);
-	// 	this.workoutSetMap.set(exerciseId, currentAmountOfWorkoutSet);
-	//
-	// }
-
 	removeWorkoutExercise() {
 		console.log(this.unique_key)
 		this.parentRef.remove(this.unique_key)
@@ -91,8 +67,9 @@ export class WorkoutExerciseComponent implements OnInit, myinterface {
 		childComponent.unique_key = ++this.child_unique_key;
 		childComponent.parentRef = this;
 
-		childComponent.setNumber = this.componentsReferences.length + 1;
-		// add reference for newly created component
+		childComponent.workoutSet.setNumber = this.componentsReferences.length + 1;
+		childComponent.workoutSet.exerciseId = this.exerciseId;
+		childComponent.workoutSet.sessionId = this.sessionId;
 		this.componentsReferences.push(childComponentRef);
 	}
 
@@ -114,6 +91,9 @@ export class WorkoutExerciseComponent implements OnInit, myinterface {
 		);
 	}
 
+	updateExerciseId() {
+		this.componentsReferences.forEach(reference => reference.instance.workoutSet.exerciseId = this.exerciseId);
+	}
 }
 
 // Interface

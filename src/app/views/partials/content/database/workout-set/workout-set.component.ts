@@ -1,48 +1,56 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {WorkoutSet} from '../../../../../core/database/_models/workoutSet';
 import {WorkoutExerciseComponent} from '..';
+import {WorkoutSetService} from '../../../../../core/database';
+import {GraphQlResponse} from '../../../../../core/database/_models/graphQlResponse';
 
 @Component({
 	selector: 'kt-workout-set',
 	templateUrl: './workout-set.component.html',
-	styleUrls: ['./workout-set.component.scss']
+	styleUrls: ['./workout-set.component.scss'],
+	providers: [WorkoutSetService]
 })
 export class WorkoutSetComponent implements OnInit {
 
-	constructor() {
+	constructor(
+		private workoutSetService: WorkoutSetService
+	) {
 	}
 
 	public unique_key: number;
 	public parentRef: WorkoutExerciseComponent;
 
-	@Input() exerciseId: string;
-	@Input() setNumber: number;
-	@Input() sessionId: string;
 	workoutSet: WorkoutSet = {
 		id: null,
-		exerciseId: this.exerciseId,
+		exerciseId: null,
 		repetitionMaximum: null,
 		repetitions: 0,
-		sessionId: this.sessionId,
-		setNumber: this.setNumber,
-		weight: 0
+		sessionId: null,
+		setNumber: null,
+		weight: 0,
+		single: false
 	}
+
 
 	removeWorkoutSet() {
 		console.log(this.unique_key)
-		this.parentRef.remove(this.unique_key)
+		this.parentRef.removeWorkoutSetComponent(this.unique_key)
 	}
 
 	ngOnInit() {
 	}
 
 	deleteWorkoutSet(setNumber: number) {
-			if(confirm("Are you sure to delete set number "+setNumber + "?")) {
-				console.log("Implement delete functionality here");
-			}
+		if (confirm('Are you sure to delete set number ' + setNumber + '?')) {
+			console.log('Implement delete functionality here');
+		}
 	}
-}
-// Interface
-export interface myinterface {
-	remove(index: number);
+
+	updateWorkoutSet() {
+		this.workoutSetService.postWorkoutSet(this.workoutSet).subscribe(response => {
+			let data = (response as GraphQlResponse).data;
+			debugger;
+		});
+
+	}
 }
