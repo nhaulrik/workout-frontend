@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {HttpErrorResponse} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 
 import {throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
@@ -112,12 +111,22 @@ addWorkoutSetListTemplate = '{"query": "mutation {\\n  addWorkoutSetList(workout
 		let query = this.postWorkoutSetQuery;
 		query = workoutSet.weight != null ? query.replace('{weight}', workoutSet.weight.toString()) : query.replace('{weight}', null);
 		query = workoutSet.repetitions != null ? query.replace('{repetitions}', workoutSet.repetitions.toString()) : query.replace('{repetitions}', null);
-		query = workoutSet.id != null ? query.replace('{id}', workoutSet.id.toString()) : query.replace('{id}', null);
+		query = workoutSet.id != null ? query.replace('{id}', '\\"'+workoutSet.id.toString()+'\\"') : query.replace('{id}', null);
 		query = workoutSet.single != null ? query.replace('{single}', workoutSet.single.toString()) : query.replace('{single}', null);
 		query = workoutSet.setNumber != null ? query.replace('{setNumber}', workoutSet.setNumber.toString()) : query.replace('{setNumber}', null);
 		query = workoutSet.repetitionMaximum != null ? query.replace('{repetitionMaximum}', workoutSet.repetitionMaximum.toString()) : query.replace('{repetitionMaximum}', null);
 		query = workoutSet.sessionId != null ? query.replace('{sessionId}', workoutSet.sessionId) : query.replace('{sessionId}', null);
 		query = workoutSet.exerciseId != null ? query.replace('{exerciseId}', workoutSet.exerciseId) : query.replace('{exerciseId}', null);
+
+		return this.http.post(this.graphQLEndpoint, query, httpOptions)
+			.pipe(
+				catchError(this.handleError)
+			)
+	}
+
+	removeWorkoutSet(id: string) {
+		let query = '{"query": "mutation {\\n  deleteWorkoutSet(id: \\"{id}\\") \\n}\\n","variables":null}';
+		query = query.replace('{id}', id);
 
 		return this.http.post(this.graphQLEndpoint, query, httpOptions)
 			.pipe(

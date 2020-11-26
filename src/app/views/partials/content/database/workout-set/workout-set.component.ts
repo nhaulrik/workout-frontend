@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component} from '@angular/core';
 import {WorkoutSet} from '../../../../../core/database/_models/workoutSet';
 import {WorkoutExerciseComponent} from '..';
 import {WorkoutSetService} from '../../../../../core/database';
@@ -10,10 +10,11 @@ import {GraphQlResponse} from '../../../../../core/database/_models/graphQlRespo
 	styleUrls: ['./workout-set.component.scss'],
 	providers: [WorkoutSetService]
 })
-export class WorkoutSetComponent implements OnInit {
+export class WorkoutSetComponent implements AfterViewInit {
 
 	constructor(
-		private workoutSetService: WorkoutSetService
+		private workoutSetService: WorkoutSetService,
+		private ref: ChangeDetectorRef
 	) {
 	}
 
@@ -34,22 +35,19 @@ export class WorkoutSetComponent implements OnInit {
 
 	removeWorkoutSet() {
 		console.log(this.unique_key)
+		this.workoutSetService.removeWorkoutSet(this.workoutSet.id).subscribe(response => {
+		});
 		this.parentRef.removeWorkoutSetComponent(this.unique_key)
-	}
-
-	ngOnInit() {
-	}
-
-	deleteWorkoutSet(setNumber: number) {
-		if (confirm('Are you sure to delete set number ' + setNumber + '?')) {
-			console.log('Implement delete functionality here');
-		}
 	}
 
 	updateWorkoutSet() {
 		this.workoutSetService.postWorkoutSet(this.workoutSet).subscribe(response => {
-			let data = (response as GraphQlResponse).data;
+			this.workoutSet.id = (response as GraphQlResponse).data.addWorkoutSet;
 		});
 
+	}
+
+	ngAfterViewInit(): void {
+		this.ref.detectChanges();
 	}
 }

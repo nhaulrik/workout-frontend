@@ -13,6 +13,7 @@ import {SessionService} from '../../../../../../core/database';
 import {SessionComponent} from '../../../../../partials/content/database/session/session.component';
 import {GraphQlResponse} from '../../../../../../core/database/_models/graphQlResponse';
 import {Session} from '../../../../../../core/database/_models/session';
+import {WorkoutSet} from '../../../../../../core/database/_models/workoutSet';
 
 @Component({
 	selector: 'kt-session-edit',
@@ -52,9 +53,8 @@ export class SessionEditComponent implements OnInit, AfterViewInit, myinterface 
 
 		let sessions: Session[] = [];
 
-		this.sessionService.getSessionsForDate(formattedDate)
+			this.sessionService.getSessionsForDate(formattedDate)
 			.subscribe(response => {
-				debugger;
 				if ((response as GraphQlResponse).data.sessions.length > 0) {
 					sessions = (response as GraphQlResponse).data.sessions.map(s => ({
 						id: s.id,
@@ -68,9 +68,10 @@ export class SessionEditComponent implements OnInit, AfterViewInit, myinterface 
 					}));
 					sessions.forEach(session => {
 						if (!this.sessionExists(session.id)) {
-							this.createComponent(session)
+							this.createComponent(session);
 						}
 					});
+					this.ref.detectChanges();
 				} else {
 					this.sessionReferences.forEach(sessionComponent => {
 						let key: number = sessionComponent.instance.unique_key
@@ -113,6 +114,7 @@ export class SessionEditComponent implements OnInit, AfterViewInit, myinterface 
 		childComponent.parentRef = this;
 
 		childComponent.session = session;
+
 
 		// add reference for newly created component
 		this.sessionReferences.push(childComponentRef);

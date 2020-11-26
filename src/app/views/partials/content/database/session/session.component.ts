@@ -1,17 +1,18 @@
-import {Component, ComponentFactoryResolver, ComponentRef, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
+import {AfterViewInit, Component, ComponentFactoryResolver, ComponentRef, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {Session} from '../../../../../core/database/_models/session';
 import {User} from '../../../../../core/database/_models/user';
 import {WorkoutExerciseComponent} from '..';
 import {SessionEditComponent} from '../../../../pages/apps/database/session/session-edit/session-edit.component';
 import {SessionService} from '../../../../../core/database';
 import {GraphQlResponse} from '../../../../../core/database/_models/graphQlResponse';
+import {WorkoutSet} from '../../../../../core/database/_models/workoutSet';
 
 @Component({
 	selector: 'kt-session',
 	templateUrl: './session.component.html',
 	styleUrls: ['./session.component.scss'],
 })
-export class SessionComponent implements OnInit, myinterface {
+export class SessionComponent implements OnInit, myinterface, AfterViewInit {
 	session: Session;
 	users: User[] = [];
 	usersToAdd: string[] = [];
@@ -30,7 +31,25 @@ export class SessionComponent implements OnInit, myinterface {
 	) {
 	}
 
+
+	ngAfterViewInit(): void {
+		let workoutSetMap = new Map<string, WorkoutSet[]>();
+
+		this.session.workoutSet.forEach(workoutSet => {
+			if (workoutSetMap.has(workoutSet.exerciseId)) {
+				workoutSetMap.get(workoutSet.exerciseId).push(workoutSet);
+			} else {
+				workoutSetMap.set(workoutSet.exerciseId, [workoutSet]);
+			}
+		});
+
+		workoutSetMap.forEach((value: WorkoutSet[], key: string) => {
+			this.initializeWorkoutExerciseComponent(key, value);
+		});
+	}
+
 	ngOnInit() {
+
 	}
 
 	addUser(userId: string, event: any) {
@@ -41,6 +60,21 @@ export class SessionComponent implements OnInit, myinterface {
 		} else {
 			this.usersToAdd = this.usersToAdd.filter(u => u !== userId);
 		}
+	}
+
+	initializeWorkoutExerciseComponent(exerciseId: string, workoutSet: WorkoutSet[]) {
+		let componentFactory = this.CFR.resolveComponentFactory(WorkoutExerciseComponent);
+
+		let childComponentRef = this.VCR.createComponent(componentFactory);
+
+		let childComponent = childComponentRef.instance;
+		childComponent.unique_key = ++this.child_unique_key;
+		childComponent.parentRef = this;
+		childComponent.sessionId = this.session.id;
+		childComponent.workoutSet = workoutSet;
+
+		// add reference for newly created component
+		this.componentsReferences.push(childComponentRef);
 	}
 
 	createWorkoutExerciseComponent() {

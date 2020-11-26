@@ -1,9 +1,19 @@
-import {Component, ComponentFactoryResolver, ComponentRef, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
+import {
+	AfterViewInit,
+	ChangeDetectorRef,
+	Component,
+	ComponentFactoryResolver,
+	ComponentRef,
+	OnInit,
+	ViewChild,
+	ViewContainerRef
+} from '@angular/core';
 import {Exercise} from '../../../../../core/database/_models/exercise';
 import {ExerciseService} from '../../../../../core/database/_services/exercise.service';
 import {GraphQlResponse} from '../../../../../core/database/_models/graphQlResponse';
 import {WorkoutSetComponent} from '../workout-set/workout-set.component';
 import {SessionComponent} from '../session/session.component';
+import {WorkoutSet} from '../../../../../core/database/_models/workoutSet';
 
 @Component({
 	selector: 'kt-workout-exercise',
@@ -11,10 +21,11 @@ import {SessionComponent} from '../session/session.component';
 	styleUrls: ['./workout-exercise.component.scss'],
 	providers: [ExerciseService]
 })
-export class WorkoutExerciseComponent implements OnInit, myinterface {
+export class WorkoutExerciseComponent implements OnInit, myinterface, AfterViewInit {
 	exerciseDictionary: Exercise[] = [];
 	exerciseId: string;
 	sessionId: string;
+	workoutSet: WorkoutSet[] = [];
 
 	public unique_key: number;
 	public parentRef: SessionComponent;
@@ -31,6 +42,12 @@ export class WorkoutExerciseComponent implements OnInit, myinterface {
 	) {
 	}
 
+	ngAfterViewInit(): void {
+		this.workoutSet.forEach(workoutSet => {
+			this.initializeWorkoutSetComponent(workoutSet);
+		})
+	}
+
 	ngOnInit() {
 		this.getExercises();
 	}
@@ -42,16 +59,16 @@ export class WorkoutExerciseComponent implements OnInit, myinterface {
 			});
 	}
 
-	addWorkoutSet(exerciseId: string) {
-		let currentAmountOfWorkoutSet = this.workoutSetMap.get(exerciseId);
-
-		if (currentAmountOfWorkoutSet == undefined) {
-			this.workoutSetMap.set(exerciseId, 0);
-			currentAmountOfWorkoutSet++;
-		}
-
-		this.workoutSetMap.set(exerciseId, currentAmountOfWorkoutSet + 1);
-	}
+	// addWorkoutSet(exerciseId: string) {
+	// 	let currentAmountOfWorkoutSet = this.workoutSetMap.get(exerciseId);
+	//
+	// 	if (currentAmountOfWorkoutSet == undefined) {
+	// 		this.workoutSetMap.set(exerciseId, 0);
+	// 		currentAmountOfWorkoutSet++;
+	// 	}
+	//
+	// 	this.workoutSetMap.set(exerciseId, currentAmountOfWorkoutSet + 1);
+	// }
 
 	removeWorkoutExercise() {
 		console.log(this.unique_key)
@@ -71,6 +88,20 @@ export class WorkoutExerciseComponent implements OnInit, myinterface {
 		childComponent.workoutSet.exerciseId = this.exerciseId;
 		childComponent.workoutSet.sessionId = this.sessionId;
 		this.componentsReferences.push(childComponentRef);
+	}
+
+	initializeWorkoutSetComponent(workoutSet: WorkoutSet) {
+		let componentFactory = this.CFR.resolveComponentFactory(WorkoutSetComponent);
+
+		let childComponentRef = this.VCR.createComponent(componentFactory);
+
+		let childComponent = childComponentRef.instance;
+		childComponent.unique_key = ++this.child_unique_key;
+		childComponent.parentRef = this;
+
+		childComponent.workoutSet = workoutSet;
+		this.componentsReferences.push(childComponentRef);
+		this.exerciseId = workoutSet.exerciseId;
 	}
 
 	removeWorkoutSetComponent(key: number) {
@@ -93,6 +124,12 @@ export class WorkoutExerciseComponent implements OnInit, myinterface {
 
 	updateExerciseId() {
 		this.componentsReferences.forEach(reference => reference.instance.workoutSet.exerciseId = this.exerciseId);
+	}
+
+	initializeWorkoutSet(workoutSet: WorkoutSet[]) {
+		workoutSet.forEach(workoutSet => {
+			this.initializeWorkoutSetComponent(workoutSet);
+		});
 	}
 }
 

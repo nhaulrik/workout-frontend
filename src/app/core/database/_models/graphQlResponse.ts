@@ -16,4 +16,5 @@ export class GraphQlData {
 	users: User[] = [];
 	sessions: Session[] = [];
 	workoutSets: WorkoutSet[] = [];
+	addWorkoutSet: string;
 }
