@@ -9,6 +9,11 @@
 					[selectedDate]="selectedDate"
 					(dateChanged)="dateChanged($event)"
 				></kt-session-calendar>
+				<br>
+				<kt-session-create *ngIf="sessionReferences.length == 0"
+								   [selectedDate]="selectedDate"
+								   (sessionsCreated)="sessionsCreated()"
+				></kt-session-create>
 			</kt-portlet-body>
 		</kt-portlet>
 		<ng-container ktPortletTools>

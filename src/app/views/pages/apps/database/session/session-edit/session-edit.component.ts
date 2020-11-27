@@ -13,7 +13,6 @@ import {SessionService} from '../../../../../../core/database';
 import {SessionComponent} from '../../../../../partials/content/database/session/session.component';
 import {GraphQlResponse} from '../../../../../../core/database/_models/graphQlResponse';
 import {Session} from '../../../../../../core/database/_models/session';
-import {WorkoutSet} from '../../../../../../core/database/_models/workoutSet';
 
 @Component({
 	selector: 'kt-session-edit',
@@ -140,6 +139,10 @@ export class SessionEditComponent implements OnInit, AfterViewInit, myinterface 
 
 	getTitle(): string {
 		return 'Selected session date: ' + this.formatDateToString(this.selectedDate);
+	}
+
+	sessionsCreated() {
+		this.loadSessions(this.selectedDate);
 	}
 }
 

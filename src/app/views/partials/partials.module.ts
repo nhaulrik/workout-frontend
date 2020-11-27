@@ -74,7 +74,7 @@ import {InlineSVGModule} from 'ng-inline-svg';
 import {CartComponent} from './layout/topbar/cart/cart.component';
 import {ExerciseSelectorComponent} from './content/database/exercise-selector/exercise-selector.component';
 import {UserSelectorComponent} from './content/database/user-selector/user-selector.component';
-import {SessionDetailsComponent} from './content/database/session-details/session-details.component';
+import {SessionCreateComponent} from './content/database/session-details/session-create.component';
 import {WorkoutExerciseComponent} from './content/database/workout-exercise/workout-exercise.component';
 import {SessionCalendarComponent} from './content/database/session-calendar/session-calendar.component';
 import {WorkoutSetComponent} from './content/database/workout-set/workout-set.component';
@@ -115,7 +115,7 @@ import {SessionComponent} from './content/database/session/session.component';
 
 		ExerciseSelectorComponent,
 		UserSelectorComponent,
-		SessionDetailsComponent,
+		SessionCreateComponent,
 		WorkoutExerciseComponent,
 		SessionCalendarComponent,
 		WorkoutSetComponent,
@@ -124,7 +124,7 @@ import {SessionComponent} from './content/database/session/session.component';
 	exports: [
 		ExerciseSelectorComponent,
 		UserSelectorComponent,
-		SessionDetailsComponent,
+		SessionCreateComponent,
 		WorkoutExerciseComponent,
 		SessionCalendarComponent,
 

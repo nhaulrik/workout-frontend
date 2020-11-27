@@ -1,0 +1,8 @@
+<ng-container ktPortletTools>
+	<h3>Create session</h3>
+	<mat-checkbox *ngFor="let user of users.keys()"
+				  (change)="selectUser(user)">
+		{{user.firstName}} {{user.lastName}}
+	</mat-checkbox>
+	<button mat-button (click)="createSession()">Create</button>
+</ng-container>
