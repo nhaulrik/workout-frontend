@@ -79,6 +79,7 @@ export class SessionEditComponent implements OnInit, AfterViewInit, myinterface 
 				}
 				this.ref.detectChanges();
 			});
+		this.ref.detectChanges();
 	}
 
 	sessionExists(sessionId: string): boolean {

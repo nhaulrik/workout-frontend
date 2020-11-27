@@ -1,4 +1,13 @@
-import {AfterViewInit, Component, ComponentFactoryResolver, ComponentRef, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
+import {
+	AfterViewInit,
+	ChangeDetectorRef,
+	Component,
+	ComponentFactoryResolver,
+	ComponentRef,
+	OnInit,
+	ViewChild,
+	ViewContainerRef
+} from '@angular/core';
 import {Session} from '../../../../../core/database/_models/session';
 import {User} from '../../../../../core/database/_models/user';
 import {WorkoutExerciseComponent} from '..';

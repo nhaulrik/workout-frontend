@@ -38,13 +38,16 @@ export class WorkoutExerciseComponent implements OnInit, myinterface, AfterViewI
 
 	constructor(
 		private CFR: ComponentFactoryResolver,
-		private exerciseService: ExerciseService
+		private exerciseService: ExerciseService,
+		private ref: ChangeDetectorRef
 	) {
 	}
 
 	ngAfterViewInit(): void {
 		this.workoutSet.forEach(workoutSet => {
+			this.exerciseId = workoutSet.exerciseId;
 			this.initializeWorkoutSetComponent(workoutSet);
+			this.ref.detectChanges();
 		})
 	}
 
@@ -56,19 +59,9 @@ export class WorkoutExerciseComponent implements OnInit, myinterface, AfterViewI
 		this.exerciseService.getExercises()
 			.subscribe(response => {
 				this.exerciseDictionary = (response as GraphQlResponse).data.exercises;
+				this.ref.detectChanges();
 			});
 	}
-
-	// addWorkoutSet(exerciseId: string) {
-	// 	let currentAmountOfWorkoutSet = this.workoutSetMap.get(exerciseId);
-	//
-	// 	if (currentAmountOfWorkoutSet == undefined) {
-	// 		this.workoutSetMap.set(exerciseId, 0);
-	// 		currentAmountOfWorkoutSet++;
-	// 	}
-	//
-	// 	this.workoutSetMap.set(exerciseId, currentAmountOfWorkoutSet + 1);
-	// }
 
 	removeWorkoutExercise() {
 		console.log(this.unique_key)
@@ -101,7 +94,6 @@ export class WorkoutExerciseComponent implements OnInit, myinterface, AfterViewI
 
 		childComponent.workoutSet = workoutSet;
 		this.componentsReferences.push(childComponentRef);
-		this.exerciseId = workoutSet.exerciseId;
 	}
 
 	removeWorkoutSetComponent(key: number) {
