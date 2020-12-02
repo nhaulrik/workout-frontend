@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {SessionService, UserService} from '../../../../../core/database';
 import {User} from '../../../../../core/database/_models/user';
 import {GraphQlResponse} from '../../../../../core/database/_models/graphQlResponse';
@@ -20,7 +20,8 @@ export class SessionCreateComponent implements OnInit {
 
 	constructor(
 		private userService: UserService,
-		private sessionService: SessionService
+		private sessionService: SessionService,
+		private ref: ChangeDetectorRef
 	) {
 	}
 
@@ -36,6 +37,7 @@ export class SessionCreateComponent implements OnInit {
 					this.users.set(user, false);
 				});
 			}
+			this.ref.detectChanges();
 		});
 	}
 
@@ -56,8 +58,6 @@ export class SessionCreateComponent implements OnInit {
 				let graphQlResponse = (response as GraphQlResponse);
 				if (graphQlResponse.data != null) {
 					this.sessionsCreated.emit();
-
-					//window.location.reload();
 				}
 			})
 		}

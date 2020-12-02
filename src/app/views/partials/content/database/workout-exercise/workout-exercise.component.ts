@@ -44,7 +44,7 @@ export class WorkoutExerciseComponent implements OnInit, myinterface, AfterViewI
 	}
 
 	ngAfterViewInit(): void {
-		this.workoutSet.forEach(workoutSet => {
+		this.workoutSet.sort((ws1, ws2) => ws1.setNumber - ws2.setNumber).forEach(workoutSet => {
 			this.exerciseId = workoutSet.exerciseId;
 			this.initializeWorkoutSetComponent(workoutSet);
 			this.ref.detectChanges();

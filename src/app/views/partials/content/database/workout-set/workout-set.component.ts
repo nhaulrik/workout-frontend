@@ -41,10 +41,13 @@ export class WorkoutSetComponent implements AfterViewInit {
 	}
 
 	updateWorkoutSet() {
-		this.workoutSetService.postWorkoutSet(this.workoutSet).subscribe(response => {
-			this.workoutSet.id = (response as GraphQlResponse).data.addWorkoutSet;
-		});
-
+		if (this.workoutSet.setNumber > 0 &&
+			this.workoutSet.repetitions > 0 &&
+			this.workoutSet.weight > 0) {
+			this.workoutSetService.postWorkoutSet(this.workoutSet).subscribe(response => {
+				this.workoutSet.id = (response as GraphQlResponse).data.addWorkoutSet;
+			});
+		}
 	}
 
 	ngAfterViewInit(): void {
