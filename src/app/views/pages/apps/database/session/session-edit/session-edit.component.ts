@@ -43,6 +43,7 @@ export class SessionEditComponent implements OnInit, AfterViewInit, myinterface 
 	}
 
 	dateChanged(date) {
+		this.clearSessions();
 		this.selectedDate = date;
 		this.loadSessions(date);
 	}
@@ -144,6 +145,13 @@ export class SessionEditComponent implements OnInit, AfterViewInit, myinterface 
 
 	sessionsCreated() {
 		this.loadSessions(this.selectedDate);
+	}
+
+	private clearSessions() {
+		this.sessionReferences.forEach(sessionComponent => {
+			let key: number = sessionComponent.instance.unique_key
+			this.remove(key)
+		})
 	}
 }
 

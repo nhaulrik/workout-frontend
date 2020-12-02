@@ -58,7 +58,8 @@ export class WorkoutExerciseComponent implements OnInit, myinterface, AfterViewI
 	getExercises() {
 		this.exerciseService.getExercises()
 			.subscribe(response => {
-				this.exerciseDictionary = (response as GraphQlResponse).data.exercises;
+				this.exerciseDictionary = (response as GraphQlResponse).data.exercises
+					.sort((ex1, ex2) => ex1.name.localeCompare(ex2.name));
 				this.ref.detectChanges();
 			});
 	}
