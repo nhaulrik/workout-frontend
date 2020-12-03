@@ -15,6 +15,7 @@ import {SessionEditComponent} from '../../../../pages/apps/database/session/sess
 import {SessionService} from '../../../../../core/database';
 import {GraphQlResponse} from '../../../../../core/database/_models/graphQlResponse';
 import {WorkoutSet} from '../../../../../core/database/_models/workoutSet';
+import {WorkoutExercise} from '../../../../../core/database/_models/workoutExercise';
 
 @Component({
 	selector: 'kt-session',
@@ -42,18 +43,8 @@ export class SessionComponent implements OnInit, myinterface, AfterViewInit {
 
 
 	ngAfterViewInit(): void {
-		let workoutSetMap = new Map<string, WorkoutSet[]>();
-
-		this.session.workoutSet.forEach(workoutSet => {
-			if (workoutSetMap.has(workoutSet.exerciseId)) {
-				workoutSetMap.get(workoutSet.exerciseId).push(workoutSet);
-			} else {
-				workoutSetMap.set(workoutSet.exerciseId, [workoutSet]);
-			}
-		});
-
-		workoutSetMap.forEach((value: WorkoutSet[], key: string) => {
-			this.initializeWorkoutExerciseComponent(key, value);
+		this.session.workoutExercises.forEach(we => {
+			this.initializeWorkoutExerciseComponent(we);
 		});
 	}
 
@@ -71,7 +62,7 @@ export class SessionComponent implements OnInit, myinterface, AfterViewInit {
 		}
 	}
 
-	initializeWorkoutExerciseComponent(exerciseId: string, workoutSet: WorkoutSet[]) {
+	initializeWorkoutExerciseComponent(workoutExercise: WorkoutExercise) {
 		let componentFactory = this.CFR.resolveComponentFactory(WorkoutExerciseComponent);
 
 		let childComponentRef = this.VCR.createComponent(componentFactory);
@@ -79,8 +70,8 @@ export class SessionComponent implements OnInit, myinterface, AfterViewInit {
 		let childComponent = childComponentRef.instance;
 		childComponent.unique_key = ++this.child_unique_key;
 		childComponent.parentRef = this;
-		childComponent.sessionId = this.session.id;
-		childComponent.workoutSet = workoutSet;
+		childComponent.workoutExercise.sessionId = this.session.id;
+		childComponent.workoutExercise = workoutExercise;
 
 		// add reference for newly created component
 		this.componentsReferences.push(childComponentRef);
@@ -94,7 +85,7 @@ export class SessionComponent implements OnInit, myinterface, AfterViewInit {
 		let childComponent = childComponentRef.instance;
 		childComponent.unique_key = ++this.child_unique_key;
 		childComponent.parentRef = this;
-		childComponent.sessionId = this.session.id;
+		childComponent.workoutExercise.sessionId = this.session.id;
 
 		// add reference for newly created component
 		this.componentsReferences.push(childComponentRef);

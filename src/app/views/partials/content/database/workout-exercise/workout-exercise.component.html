@@ -5,7 +5,7 @@
 	</div>
 	<div class="col-2">
 		<mat-select placeholder="select exercise"
-					[(ngModel)]="exerciseId"
+					[(ngModel)]="workoutExercise.exerciseId"
 					(ngModelChange)="updateExerciseId()">
 			<mat-option *ngFor="let exercise of exerciseDictionary"
 						[value]="exercise.id"
@@ -14,7 +14,7 @@
 	</div>
 	<div class="col">
 		<span class="workout-set" #viewWorkoutSetRef></span>
-		<button *ngIf="exerciseId != undefined" mat-button color="primary" (click)="createWorkoutSetComponent()">Add set</button>
+		<button *ngIf="workoutExercise.exerciseId != undefined" mat-button color="primary" (click)="createWorkoutSetComponent()">Add set</button>
 	</div>
 </div>
 <div class="row align-items-center">

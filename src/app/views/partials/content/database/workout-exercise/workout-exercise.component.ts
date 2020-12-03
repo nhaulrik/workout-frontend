@@ -25,10 +25,14 @@ import {WorkoutExercise} from '../../../../../core/database/_models/workoutExerc
 })
 export class WorkoutExerciseComponent implements OnInit, myinterface, AfterViewInit {
 	exerciseDictionary: Exercise[] = [];
-	exerciseId: string;
-	sessionId: string;
-	workoutSet: WorkoutSet[] = [];
-	workoutExercise: WorkoutExercise;
+	workoutExercise: WorkoutExercise = {
+		id: null,
+		exerciseId: null,
+		exerciseNumber: null,
+		sessionId: null,
+		exercise: null,
+		workoutSet: []
+	};
 
 	public unique_key: number;
 	public parentRef: SessionComponent;
@@ -48,8 +52,8 @@ export class WorkoutExerciseComponent implements OnInit, myinterface, AfterViewI
 	}
 
 	ngAfterViewInit(): void {
-		this.workoutSet.sort((ws1, ws2) => ws1.setNumber - ws2.setNumber).forEach(workoutSet => {
-			this.exerciseId = workoutSet.exerciseId;
+		this.workoutExercise.workoutSet.sort((ws1, ws2) => ws1.setNumber - ws2.setNumber).forEach(workoutSet => {
+			this.workoutExercise.exerciseId = this.workoutExercise.exerciseId;
 			this.initializeWorkoutSetComponent(workoutSet);
 			this.ref.detectChanges();
 		})
@@ -71,6 +75,9 @@ export class WorkoutExerciseComponent implements OnInit, myinterface, AfterViewI
 	removeWorkoutExercise() {
 		console.log(this.unique_key)
 		this.parentRef.remove(this.unique_key)
+		this.workoutExerciseService.removeWorkoutExercise(this.workoutExercise.id).subscribe(response => {
+			let data = (response as GraphQlResponse);
+		})
 	}
 
 	createWorkoutSetComponent() {
@@ -83,8 +90,6 @@ export class WorkoutExerciseComponent implements OnInit, myinterface, AfterViewI
 		childComponent.parentRef = this;
 
 		childComponent.workoutSet.setNumber = this.componentsReferences.length + 1;
-		childComponent.workoutSet.exerciseId = this.exerciseId;
-		childComponent.workoutSet.sessionId = this.sessionId;
 		this.componentsReferences.push(childComponentRef);
 	}
 
@@ -120,7 +125,9 @@ export class WorkoutExerciseComponent implements OnInit, myinterface, AfterViewI
 	}
 
 	updateExerciseId() {
-		this.componentsReferences.forEach(reference => reference.instance.workoutSet.exerciseId = this.exerciseId);
+		this.workoutExerciseService.postWorkoutExercise(this.workoutExercise).subscribe(response => {
+			let data = (response as GraphQlResponse).data;
+		})
 	}
 
 	initializeWorkoutSet(workoutSet: WorkoutSet[]) {

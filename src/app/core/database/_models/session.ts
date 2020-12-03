@@ -11,6 +11,5 @@ export class Session {
 
 	userId: string;
 	users: User[];
-	workoutSet: WorkoutSet[];
 	workoutExercises: WorkoutExercise[];
 }

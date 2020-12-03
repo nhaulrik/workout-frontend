@@ -6,6 +6,6 @@ export class WorkoutExercise {
 	sessionId: string;
 	exerciseId: string;
 	exerciseNumber: number;
-	workoutSets: WorkoutSet[];
+	workoutSet: WorkoutSet[];
 	exercise: Exercise;
 }

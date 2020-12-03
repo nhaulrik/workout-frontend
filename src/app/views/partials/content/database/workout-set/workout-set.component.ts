@@ -23,10 +23,8 @@ export class WorkoutSetComponent implements AfterViewInit {
 
 	workoutSet: WorkoutSet = {
 		id: null,
-		exerciseId: null,
 		repetitionMaximum: null,
 		repetitions: 0,
-		sessionId: null,
 		setNumber: null,
 		weight: 0,
 		single: false
@@ -44,7 +42,7 @@ export class WorkoutSetComponent implements AfterViewInit {
 		if (this.workoutSet.setNumber > 0 &&
 			this.workoutSet.repetitions > 0 &&
 			this.workoutSet.weight > 0) {
-			this.workoutSetService.postWorkoutSet(this.workoutSet).subscribe(response => {
+			this.workoutSetService.postWorkoutSet(this.workoutSet, this.parentRef.workoutExercise.sessionId, this.parentRef.workoutExercise.id).subscribe(response => {
 				this.workoutSet.id = (response as GraphQlResponse).data.addWorkoutSet;
 			});
 		}

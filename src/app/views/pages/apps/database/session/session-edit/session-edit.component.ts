@@ -52,11 +52,9 @@ export class SessionEditComponent implements OnInit, AfterViewInit, myinterface 
 		let formattedDate = this.formatDateToString(date);
 
 		let sessions: Session[] = [];
-
-			this.sessionService.getSessionsForDate(formattedDate)
+		this.sessionService.getSessionsForDate(formattedDate)
 			.subscribe(response => {
 				if ((response as GraphQlResponse).data.sessions.length > 0) {
-					debugger;
 					sessions = (response as GraphQlResponse).data.sessions.map(s => ({
 						id: s.id,
 						location: s.location,
@@ -64,13 +62,12 @@ export class SessionEditComponent implements OnInit, AfterViewInit, myinterface 
 						splitName: s.splitName,
 						localDateTime: s.localDateTime,
 						userId: s.userId,
-						workoutSet: s.workoutSet,
 						users: s.users,
 						workoutExercises: s.workoutExercises
 					}));
 					sessions.forEach(session => {
 						if (!this.sessionExists(session.id)) {
-							this.createComponent(session);
+							this.createSessionComponent(session);
 						}
 					});
 					this.ref.detectChanges();
@@ -107,7 +104,7 @@ export class SessionEditComponent implements OnInit, AfterViewInit, myinterface 
 		return '';
 	}
 
-	createComponent(session: Session) {
+	createSessionComponent(session: Session) {
 		let componentFactory = this.CFR.resolveComponentFactory(SessionComponent);
 
 		let childComponentRef = this.VCR.createComponent(componentFactory);
