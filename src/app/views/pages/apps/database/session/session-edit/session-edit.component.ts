@@ -56,6 +56,7 @@ export class SessionEditComponent implements OnInit, AfterViewInit, myinterface 
 			this.sessionService.getSessionsForDate(formattedDate)
 			.subscribe(response => {
 				if ((response as GraphQlResponse).data.sessions.length > 0) {
+					debugger;
 					sessions = (response as GraphQlResponse).data.sessions.map(s => ({
 						id: s.id,
 						location: s.location,
@@ -64,7 +65,8 @@ export class SessionEditComponent implements OnInit, AfterViewInit, myinterface 
 						localDateTime: s.localDateTime,
 						userId: s.userId,
 						workoutSet: s.workoutSet,
-						users: s.users
+						users: s.users,
+						workoutExercises: s.workoutExercises
 					}));
 					sessions.forEach(session => {
 						if (!this.sessionExists(session.id)) {

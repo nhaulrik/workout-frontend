@@ -14,18 +14,21 @@ import {GraphQlResponse} from '../../../../../core/database/_models/graphQlRespo
 import {WorkoutSetComponent} from '../workout-set/workout-set.component';
 import {SessionComponent} from '../session/session.component';
 import {WorkoutSet} from '../../../../../core/database/_models/workoutSet';
+import {WorkoutExerciseService} from '../../../../../core/database/_services/workoutExerciseService';
+import {WorkoutExercise} from '../../../../../core/database/_models/workoutExercise';
 
 @Component({
 	selector: 'kt-workout-exercise',
 	templateUrl: './workout-exercise.component.html',
 	styleUrls: ['./workout-exercise.component.scss'],
-	providers: [ExerciseService]
+	providers: [ExerciseService, WorkoutExerciseService]
 })
 export class WorkoutExerciseComponent implements OnInit, myinterface, AfterViewInit {
 	exerciseDictionary: Exercise[] = [];
 	exerciseId: string;
 	sessionId: string;
 	workoutSet: WorkoutSet[] = [];
+	workoutExercise: WorkoutExercise;
 
 	public unique_key: number;
 	public parentRef: SessionComponent;
@@ -39,6 +42,7 @@ export class WorkoutExerciseComponent implements OnInit, myinterface, AfterViewI
 	constructor(
 		private CFR: ComponentFactoryResolver,
 		private exerciseService: ExerciseService,
+		private workoutExerciseService: WorkoutExerciseService,
 		private ref: ChangeDetectorRef
 	) {
 	}

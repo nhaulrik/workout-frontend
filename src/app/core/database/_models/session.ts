@@ -1,5 +1,6 @@
 import {WorkoutSet} from './workoutSet';
 import {User} from './user';
+import {WorkoutExercise} from './workoutExercise';
 
 export class Session {
 	id: string
@@ -11,4 +12,5 @@ export class Session {
 	userId: string;
 	users: User[];
 	workoutSet: WorkoutSet[];
+	workoutExercises: WorkoutExercise[];
 }

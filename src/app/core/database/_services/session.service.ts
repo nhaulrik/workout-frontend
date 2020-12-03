@@ -17,7 +17,7 @@ export class SessionService {
 	getSessionEndpoint = 'http://localhost:9090/api/v1/session/{userId}/{date}';
 	getSessionPayload = '{"query":"{\\n sessions (userId:{userId} date:\\"{date}\\") {id localDateTime location programme splitName userId}}","variables": null}';
 	getSessionsForMonthPayload = '{"query":"{\\n sessions (month:{month} year:{year} ) {id localDateTime users { id }}}","variables": null}';
-	getSessionWithWorkoutSetPayload = '{"query":"{\\n sessions (date:\\"{date}\\") {id localDateTime location programme splitName userId users {\\n      firstName\\n      lastName\\n      gender\\n      birthday   }\\n workoutSet { exerciseId id repetitionMaximum repetitions setNumber single weight sessionId }  }\\n}\\n","variables":null,"operationName":null}';
+	getSessionWithWorkoutExercisesPayload = '{"query":"{\\n sessions (date:\\"{date}\\") {id localDateTime location programme splitName userId users {\\n      firstName\\n      lastName\\n      gender\\n      birthday   }\\n workoutExercises { exerciseNumber id   workoutSet {  id repetitionMaximum repetitions setNumber single weight  } }  }\\n}\\n","variables":null,"operationName":null}';
 
 	postSessionDetailsQuery = '{"query":"mutation {  postSession(    id:\\"{sessionId}\\"  splitName:\\"{splitName}\\"    location: \\"{location}\\"    time: \\"{time}\\"    userId: \\"{userId}\\"    programme: \\"{programme}\\"  )}","variables":null}';
 
@@ -29,7 +29,7 @@ export class SessionService {
 
 
 	getSessionsForDate(date: string) {
-		const query = this.getSessionWithWorkoutSetPayload
+		const query = this.getSessionWithWorkoutExercisesPayload
 			.replace('{date}', date);
 
 		return this.http.post(this.graphQLEndpoint, query, httpOptions)
