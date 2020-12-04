@@ -1,21 +1,12 @@
-import {
-	AfterViewInit,
-	ChangeDetectorRef,
-	Component,
-	ComponentFactoryResolver,
-	ComponentRef,
-	OnInit,
-	ViewChild,
-	ViewContainerRef
-} from '@angular/core';
+import {AfterViewInit, Component, ComponentFactoryResolver, ComponentRef, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {Session} from '../../../../../core/database/_models/session';
 import {User} from '../../../../../core/database/_models/user';
 import {WorkoutExerciseComponent} from '..';
 import {SessionEditComponent} from '../../../../pages/apps/database/session/session-edit/session-edit.component';
 import {SessionService} from '../../../../../core/database';
 import {GraphQlResponse} from '../../../../../core/database/_models/graphQlResponse';
-import {WorkoutSet} from '../../../../../core/database/_models/workoutSet';
 import {WorkoutExercise} from '../../../../../core/database/_models/workoutExercise';
+import {MatSnackBar} from '@angular/material';
 
 @Component({
 	selector: 'kt-session',
@@ -36,6 +27,7 @@ export class SessionComponent implements OnInit, myinterface, AfterViewInit {
 	componentsReferences = Array<ComponentRef<WorkoutExerciseComponent>>()
 
 	constructor(
+		public snackBar: MatSnackBar,
 		private CFR: ComponentFactoryResolver,
 		private sessionService: SessionService,
 	) {
@@ -133,6 +125,24 @@ export class SessionComponent implements OnInit, myinterface, AfterViewInit {
 		this.sessionService.postSessionDetails(this.session).subscribe(response => {
 			let data = (response as GraphQlResponse).data;
 
+		});
+	}
+
+	deleteSession() {
+		this.parentRef.removeSessionComponent(this.unique_key);
+		this.sessionService.deleteSession(this.session.id).subscribe(response => {
+			let sessionDeleted: boolean = (response as GraphQlResponse).data.deleteSession;
+			if (sessionDeleted) {
+				this.showSnackBar('Session was deleted');
+			} else {
+				this.showSnackBar('Something went wrong');
+			}
+		});
+	}
+
+	showSnackBar(message: string) {
+		this.snackBar.open(message, '', {
+			duration: 3000
 		});
 	}
 }

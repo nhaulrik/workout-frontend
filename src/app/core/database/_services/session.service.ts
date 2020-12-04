@@ -55,10 +55,10 @@ export class SessionService {
 		if (dateObject != undefined) {
 			const date = '{date}-{month}-{year} {hh}:{mm}';
 
-			let hours : number = dateObject.getHours();
-			let minutes : number = dateObject.getMinutes();
-			let month : number = dateObject.getMonth();
-			let day : number = dateObject.getDate();
+			let hours: number = dateObject.getHours();
+			let minutes: number = dateObject.getMinutes();
+			let month: number = dateObject.getMonth();
+			let day: number = dateObject.getDate();
 
 			const fullHours = dateObject.getHours() < 10 ? '0' + hours : hours;
 			const fullMinutes = dateObject.getMinutes() < 10 ? '0' + minutes : minutes;
@@ -119,5 +119,15 @@ export class SessionService {
 				catchError(this.handleError)
 			)
 
+	}
+
+	deleteSession(id: string) {
+		let query = '{"query":"mutation {  deleteSession(    id:\\"{sessionId}\\")}","variables":null}';
+		query = query.replace('{sessionId}',id);
+
+		return this.http.post(this.graphQLEndpoint, query, httpOptions)
+			.pipe(
+				catchError(this.handleError)
+			)
 	}
 }

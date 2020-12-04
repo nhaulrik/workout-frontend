@@ -152,6 +152,25 @@ export class SessionEditComponent implements OnInit, AfterViewInit, myinterface 
 			this.remove(key)
 		})
 	}
+
+	removeSessionComponent(key: number) {
+		if (this.VCR.length < 1) return;
+
+		let componentRef = this.sessionReferences.filter(
+			x => x.instance.unique_key == key
+		)[0];
+
+		let vcrIndex: number = this.VCR.indexOf(componentRef as any);
+
+		// removing component from container
+		this.VCR.remove(vcrIndex);
+
+		// removing component from the list
+		this.sessionReferences = this.sessionReferences.filter(
+			x => x.instance.unique_key !== key
+		);
+	}
+
 }
 
 // Interface
