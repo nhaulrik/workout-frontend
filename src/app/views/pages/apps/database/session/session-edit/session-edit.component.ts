@@ -13,6 +13,7 @@ import {SessionService} from '../../../../../../core/database';
 import {SessionComponent} from '../../../../../partials/content/database/session/session.component';
 import {GraphQlResponse} from '../../../../../../core/database/_models/graphQlResponse';
 import {Session} from '../../../../../../core/database/_models/session';
+import {SessionCalendarComponent} from '../../../../../partials/content/database';
 
 @Component({
 	selector: 'kt-session-edit',
@@ -24,8 +25,10 @@ export class SessionEditComponent implements OnInit, AfterViewInit, myinterface 
 
 	selectedDate: Date = new Date();
 	@ViewChild('viewSessionRef', {static: false, read: ViewContainerRef}) VCR: ViewContainerRef;
+	@ViewChild('sessionCalendarRef', {static: false, read: ViewContainerRef}) VCR2: ViewContainerRef;
 	child_unique_key: number = 0;
 	sessionReferences = Array<ComponentRef<SessionComponent>>()
+	private sessionCalendarComponent: SessionCalendarComponent;
 
 	constructor(
 		private CFR: ComponentFactoryResolver,
@@ -39,7 +42,8 @@ export class SessionEditComponent implements OnInit, AfterViewInit, myinterface 
 	}
 
 	ngAfterViewInit(): void {
-		this.loadSessions(new Date())
+		this.createCalendarComponent();
+		this.loadSessions(new Date());
 	}
 
 	dateChanged(date) {
@@ -120,6 +124,17 @@ export class SessionEditComponent implements OnInit, AfterViewInit, myinterface 
 		this.sessionReferences.push(childComponentRef);
 	}
 
+	createCalendarComponent() {
+		let componentFactory = this.CFR.resolveComponentFactory(SessionCalendarComponent);
+
+		let childComponentRef = this.VCR2.createComponent(componentFactory);
+
+		let childComponent = childComponentRef.instance;
+		this.sessionCalendarComponent = childComponent;
+		childComponent.unique_key = ++this.child_unique_key;
+		childComponent.parentRef = this;
+	}
+
 	remove(key: number) {
 		if (this.VCR.length < 1) return;
 
@@ -171,6 +186,9 @@ export class SessionEditComponent implements OnInit, AfterViewInit, myinterface 
 		);
 	}
 
+	updateCalendar() {
+		this.sessionCalendarComponent.reload();
+	}
 }
 
 // Interface

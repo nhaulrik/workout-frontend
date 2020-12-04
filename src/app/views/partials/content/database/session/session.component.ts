@@ -134,6 +134,7 @@ export class SessionComponent implements OnInit, myinterface, AfterViewInit {
 			let sessionDeleted: boolean = (response as GraphQlResponse).data.deleteSession;
 			if (sessionDeleted) {
 				this.showSnackBar('Session was deleted');
+				this.parentRef.updateCalendar();
 			} else {
 				this.showSnackBar('Something went wrong');
 			}

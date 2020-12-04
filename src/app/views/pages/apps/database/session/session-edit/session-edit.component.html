@@ -5,10 +5,7 @@
 			<kt-portlet-header [title]="getTitle()">
 			</kt-portlet-header>
 			<kt-portlet-body>
-				<kt-session-calendar
-					[selectedDate]="selectedDate"
-					(dateChanged)="dateChanged($event)"
-				></kt-session-calendar>
+				<div #sessionCalendarRef></div>
 				<br>
 				<kt-session-create *ngIf="sessionReferences.length == 0"
 								   [selectedDate]="selectedDate"

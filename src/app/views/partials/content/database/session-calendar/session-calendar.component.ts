@@ -1,7 +1,8 @@
-import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {SessionService} from '../../../../../core/database';
 import {GraphQlResponse} from '../../../../../core/database/_models/graphQlResponse';
 import {Session} from '../../../../../core/database/_models/session';
+import {SessionEditComponent} from '../../../../pages/apps/database/session/session-edit/session-edit.component';
 
 @Component({
 	selector: 'kt-session-calendar',
@@ -10,14 +11,17 @@ import {Session} from '../../../../../core/database/_models/session';
 })
 export class SessionCalendarComponent implements OnInit {
 
-	@Output() dateChanged = new EventEmitter();
-	@Input() selectedDate: Date;
+	selectedDate: Date = new Date();
 	sessionDates: Date[] = [];
 	currentMonth: string;
 
+	public unique_key: number;
+	public parentRef: SessionEditComponent;
+
+
 	dayChanged(day) {
 		this.selectedDate.setDate(day)
-		this.dateChanged.emit(this.selectedDate);
+		this.parentRef.dateChanged(this.selectedDate);
 	}
 
 	constructor(
@@ -68,17 +72,23 @@ export class SessionCalendarComponent implements OnInit {
 	changeMonth(amount: number) {
 		let date = this.selectedDate;
 		let newMonth = date.getMonth() + amount;
-		if(newMonth < 0){
+		if (newMonth < 0) {
 			newMonth += 12;
 			date.setFullYear(date.getFullYear() - 1);
 		}
 		date.setMonth(newMonth);
 		this.ngOnInit();
+		this.parentRef.dateChanged(date);
 	}
 
 	changeYear(amount: number) {
 		let currentYear = this.selectedDate.getFullYear();
 		this.selectedDate.setFullYear(currentYear + amount);
+		this.ngOnInit();
+		this.parentRef.dateChanged(this.selectedDate);
+	}
+
+	reload() {
 		this.ngOnInit();
 	}
 }
