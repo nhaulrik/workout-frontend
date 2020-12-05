@@ -17,6 +17,7 @@ export class SessionComponent implements OnInit, myinterface, AfterViewInit {
 	session: Session;
 	users: User[] = [];
 	usersToAdd: string[] = [];
+	sessionLock: string = "Lock";
 
 	public unique_key: number;
 	public parentRef: SessionEditComponent;
@@ -130,6 +131,11 @@ export class SessionComponent implements OnInit, myinterface, AfterViewInit {
 	}
 
 	deleteSession() {
+		if (this.sessionLock == "Lock") {
+			this.showSnackBar("cannot remove locked session");
+			return;
+		}
+
 		this.parentRef.removeSessionComponent(this.unique_key);
 		this.sessionService.deleteSession(this.session.id).subscribe(response => {
 			let sessionDeleted: boolean = (response as GraphQlResponse).data.deleteSession;
@@ -146,6 +152,15 @@ export class SessionComponent implements OnInit, myinterface, AfterViewInit {
 		this.snackBar.open(message, '', {
 			duration: 3000
 		});
+	}
+
+	toggleEdit() {
+		if (this.sessionLock == "Lock") {
+			this.sessionLock = "Unlock";
+		} else {
+			this.sessionLock = "Lock";
+		}
+
 	}
 }
 

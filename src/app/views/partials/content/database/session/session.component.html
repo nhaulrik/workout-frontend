@@ -4,14 +4,16 @@
 		<kt-portlet [class]="'kt-portlet'">
 			<kt-portlet-header [title]="getUserName()" [style.background-color]="getColor()">
 				<ng-container ktPortletTools class="col1">
+					<img src='{{"assets/media/icons/svg/General/" + sessionLock +".svg"}}' (click)="toggleEdit()"/>
 					<div class="kt-portlet__head-title">
-						<input class="session-details-container"
+						<input [disabled]="sessionLock == 'Lock'" class="session-details-container"
 							   placeholder="programme"
 							   [(ngModel)]="session.programme"
 							   (ngModelChange)="updateSessionDetails()"
 						/>
 						<span> : </span>
 						<input class="session-details-container"
+							   [disabled]="sessionLock == 'Lock'"
 							   [(ngModel)]="session.splitName"
 							   (ngModelChange)="updateSessionDetails()"
 							   placeholder="split name"
