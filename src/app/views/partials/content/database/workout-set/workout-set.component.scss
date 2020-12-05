@@ -1,12 +1,24 @@
 
 .table-input {
 	text-align: center;
+	width: 10%;
+	border: 0px none;
+}
+
+.repetition-input {
+	text-align: center;
 	width: 12%;
 	border: 0px none;
 }
 
+.weight-input {
+	text-align: center;
+	width: 18%;
+	border: 0px none;
+}
+
 .workout-set {
-	width: 180px;
+	width: 190px;
 	border-right: 1px solid black;
 	margin:5px;
 	padding:5px;

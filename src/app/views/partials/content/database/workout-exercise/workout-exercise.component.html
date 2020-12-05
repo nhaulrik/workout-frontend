@@ -16,8 +16,10 @@
 		</mat-select>
 	</div>
 	<div class="col">
-		<span class="workout-set" #viewWorkoutSetRef></span>
-		<button *ngIf="workoutExercise.exerciseId != undefined" mat-button color="primary" (click)="createWorkoutSetComponent()">Add set</button>
+		<div #viewWorkoutSetRef></div>
+		<button style="float: left;" *ngIf="workoutExercise.exerciseId != undefined" mat-button color="primary"
+				(click)="createWorkoutSetComponent()">Add set
+		</button>
 	</div>
 </div>
 <div class="row align-items-center">

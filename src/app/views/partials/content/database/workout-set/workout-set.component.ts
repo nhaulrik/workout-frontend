@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectorRef, Component} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, ViewContainerRef} from '@angular/core';
 import {WorkoutSet} from '../../../../../core/database/_models/workoutSet';
 import {WorkoutExerciseComponent} from '..';
 import {WorkoutSetService} from '../../../../../core/database';
@@ -21,6 +21,8 @@ export class WorkoutSetComponent implements AfterViewInit {
 	public unique_key: number;
 	public parentRef: WorkoutExerciseComponent;
 
+	@ViewChild("repetitions", {static: false}) repetitionsField: ElementRef;
+
 	workoutSet: WorkoutSet = {
 		id: null,
 		repetitionMaximum: null,
@@ -35,7 +37,7 @@ export class WorkoutSetComponent implements AfterViewInit {
 		console.log(this.unique_key)
 		this.workoutSetService.removeWorkoutSet(this.workoutSet.id).subscribe(response => {
 		});
-		this.parentRef.removeWorkoutSetComponent(this.unique_key)
+		this.parentRef.removeWorkoutSetComponent(this.unique_key);
 	}
 
 	updateWorkoutSet() {
@@ -50,5 +52,6 @@ export class WorkoutSetComponent implements AfterViewInit {
 
 	ngAfterViewInit(): void {
 		this.ref.detectChanges();
+		this.repetitionsField.nativeElement.select();
 	}
 }
