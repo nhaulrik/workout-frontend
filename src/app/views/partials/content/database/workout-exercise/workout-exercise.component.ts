@@ -127,6 +127,7 @@ export class WorkoutExerciseComponent implements OnInit, myinterface, AfterViewI
 	updateExerciseId() {
 		this.workoutExerciseService.postWorkoutExercise(this.workoutExercise).subscribe(response => {
 			let data = (response as GraphQlResponse).data;
+			this.workoutExercise.id = data.postWorkoutExercise;
 		})
 	}
 

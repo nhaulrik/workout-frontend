@@ -1,10 +1,10 @@
 <span class="workout-set">
-	Set<input onClick="this.select();" type="number" class="table-input" style="width: 8%;" [(ngModel)]="workoutSet.setNumber" (ngModelChange)="updateWorkoutSet()"> Reps<input onClick="this.select();" type="number" class="table-input" [(ngModel)]="workoutSet.repetitions"
-(ngModelChange)="updateWorkoutSet()">
+	Set<input onClick="this.select();" type="number" class="table-input" style="width: 8%;" [(ngModel)]="workoutSet.setNumber" (focusout)="updateWorkoutSet()"> Reps<input onClick="this.select();" type="number" class="table-input" [(ngModel)]="workoutSet.repetitions"
+(focusout)="updateWorkoutSet()">
 	x
 	<input onClick="this.select();" type="number" step="0.5" class="table-input"
 		   [(ngModel)]="workoutSet.weight"
-	(ngModelChange)="updateWorkoutSet()">
+	(focusout)="updateWorkoutSet()">
 	kg
 	<img src="assets/media/icons/svg/General/Trash.svg" alt="Delete" (click)="removeWorkoutSet()"/>
 </span>

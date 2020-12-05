@@ -35,7 +35,7 @@ export class SessionComponent implements OnInit, myinterface, AfterViewInit {
 
 
 	ngAfterViewInit(): void {
-		this.session.workoutExercises.forEach(we => {
+		this.session.workoutExercises.sort((we1, we2) => we1.exerciseNumber - we2.exerciseNumber).forEach(we => {
 			this.initializeWorkoutExerciseComponent(we);
 		});
 	}
@@ -78,6 +78,7 @@ export class SessionComponent implements OnInit, myinterface, AfterViewInit {
 		childComponent.unique_key = ++this.child_unique_key;
 		childComponent.parentRef = this;
 		childComponent.workoutExercise.sessionId = this.session.id;
+		childComponent.workoutExercise.exerciseNumber = this.componentsReferences.length + 1;
 
 		// add reference for newly created component
 		this.componentsReferences.push(childComponentRef);

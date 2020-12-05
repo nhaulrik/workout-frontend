@@ -35,7 +35,7 @@ export class WorkoutExerciseService {
 		query = workoutExercise.id != null ? query.replace('{id}', '\\"' + workoutExercise.id.toString() + '\\"') : query.replace('{id}', null);
 		query = workoutExercise.sessionId != null ? query.replace('{sessionId}', '\\"' + workoutExercise.sessionId.toString() + '\\"') : query.replace('{sessionId}', null);
 		query = workoutExercise.exerciseId != null ? query.replace('{exerciseId}', '\\"' + workoutExercise.exerciseId.toString() + '\\"') : query.replace('{exerciseId}', null);
-		query = workoutExercise.exerciseNumber != null ? query.replace('{exerciseNumber}', '\\"' + workoutExercise.exerciseNumber.toString() + '\\"') : query.replace('{exerciseNumber}', null);
+		query = workoutExercise.exerciseNumber != null ? query.replace('{exerciseNumber}', workoutExercise.exerciseNumber.toString()) : query.replace('{exerciseNumber}', null);
 
 		return this.http.post(this.graphQLEndpoint, query, httpOptions)
 			.pipe(

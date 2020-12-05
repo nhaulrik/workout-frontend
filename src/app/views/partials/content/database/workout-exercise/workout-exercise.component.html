@@ -3,6 +3,9 @@
 		<img src="assets/media/icons/svg/General/Trash.svg" alt="Delete"
 			 (click)="removeWorkoutExercise()"/>
 	</div>
+	<div>
+		{{workoutExercise.exerciseNumber}}
+	</div>
 	<div class="col-2">
 		<mat-select placeholder="select exercise"
 					[(ngModel)]="workoutExercise.exerciseId"
