@@ -11,6 +11,7 @@
 								   [selectedDate]="selectedDate"
 								   (sessionsCreated)="sessionsCreated()"
 				></kt-session-create>
+				<mat-spinner [diameter]="100" *ngIf="dataLoading"></mat-spinner>
 			</kt-portlet-body>
 		</kt-portlet>
 		<ng-container ktPortletTools>
