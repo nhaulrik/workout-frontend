@@ -13,7 +13,7 @@ import {SessionService} from '../../../../../../core/database';
 import {SessionComponent} from '../../../../../partials/content/database/session/session.component';
 import {GraphQlResponse} from '../../../../../../core/database/_models/graphQlResponse';
 import {Session} from '../../../../../../core/database/_models/session';
-import {SessionCalendarComponent} from '../../../../../partials/content/database';
+import {SessionCalendarComponent, SessionCreateComponent} from '../../../../../partials/content/database';
 
 @Component({
 	selector: 'kt-session-edit',
@@ -26,9 +26,13 @@ export class SessionEditComponent implements OnInit, AfterViewInit, myinterface 
 	selectedDate: Date = new Date();
 	@ViewChild('viewSessionRef', {static: false, read: ViewContainerRef}) VCR: ViewContainerRef;
 	@ViewChild('sessionCalendarRef', {static: false, read: ViewContainerRef}) VCR2: ViewContainerRef;
+	@ViewChild('sessionCreateRef', {static: false, read: ViewContainerRef}) VCR3: ViewContainerRef;
+
 	child_unique_key: number = 0;
 	sessionReferences = Array<ComponentRef<SessionComponent>>()
 	private sessionCalendarComponent: SessionCalendarComponent;
+	private sessionCreateComponent: SessionCreateComponent;
+
 	dataLoading: boolean = false;
 
 	constructor(
@@ -44,6 +48,7 @@ export class SessionEditComponent implements OnInit, AfterViewInit, myinterface 
 
 	ngAfterViewInit(): void {
 		this.createCalendarComponent();
+		this.createSessionCreateComponent();
 		this.loadSessions(new Date());
 	}
 
@@ -60,6 +65,7 @@ export class SessionEditComponent implements OnInit, AfterViewInit, myinterface 
 		let sessions: Session[] = [];
 		this.sessionService.getSessionsForDate(formattedDate)
 			.subscribe(response => {
+				this.sessionCreateComponent.initializeUsers([]);
 				if ((response as GraphQlResponse).data.sessions.length > 0) {
 					sessions = (response as GraphQlResponse).data.sessions.map(s => ({
 						id: s.id,
@@ -76,6 +82,7 @@ export class SessionEditComponent implements OnInit, AfterViewInit, myinterface 
 							this.createSessionComponent(session);
 						}
 					});
+					this.sessionCreateComponent.initializeUsers(sessions.map(session => session.userId));
 					this.ref.detectChanges();
 				} else {
 					this.sessionReferences.forEach(sessionComponent => {
@@ -159,10 +166,6 @@ export class SessionEditComponent implements OnInit, AfterViewInit, myinterface 
 		return 'Selected session date: ' + this.formatDateToString(this.selectedDate);
 	}
 
-	sessionsCreated() {
-		this.loadSessions(this.selectedDate);
-	}
-
 	private clearSessions() {
 		this.sessionReferences.forEach(sessionComponent => {
 			let key: number = sessionComponent.instance.unique_key
@@ -190,6 +193,17 @@ export class SessionEditComponent implements OnInit, AfterViewInit, myinterface 
 
 	updateCalendar() {
 		this.sessionCalendarComponent.reload();
+	}
+
+	private createSessionCreateComponent() {
+		let componentFactory = this.CFR.resolveComponentFactory(SessionCreateComponent);
+
+		let childComponentRef = this.VCR3.createComponent(componentFactory);
+
+		let childComponent = childComponentRef.instance;
+		this.sessionCreateComponent = childComponent;
+		childComponent.unique_key = ++this.child_unique_key;
+		childComponent.parentRef = this;
 	}
 }
 

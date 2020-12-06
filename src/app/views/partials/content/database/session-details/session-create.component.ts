@@ -1,7 +1,8 @@
-import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {SessionService, UserService} from '../../../../../core/database';
 import {User} from '../../../../../core/database/_models/user';
 import {GraphQlResponse} from '../../../../../core/database/_models/graphQlResponse';
+import {SessionEditComponent} from '../../../../pages/apps/database/session/session-edit/session-edit.component';
 
 @Component({
 	selector: 'kt-session-create',
@@ -11,12 +12,11 @@ import {GraphQlResponse} from '../../../../../core/database/_models/graphQlRespo
 export class SessionCreateComponent implements OnInit {
 
 	users: Map<User, boolean> = new Map<User, boolean>();
+	selectedDate: Date = new Date();
+	sessionUsers: string[] = [];
 
-	@Input()
-	selectedDate: Date;
-
-	@Output() sessionsCreated = new EventEmitter();
-
+	public unique_key: number;
+	public parentRef: SessionEditComponent;
 
 	constructor(
 		private userService: UserService,
@@ -33,8 +33,14 @@ export class SessionCreateComponent implements OnInit {
 		this.userService.getUsers().subscribe(response => {
 			let data = (response as GraphQlResponse).data;
 			if (data != null) {
+				//debugger;
+				//let currentSessionUsers = new Map<string, boolean>();
+				//this.parentRef.sessionReferences.forEach(session => currentSessionUsers.set(session.instance.session.id, true));
+
 				data.users.forEach(user => {
+					//if (!currentSessionUsers.has(user.id)) {
 					this.users.set(user, false);
+					//}
 				});
 			}
 			this.ref.detectChanges();
@@ -57,9 +63,13 @@ export class SessionCreateComponent implements OnInit {
 			this.sessionService.createSessions(usersToAdd, this.selectedDate).subscribe(response => {
 				let graphQlResponse = (response as GraphQlResponse);
 				if (graphQlResponse.data != null) {
-					this.sessionsCreated.emit();
+					this.parentRef.loadSessions(this.selectedDate);
 				}
 			})
 		}
+	}
+
+	initializeUsers(users: string[]) {
+		this.sessionUsers = users;
 	}
 }

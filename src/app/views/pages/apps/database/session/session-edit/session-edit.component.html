@@ -7,10 +7,7 @@
 			<kt-portlet-body>
 				<div #sessionCalendarRef></div>
 				<br>
-				<kt-session-create *ngIf="sessionReferences.length == 0"
-								   [selectedDate]="selectedDate"
-								   (sessionsCreated)="sessionsCreated()"
-				></kt-session-create>
+				<div #sessionCreateRef></div>
 				<mat-spinner [diameter]="100" *ngIf="dataLoading"></mat-spinner>
 			</kt-portlet-body>
 		</kt-portlet>

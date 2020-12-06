@@ -207,7 +207,8 @@ import {SessionComponent} from './content/database/session/session.component';
 		WorkoutSetComponent,
 		WorkoutExerciseComponent,
 		SessionComponent,
-		SessionCalendarComponent
+		SessionCalendarComponent,
+		SessionCreateComponent
 	]
 })
 export class PartialsModule {
