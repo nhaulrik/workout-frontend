@@ -24,7 +24,9 @@
 			</kt-portlet-header>
 			<kt-portlet-body>
 				<div #viewWorkoutExerciseRef></div>
-				<button mat-button color="primary" (click)="createWorkoutExerciseComponent()">Add Exercise</button>
+				<button mat-button color="primary"
+						[disabled]="this.sessionLock == 'Lock'"
+						(click)="createWorkoutExerciseComponent()">Add Exercise</button>
 			</kt-portlet-body>
 		</kt-portlet>
 	</div>

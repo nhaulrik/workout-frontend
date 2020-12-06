@@ -19,6 +19,7 @@
 	<div class="col">
 		<div #viewWorkoutSetRef></div>
 		<button style="float: left;" *ngIf="workoutExercise.exerciseId != undefined" mat-button color="primary"
+				[disabled]="this.parentRef.sessionLock == 'Lock'"
 				(click)="createWorkoutSetComponent()">Add set
 		</button>
 	</div>
