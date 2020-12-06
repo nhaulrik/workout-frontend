@@ -119,7 +119,6 @@ export class SessionEditComponent implements OnInit, AfterViewInit, myinterface 
 
 		childComponent.session = session;
 
-
 		// add reference for newly created component
 		this.sessionReferences.push(childComponentRef);
 	}

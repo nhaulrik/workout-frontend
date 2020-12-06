@@ -160,7 +160,6 @@ export class SessionComponent implements OnInit, myinterface, AfterViewInit {
 		} else {
 			this.sessionLock = "Lock";
 		}
-
 	}
 }
 

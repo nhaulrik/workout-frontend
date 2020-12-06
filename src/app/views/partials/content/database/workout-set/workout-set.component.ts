@@ -34,6 +34,12 @@ export class WorkoutSetComponent implements AfterViewInit {
 
 
 	removeWorkoutSet() {
+
+		if (this.parentRef.parentRef.sessionLock == 'Lock') {
+			this.parentRef.parentRef.showSnackBar("cannot delete locked workout set");
+			return;
+		}
+
 		console.log(this.unique_key)
 		this.workoutSetService.removeWorkoutSet(this.workoutSet.id).subscribe(response => {
 		});

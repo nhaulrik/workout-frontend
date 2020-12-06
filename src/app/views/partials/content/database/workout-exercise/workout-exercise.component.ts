@@ -81,6 +81,10 @@ export class WorkoutExerciseComponent implements OnInit, myinterface, AfterViewI
 	}
 
 	createWorkoutSetComponent() {
+		if (this.parentRef.sessionLock == "Lock") {
+			this.parentRef.showSnackBar("cannot add set to locked session");
+			return;
+		}
 		let componentFactory = this.CFR.resolveComponentFactory(WorkoutSetComponent);
 
 		let childComponentRef = this.VCR.createComponent(componentFactory);

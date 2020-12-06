@@ -8,6 +8,7 @@
 	</div>
 	<div class="col-2">
 		<mat-select placeholder="select exercise"
+					[disabled]="this.parentRef.sessionLock == 'Lock'"
 					[(ngModel)]="workoutExercise.exerciseId"
 					(ngModelChange)="updateExerciseId()">
 			<mat-option *ngFor="let exercise of exerciseDictionary"
