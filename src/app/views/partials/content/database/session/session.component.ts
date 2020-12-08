@@ -1,4 +1,13 @@
-import {AfterViewInit, Component, ComponentFactoryResolver, ComponentRef, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
+import {
+	AfterViewInit,
+	ChangeDetectorRef,
+	Component,
+	ComponentFactoryResolver,
+	ComponentRef,
+	OnInit,
+	ViewChild,
+	ViewContainerRef
+} from '@angular/core';
 import {Session} from '../../../../../core/database/_models/session';
 import {User} from '../../../../../core/database/_models/user';
 import {WorkoutExerciseComponent} from '..';
@@ -7,17 +16,21 @@ import {SessionService} from '../../../../../core/database';
 import {GraphQlResponse} from '../../../../../core/database/_models/graphQlResponse';
 import {WorkoutExercise} from '../../../../../core/database/_models/workoutExercise';
 import {MatSnackBar} from '@angular/material';
+import {ExerciseService} from '../../../../../core/database/_services/exercise.service';
+import {Exercise} from '../../../../../core/database/_models/exercise';
 
 @Component({
 	selector: 'kt-session',
 	templateUrl: './session.component.html',
 	styleUrls: ['./session.component.scss'],
+	providers: [ExerciseService]
 })
 export class SessionComponent implements OnInit, myinterface, AfterViewInit {
 	session: Session;
 	users: User[] = [];
+	exercises: Exercise[] = [];
 	usersToAdd: string[] = [];
-	sessionLock: string = "Lock";
+	sessionLock: string = 'Lock';
 
 	public unique_key: number;
 	public parentRef: SessionEditComponent;
@@ -31,14 +44,20 @@ export class SessionComponent implements OnInit, myinterface, AfterViewInit {
 		public snackBar: MatSnackBar,
 		private CFR: ComponentFactoryResolver,
 		private sessionService: SessionService,
+		private exerciseService: ExerciseService,
+		private ref: ChangeDetectorRef
 	) {
 	}
 
-
 	ngAfterViewInit(): void {
-		this.session.workoutExercises.sort((we1, we2) => we1.exerciseNumber - we2.exerciseNumber).forEach(we => {
-			this.initializeWorkoutExerciseComponent(we);
-		});
+
+		this.exerciseService.getExercises().subscribe(response => {
+			this.exercises = (response as GraphQlResponse).data.exercises;
+			this.session.workoutExercises.sort((we1, we2) => we1.exerciseNumber - we2.exerciseNumber).forEach(we => {
+				this.initializeWorkoutExerciseComponent(we);
+			});
+			this.ref.detectChanges();
+		})
 	}
 
 	ngOnInit() {
@@ -65,6 +84,7 @@ export class SessionComponent implements OnInit, myinterface, AfterViewInit {
 		childComponent.parentRef = this;
 		childComponent.workoutExercise.sessionId = this.session.id;
 		childComponent.workoutExercise = workoutExercise;
+		childComponent.exercises = this.exercises;
 
 		// add reference for newly created component
 		this.componentsReferences.push(childComponentRef);
@@ -80,6 +100,7 @@ export class SessionComponent implements OnInit, myinterface, AfterViewInit {
 		childComponent.parentRef = this;
 		childComponent.workoutExercise.sessionId = this.session.id;
 		childComponent.workoutExercise.exerciseNumber = this.componentsReferences.length + 1;
+		childComponent.exercises = this.exercises;
 
 		// add reference for newly created component
 		this.componentsReferences.push(childComponentRef);
@@ -131,8 +152,8 @@ export class SessionComponent implements OnInit, myinterface, AfterViewInit {
 	}
 
 	deleteSession() {
-		if (this.sessionLock == "Lock") {
-			this.showSnackBar("cannot remove locked session");
+		if (this.sessionLock == 'Lock') {
+			this.showSnackBar('cannot remove locked session');
 			return;
 		}
 
@@ -155,10 +176,10 @@ export class SessionComponent implements OnInit, myinterface, AfterViewInit {
 	}
 
 	toggleEdit() {
-		if (this.sessionLock == "Lock") {
-			this.sessionLock = "Unlock";
+		if (this.sessionLock == 'Lock') {
+			this.sessionLock = 'Unlock';
 		} else {
-			this.sessionLock = "Lock";
+			this.sessionLock = 'Lock';
 		}
 	}
 }

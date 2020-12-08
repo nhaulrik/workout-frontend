@@ -9,7 +9,6 @@ import {
 	ViewContainerRef
 } from '@angular/core';
 import {Exercise} from '../../../../../core/database/_models/exercise';
-import {ExerciseService} from '../../../../../core/database/_services/exercise.service';
 import {GraphQlResponse} from '../../../../../core/database/_models/graphQlResponse';
 import {WorkoutSetComponent} from '../workout-set/workout-set.component';
 import {SessionComponent} from '../session/session.component';
@@ -21,10 +20,11 @@ import {WorkoutExercise} from '../../../../../core/database/_models/workoutExerc
 	selector: 'kt-workout-exercise',
 	templateUrl: './workout-exercise.component.html',
 	styleUrls: ['./workout-exercise.component.scss'],
-	providers: [ExerciseService, WorkoutExerciseService]
+	providers: [WorkoutExerciseService]
 })
 export class WorkoutExerciseComponent implements OnInit, myinterface, AfterViewInit {
 	exerciseDictionary: Exercise[] = [];
+	exercises: Exercise[];
 	workoutExercise: WorkoutExercise = {
 		id: null,
 		exerciseId: null,
@@ -45,7 +45,6 @@ export class WorkoutExerciseComponent implements OnInit, myinterface, AfterViewI
 
 	constructor(
 		private CFR: ComponentFactoryResolver,
-		private exerciseService: ExerciseService,
 		private workoutExerciseService: WorkoutExerciseService,
 		private ref: ChangeDetectorRef
 	) {
@@ -60,16 +59,13 @@ export class WorkoutExerciseComponent implements OnInit, myinterface, AfterViewI
 	}
 
 	ngOnInit() {
-		this.getExercises();
+		this.setExercises();
 	}
 
-	getExercises() {
-		this.exerciseService.getExercises()
-			.subscribe(response => {
-				this.exerciseDictionary = (response as GraphQlResponse).data.exercises
-					.sort((ex1, ex2) => ex1.name.localeCompare(ex2.name));
-				this.ref.detectChanges();
-			});
+	setExercises() {
+		this.exerciseDictionary = this.exercises
+			.sort((ex1, ex2) => ex1.name.localeCompare(ex2.name));
+		this.ref.detectChanges();
 	}
 
 	removeWorkoutExercise() {

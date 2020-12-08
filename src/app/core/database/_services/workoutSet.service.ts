@@ -21,9 +21,6 @@ export class WorkoutSetService {
 	postWorkoutSetQuery = '{"query": "mutation {\\n  addWorkoutSet(id: {id}, sessionId: \\"{sessionId}\\", workoutExerciseId: \\"{workoutExerciseId}\\", repetitions: {repetitions}, weight: {weight}, single: {single}, repetitionMaximum: {repetitionMaximum}, setNumber: {setNumber}) \\n}\\n","variables":null}';
 
 
-	addWorkoutSetListTemplate = '{"query": "mutation {\\n  addWorkoutSetList(workoutSet: [{content}]) \\n}\\n","variables":null}'
-	addWorkoutSetListObject = '{id: {id}, sessionId: {sessionId}, exerciseId: {exerciseId}, repetitions: {repetitions}, weight: {weight}, single: {single}, repetitionMaximum: {repetitionMaximum}, setNumber: {setNumber}}';
-
 	constructor(private http: HttpClient) {
 	}
 

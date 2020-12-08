@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, ViewContainerRef} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild} from '@angular/core';
 import {WorkoutSet} from '../../../../../core/database/_models/workoutSet';
 import {WorkoutExerciseComponent} from '..';
 import {WorkoutSetService} from '../../../../../core/database';
@@ -21,7 +21,7 @@ export class WorkoutSetComponent implements AfterViewInit {
 	public unique_key: number;
 	public parentRef: WorkoutExerciseComponent;
 
-	@ViewChild("repetitions", {static: false}) repetitionsField: ElementRef;
+	@ViewChild('repetitions', {static: false}) repetitionsField: ElementRef;
 
 	workoutSet: WorkoutSet = {
 		id: null,
@@ -36,7 +36,7 @@ export class WorkoutSetComponent implements AfterViewInit {
 	removeWorkoutSet() {
 
 		if (this.parentRef.parentRef.sessionLock == 'Lock') {
-			this.parentRef.parentRef.showSnackBar("cannot delete locked workout set");
+			this.parentRef.parentRef.showSnackBar('cannot delete locked workout set');
 			return;
 		}
 
