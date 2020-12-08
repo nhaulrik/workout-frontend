@@ -4,6 +4,7 @@ import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {Session} from '../_models/session';
+import {PostSessionRequest} from '../_models/requests/postSessionRequest';
 
 const httpOptions = {
 	headers: new HttpHeaders({
@@ -14,15 +15,21 @@ const httpOptions = {
 @Injectable()
 export class SessionService {
 	graphQLEndpoint = 'http://localhost:9090/graphql';
+	sessionControllerEndpoint = 'http://localhost:9090/api/v1/session';
 	getSessionEndpoint = 'http://localhost:9090/api/v1/session/{userId}/{date}';
-	getSessionPayload = '{"query":"{\\n sessions (userId:{userId} date:\\"{date}\\") {id localDateTime location programme splitName userId}}","variables": null}';
 	getSessionsForMonthPayload = '{"query":"{\\n sessions (month:{month} year:{year} ) {id localDateTime users { id }}}","variables": null}';
 	getSessionWithWorkoutExercisesPayload = '{"query":"{\\n sessions (date:\\"{date}\\") {id localDateTime location programme splitName userId users {\\n      firstName\\n      lastName\\n      gender\\n      birthday   }\\n workoutExercises { exerciseNumber id exerciseId sessionId workoutSet {  id repetitionMaximum repetitions setNumber single weight  } }  }\\n}\\n","variables":null,"operationName":null}';
 
-	postSessionDetailsQuery = '{"query":"mutation {  postSession(    id:\\"{sessionId}\\"  splitName:\\"{splitName}\\"    location: \\"{location}\\"    time: \\"{time}\\"    userId: \\"{userId}\\"    programme: \\"{programme}\\"  )}","variables":null}';
-
-
-	createSessionQuery = '{"query":"mutation { createSession (date: \\"[date]\\", userIds: [[userIds]])}","variables":null}'
+	postSessionRequest =
+		'[\n' +
+		'    {\n' +
+		'        "id" : "{id}",\n' +
+		'        "userId" : "{userId}",\n' +
+		'        "location" : {location},\n' +
+		'        "programme" : {programme},\n' +
+		'        "splitName" : {splitName},\n' +
+		'    }\n' +
+		']';
 
 	constructor(private http: HttpClient) {
 	}
@@ -94,27 +101,35 @@ export class SessionService {
 	createSessions(userIds: string[], date: Date) {
 		let formattedDate = this.formatDateToString(date);
 
-		var quotedAndCommaSeparated = '\\"' + userIds.join('\\",\\"') + '\\"'.replace('\'', '"');
-		let payload = this.createSessionQuery
-			.replace('[userIds]', quotedAndCommaSeparated)
-			.replace('[date]', formattedDate);
+		let postSessionRequests: PostSessionRequest[] = userIds.map(userId => {
+			return {
+				userId: userId,
+				id: null,
+				location: null,
+				programme: null,
+				splitName: null,
+				date: formattedDate
+			}
+		});
 
-		return this.http.post(this.graphQLEndpoint, payload, httpOptions)
+		return this.http.post(this.sessionControllerEndpoint, postSessionRequests, httpOptions)
 			.pipe(
 				catchError(this.handleError)
 			)
 	}
 
-	postSessionDetails(session: Session) {
-		let query = this.postSessionDetailsQuery;
-		query = session.splitName != null ? query.replace('{splitName}', session.splitName) : query.replace('{splitName}', null);
-		query = session.programme != null ? query.replace('{programme}', session.programme) : query.replace('{programme}', null);
-		query = session.id != null ? query.replace('{sessionId}', session.id) : query.replace('{sessionId}', null);
-		query = session.localDateTime != null ? query.replace('{time}', this.formatDateToString(new Date(session.localDateTime))) : query.replace('{time}', null);
-		query = session.location != null ? query.replace('{location}', session.location) : query.replace('{location}', null);
-		query = session.userId != null ? query.replace('{userId}', session.userId) : query.replace('{userId}', null);
+	postSession(session: Session) {
 
-		return this.http.post(this.graphQLEndpoint, query, httpOptions)
+		let postSessionRequest: PostSessionRequest[] = [{
+			userId: session.userId != null ? session.userId : null,
+			id: session.id != null ? session.id : null,
+			location: session.location != null ? session.location : null,
+			programme: session.programme != null ? session.programme : null,
+			splitName: session.splitName != null ? session.splitName : null,
+			date: session.localDateTime != null ? this.formatDateToString(new Date(session.localDateTime)) : null
+		}];
+
+		return this.http.post(this.sessionControllerEndpoint, postSessionRequest, httpOptions)
 			.pipe(
 				catchError(this.handleError)
 			)
@@ -122,10 +137,7 @@ export class SessionService {
 	}
 
 	deleteSession(id: string) {
-		let query = '{"query":"mutation {  deleteSession(    id:\\"{sessionId}\\")}","variables":null}';
-		query = query.replace('{sessionId}',id);
-
-		return this.http.post(this.graphQLEndpoint, query, httpOptions)
+		return this.http.delete(this.sessionControllerEndpoint + '/' + id, httpOptions)
 			.pipe(
 				catchError(this.handleError)
 			)

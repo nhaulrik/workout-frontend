@@ -2,16 +2,16 @@
 	Set<input onClick="this.select();" type="number" class="table-input"
 			  [disabled]="this.parentRef.parentRef.sessionLock == 'Lock'"
 			  [(ngModel)]="workoutSet.setNumber"
-			  (focusout)="updateWorkoutSet()"> Reps
+			  (ngModelChange)="updateWorkoutSet()"> Reps
 	<input #repetitions onClick="this.select();" type="number" class="repetition-input"
 		   [disabled]="this.parentRef.parentRef.sessionLock == 'Lock'"
 		   [(ngModel)]="workoutSet.repetitions"
-		   (focusout)="updateWorkoutSet()">
+		   (ngModelChange)="updateWorkoutSet()">
 	x
 	<input onClick="this.select();" type="number" step="0.5" class="weight-input"
 		   [disabled]="this.parentRef.parentRef.sessionLock == 'Lock'"
 		   [(ngModel)]="workoutSet.weight"
-		   (focusout)="updateWorkoutSet()">
+		   (ngModelChange)="updateWorkoutSet()">
 	kg
 	<img src="assets/media/icons/svg/General/Trash.svg" alt="Delete"
 		 (click)="removeWorkoutSet()"/>

@@ -15,10 +15,21 @@ const httpOptions = {
 @Injectable()
 export class WorkoutSetService {
 	graphQLEndpoint = 'http://localhost:9090/graphql';
+	workoutSetControllerEndpoint = 'http://localhost:9090/api/v1/workoutset';
 	getWorkoutSetPayload = '{"query":"query {\\n  workoutSet (sessionId:{sessionId} {\\n\\t\\tid\\n    single\\n    repetitionMaximum\\n    repetitions\\n    setNumber\\n    sessionId\\n    weight\\n  }\\n}","variables":null}';
 
-
-	postWorkoutSetQuery = '{"query": "mutation {\\n  addWorkoutSet(id: {id}, sessionId: \\"{sessionId}\\", workoutExerciseId: \\"{workoutExerciseId}\\", repetitions: {repetitions}, weight: {weight}, single: {single}, repetitionMaximum: {repetitionMaximum}, setNumber: {setNumber}) \\n}\\n","variables":null}';
+	postWorkoutSetRequest =
+		'[\n' +
+		'    {\n' +
+		'        "id" : "{id}",\n' +
+		'        "workoutExerciseId" : "{workoutExerciseId}",\n' +
+		'        "repetitions" : {repetitions},\n' +
+		'        "repetitionMaximum" : {repetitionMaximum},\n' +
+		'        "setNumber" : {setNumber},\n' +
+		'        "weight" : {weight},\n' +
+		'        "single": {single}\n' +
+		'    }\n' +
+		']';
 
 
 	constructor(private http: HttpClient) {
@@ -51,7 +62,7 @@ export class WorkoutSetService {
 	}
 
 	postWorkoutSet(workoutSet: WorkoutSet, sessionId: string, workoutExerciseId: string) {
-		let query = this.postWorkoutSetQuery;
+		let query = this.postWorkoutSetRequest;
 		query = workoutSet.weight != null ? query.replace('{weight}', workoutSet.weight.toString()) : query.replace('{weight}', null);
 		query = workoutSet.repetitions != null ? query.replace('{repetitions}', workoutSet.repetitions.toString()) : query.replace('{repetitions}', null);
 		query = workoutSet.id != null ? query.replace('{id}', '\\"' + workoutSet.id.toString() + '\\"') : query.replace('{id}', null);
@@ -61,7 +72,7 @@ export class WorkoutSetService {
 		query = workoutExerciseId != null ? query.replace('{workoutExerciseId}', workoutExerciseId) : query.replace('{workoutExerciseId}', null);
 		query = sessionId != null ? query.replace('{sessionId}', sessionId) : query.replace('{sessionId}', null);
 
-		return this.http.post(this.graphQLEndpoint, query, httpOptions)
+		return this.http.post(this.workoutSetControllerEndpoint, query, httpOptions)
 			.pipe(
 				catchError(this.handleError)
 			)

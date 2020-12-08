@@ -14,10 +14,19 @@ const httpOptions = {
 @Injectable()
 export class WorkoutExerciseService {
 	graphQLEndpoint = 'http://localhost:9090/graphql';
+	workoutExerciseControllerEndpoint = 'http://localhost:9090/api/v1/workoutexercise';
+
 	getWorkoutSetPayload = '{"query":"query {\\n  workoutSet (sessionId:{sessionId} {\\n\\t\\tid\\n    single\\n    repetitionMaximum\\n    repetitions\\n    setNumber\\n    sessionId\\n    weight\\n  }\\n}","variables":null}';
 
-
-	postWorkoutExerciseQuery = '{"query": "mutation {  postWorkoutExercise(id: {id}, sessionId: {sessionId}, exerciseId: {exerciseId}, exerciseNumber: {exerciseNumber}) }","variables":null}';
+	postWorkoutExerciseRequest =
+		'[\n' +
+		'    {\n' +
+		'        "id" : "{id}",\n' +
+		'        "sessionId" : "{sessionId}",\n' +
+		'        "exerciseId" : {exerciseId},\n' +
+		'        "exerciseNumber" : {exerciseNumber},\n' +
+		'    }\n' +
+		']';
 
 	constructor(private http: HttpClient) {
 	}
@@ -31,13 +40,13 @@ export class WorkoutExerciseService {
 	}
 
 	postWorkoutExercise(workoutExercise: WorkoutExercise) {
-		let query = this.postWorkoutExerciseQuery;
+		let query = this.postWorkoutExerciseRequest;
 		query = workoutExercise.id != null ? query.replace('{id}', '\\"' + workoutExercise.id.toString() + '\\"') : query.replace('{id}', null);
 		query = workoutExercise.sessionId != null ? query.replace('{sessionId}', '\\"' + workoutExercise.sessionId.toString() + '\\"') : query.replace('{sessionId}', null);
 		query = workoutExercise.exerciseId != null ? query.replace('{exerciseId}', '\\"' + workoutExercise.exerciseId.toString() + '\\"') : query.replace('{exerciseId}', null);
 		query = workoutExercise.exerciseNumber != null ? query.replace('{exerciseNumber}', workoutExercise.exerciseNumber.toString()) : query.replace('{exerciseNumber}', null);
 
-		return this.http.post(this.graphQLEndpoint, query, httpOptions)
+		return this.http.post(this.workoutExerciseControllerEndpoint, query, httpOptions)
 			.pipe(
 				catchError(this.handleError)
 			)

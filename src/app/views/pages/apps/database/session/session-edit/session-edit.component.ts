@@ -107,7 +107,7 @@ export class SessionEditComponent implements OnInit, AfterViewInit, myinterface 
 
 			const date = '{date}-{month}-{year}';
 			const fullMonth = dateObject.getMonth() + 1 < 10 ? '0' + (dateObject.getMonth() + 1) : dateObject.getMonth() + 1;
-			const fullDay = dateObject.getDate() + 1 < 10 ? '0' + dateObject.getDate() : dateObject.getDate();
+			const fullDay = dateObject.getDate() < 10 ? '0' + dateObject.getDate() : dateObject.getDate();
 			const formattedDate = date
 				.replace('{date}', fullDay)
 				.replace('{month}', fullMonth)

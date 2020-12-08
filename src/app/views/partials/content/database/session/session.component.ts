@@ -145,9 +145,8 @@ export class SessionComponent implements OnInit, myinterface, AfterViewInit {
 	}
 
 	updateSessionDetails() {
-		this.sessionService.postSessionDetails(this.session).subscribe(response => {
-			let data = (response as GraphQlResponse).data;
-
+		this.sessionService.postSession(this.session).subscribe(response => {
+			let resp = response;
 		});
 	}
 
@@ -159,8 +158,7 @@ export class SessionComponent implements OnInit, myinterface, AfterViewInit {
 
 		this.parentRef.removeSessionComponent(this.unique_key);
 		this.sessionService.deleteSession(this.session.id).subscribe(response => {
-			let sessionDeleted: boolean = (response as GraphQlResponse).data.deleteSession;
-			if (sessionDeleted) {
+			if (response) {
 				this.showSnackBar('Session was deleted');
 				this.parentRef.updateCalendar();
 			} else {

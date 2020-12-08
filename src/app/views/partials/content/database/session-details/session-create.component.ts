@@ -61,8 +61,7 @@ export class SessionCreateComponent implements OnInit {
 		});
 		if (usersToAdd.length > 0) {
 			this.sessionService.createSessions(usersToAdd, this.selectedDate).subscribe(response => {
-				let graphQlResponse = (response as GraphQlResponse);
-				if (graphQlResponse.data != null) {
+				if (response != null) {
 					this.parentRef.loadSessions(this.selectedDate);
 				}
 			})
