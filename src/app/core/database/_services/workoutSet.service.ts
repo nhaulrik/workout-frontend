@@ -4,6 +4,7 @@ import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {WorkoutSet} from '../_models/workoutSet';
+import {PostWorkoutSetRequest} from '../_models/requests/PostWorkoutSetRequest';
 
 const httpOptions = {
 	headers: new HttpHeaders({
@@ -17,20 +18,6 @@ export class WorkoutSetService {
 	graphQLEndpoint = 'http://localhost:9090/graphql';
 	workoutSetControllerEndpoint = 'http://localhost:9090/api/v1/workoutset';
 	getWorkoutSetPayload = '{"query":"query {\\n  workoutSet (sessionId:{sessionId} {\\n\\t\\tid\\n    single\\n    repetitionMaximum\\n    repetitions\\n    setNumber\\n    sessionId\\n    weight\\n  }\\n}","variables":null}';
-
-	postWorkoutSetRequest =
-		'[\n' +
-		'    {\n' +
-		'        "id" : "{id}",\n' +
-		'        "workoutExerciseId" : "{workoutExerciseId}",\n' +
-		'        "repetitions" : {repetitions},\n' +
-		'        "repetitionMaximum" : {repetitionMaximum},\n' +
-		'        "setNumber" : {setNumber},\n' +
-		'        "weight" : {weight},\n' +
-		'        "single": {single}\n' +
-		'    }\n' +
-		']';
-
 
 	constructor(private http: HttpClient) {
 	}
@@ -61,28 +48,31 @@ export class WorkoutSetService {
 			'Something bad happened; please try again later.');
 	}
 
-	postWorkoutSet(workoutSet: WorkoutSet, sessionId: string, workoutExerciseId: string) {
-		let query = this.postWorkoutSetRequest;
-		query = workoutSet.weight != null ? query.replace('{weight}', workoutSet.weight.toString()) : query.replace('{weight}', null);
-		query = workoutSet.repetitions != null ? query.replace('{repetitions}', workoutSet.repetitions.toString()) : query.replace('{repetitions}', null);
-		query = workoutSet.id != null ? query.replace('{id}', '\\"' + workoutSet.id.toString() + '\\"') : query.replace('{id}', null);
-		query = workoutSet.single != null ? query.replace('{single}', workoutSet.single.toString()) : query.replace('{single}', null);
-		query = workoutSet.setNumber != null ? query.replace('{setNumber}', workoutSet.setNumber.toString()) : query.replace('{setNumber}', null);
-		query = workoutSet.repetitionMaximum != null ? query.replace('{repetitionMaximum}', workoutSet.repetitionMaximum.toString()) : query.replace('{repetitionMaximum}', null);
-		query = workoutExerciseId != null ? query.replace('{workoutExerciseId}', workoutExerciseId) : query.replace('{workoutExerciseId}', null);
-		query = sessionId != null ? query.replace('{sessionId}', sessionId) : query.replace('{sessionId}', null);
+	postWorkoutSet(workoutSet: WorkoutSet,userId: string, sessionId: string, workoutExerciseId: string) {
 
-		return this.http.post(this.workoutSetControllerEndpoint, query, httpOptions)
+		let postWorkoutSetRequests: PostWorkoutSetRequest[] = [
+			{
+				id: workoutSet.id,
+				userId: userId,
+				sessionId: sessionId,
+				workoutExerciseId: workoutExerciseId,
+				repetitions: workoutSet.repetitions,
+				repetitionMaximum: workoutSet.repetitionMaximum,
+				setNumber: workoutSet.setNumber,
+				single: workoutSet.single,
+				weight: workoutSet.weight
+			}
+		]
+
+		return this.http.post(this.workoutSetControllerEndpoint, postWorkoutSetRequests, httpOptions)
 			.pipe(
 				catchError(this.handleError)
 			)
 	}
 
 	removeWorkoutSet(id: string) {
-		let query = '{"query": "mutation {\\n  deleteWorkoutSet(id: \\"{id}\\") \\n}\\n","variables":null}';
-		query = query.replace('{id}', id);
 
-		return this.http.post(this.graphQLEndpoint, query, httpOptions)
+		return this.http.delete(this.workoutSetControllerEndpoint + '/' + id, httpOptions)
 			.pipe(
 				catchError(this.handleError)
 			)

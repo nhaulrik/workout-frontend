@@ -9,12 +9,12 @@ import {
 	ViewContainerRef
 } from '@angular/core';
 import {Exercise} from '../../../../../core/database/_models/exercise';
-import {GraphQlResponse} from '../../../../../core/database/_models/graphQlResponse';
 import {WorkoutSetComponent} from '../workout-set/workout-set.component';
 import {SessionComponent} from '../session/session.component';
 import {WorkoutSet} from '../../../../../core/database/_models/workoutSet';
 import {WorkoutExerciseService} from '../../../../../core/database/_services/workoutExerciseService';
 import {WorkoutExercise} from '../../../../../core/database/_models/workoutExercise';
+import {PostWorkoutExerciseResponse} from '../../../../../core/database/_models/responses/PostWorkoutExerciseResponse';
 
 @Component({
 	selector: 'kt-workout-exercise',
@@ -52,7 +52,6 @@ export class WorkoutExerciseComponent implements OnInit, myinterface, AfterViewI
 
 	ngAfterViewInit(): void {
 		this.workoutExercise.workoutSet.sort((ws1, ws2) => ws1.setNumber - ws2.setNumber).forEach(workoutSet => {
-			this.workoutExercise.exerciseId = this.workoutExercise.exerciseId;
 			this.initializeWorkoutSetComponent(workoutSet);
 			this.ref.detectChanges();
 		})
@@ -69,10 +68,10 @@ export class WorkoutExerciseComponent implements OnInit, myinterface, AfterViewI
 	}
 
 	removeWorkoutExercise() {
-		console.log(this.unique_key)
-		this.parentRef.remove(this.unique_key)
-		this.workoutExerciseService.removeWorkoutExercise(this.workoutExercise.id).subscribe(response => {
-			let data = (response as GraphQlResponse);
+		this.workoutExerciseService.deleteWorkoutExercise(this.workoutExercise.id).subscribe(response => {
+			let data = response;
+			console.log(this.unique_key)
+			this.parentRef.remove(this.unique_key)
 		})
 	}
 
@@ -84,7 +83,6 @@ export class WorkoutExerciseComponent implements OnInit, myinterface, AfterViewI
 		let childComponent = childComponentRef.instance;
 		childComponent.unique_key = ++this.child_unique_key;
 		childComponent.parentRef = this;
-
 		childComponent.workoutSet.setNumber = this.componentsReferences.length + 1;
 		this.componentsReferences.push(childComponentRef);
 	}
@@ -121,9 +119,9 @@ export class WorkoutExerciseComponent implements OnInit, myinterface, AfterViewI
 	}
 
 	updateExerciseId() {
-		this.workoutExerciseService.postWorkoutExercise(this.workoutExercise).subscribe(response => {
-			let data = (response as GraphQlResponse).data;
-			this.workoutExercise.id = data.postWorkoutExercise;
+		this.workoutExerciseService.postWorkoutExercise(this.parentRef.session.userId, this.workoutExercise).subscribe(response => {
+			let id = (response as PostWorkoutExerciseResponse).postedWorkoutExerciseIds[0];
+			this.workoutExercise.id = id;
 		})
 	}
 

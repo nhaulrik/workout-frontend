@@ -2,7 +2,7 @@ import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild} from
 import {WorkoutSet} from '../../../../../core/database/_models/workoutSet';
 import {WorkoutExerciseComponent} from '..';
 import {WorkoutSetService} from '../../../../../core/database';
-import {GraphQlResponse} from '../../../../../core/database/_models/graphQlResponse';
+import {PostWorkoutSetResponse} from '../../../../../core/database/_models/responses/PostWorkoutSetResponse';
 
 @Component({
 	selector: 'kt-workout-set',
@@ -50,8 +50,9 @@ export class WorkoutSetComponent implements AfterViewInit {
 		if (this.workoutSet.setNumber > 0 &&
 			this.workoutSet.repetitions > 0 &&
 			this.workoutSet.weight > 0) {
-			this.workoutSetService.postWorkoutSet(this.workoutSet, this.parentRef.workoutExercise.sessionId, this.parentRef.workoutExercise.id).subscribe(response => {
-				this.workoutSet.id = (response as GraphQlResponse).data.addWorkoutSet;
+			this.workoutSetService.postWorkoutSet(this.workoutSet, this.parentRef.parentRef.session.userId, this.parentRef.workoutExercise.sessionId, this.parentRef.workoutExercise.id).subscribe(response => {
+				let id = (response as PostWorkoutSetResponse).postedWorkoutSetIds[0];
+				this.workoutSet.id = id;
 			});
 		}
 	}

@@ -3,6 +3,7 @@ import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {catchError} from 'rxjs/operators';
 import {WorkoutExercise} from '../_models/workoutExercise';
 import {throwError} from 'rxjs';
+import {PostWorkoutExerciseRequest} from '../_models/requests/PostWorkoutExerciseRequest';
 
 const httpOptions = {
 	headers: new HttpHeaders({
@@ -18,16 +19,6 @@ export class WorkoutExerciseService {
 
 	getWorkoutSetPayload = '{"query":"query {\\n  workoutSet (sessionId:{sessionId} {\\n\\t\\tid\\n    single\\n    repetitionMaximum\\n    repetitions\\n    setNumber\\n    sessionId\\n    weight\\n  }\\n}","variables":null}';
 
-	postWorkoutExerciseRequest =
-		'[\n' +
-		'    {\n' +
-		'        "id" : "{id}",\n' +
-		'        "sessionId" : "{sessionId}",\n' +
-		'        "exerciseId" : {exerciseId},\n' +
-		'        "exerciseNumber" : {exerciseNumber},\n' +
-		'    }\n' +
-		']';
-
 	constructor(private http: HttpClient) {
 	}
 
@@ -39,14 +30,18 @@ export class WorkoutExerciseService {
 			)
 	}
 
-	postWorkoutExercise(workoutExercise: WorkoutExercise) {
-		let query = this.postWorkoutExerciseRequest;
-		query = workoutExercise.id != null ? query.replace('{id}', '\\"' + workoutExercise.id.toString() + '\\"') : query.replace('{id}', null);
-		query = workoutExercise.sessionId != null ? query.replace('{sessionId}', '\\"' + workoutExercise.sessionId.toString() + '\\"') : query.replace('{sessionId}', null);
-		query = workoutExercise.exerciseId != null ? query.replace('{exerciseId}', '\\"' + workoutExercise.exerciseId.toString() + '\\"') : query.replace('{exerciseId}', null);
-		query = workoutExercise.exerciseNumber != null ? query.replace('{exerciseNumber}', workoutExercise.exerciseNumber.toString()) : query.replace('{exerciseNumber}', null);
+	postWorkoutExercise(userId: string, workoutExercise: WorkoutExercise) {
+		let postWorkoutExerciseRequests: PostWorkoutExerciseRequest[] = [
+			{
+				id: workoutExercise.id,
+				userId: userId,
+				exerciseId: workoutExercise.exerciseId,
+				exerciseNumber: workoutExercise.exerciseNumber,
+				sessionId: workoutExercise.sessionId,
+			}
+		];
 
-		return this.http.post(this.workoutExerciseControllerEndpoint, query, httpOptions)
+		return this.http.post(this.workoutExerciseControllerEndpoint, postWorkoutExerciseRequests, httpOptions)
 			.pipe(
 				catchError(this.handleError)
 			)
@@ -68,11 +63,8 @@ export class WorkoutExerciseService {
 			'Something bad happened; please try again later.');
 	}
 
-	removeWorkoutExercise(id: string) {
-		let query = '{"query": "mutation {\\n  deleteWorkoutExercise (id: \\"{id}\\") \\n}\",\"variables\":null}'
-		query = query.replace('{id}', id);
-
-		return this.http.post(this.graphQLEndpoint, query, httpOptions)
+	deleteWorkoutExercise(id: string) {
+		return this.http.delete(this.workoutExerciseControllerEndpoint + '/' + id, httpOptions)
 			.pipe(
 				catchError(this.handleError)
 			)

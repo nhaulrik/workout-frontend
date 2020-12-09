@@ -18,6 +18,7 @@ import {WorkoutExercise} from '../../../../../core/database/_models/workoutExerc
 import {MatSnackBar} from '@angular/material';
 import {ExerciseService} from '../../../../../core/database/_services/exercise.service';
 import {Exercise} from '../../../../../core/database/_models/exercise';
+import {PostSessionResponse} from '../../../../../core/database/_models/responses/PostSessionResponse';
 
 @Component({
 	selector: 'kt-session',
@@ -85,7 +86,6 @@ export class SessionComponent implements OnInit, myinterface, AfterViewInit {
 		childComponent.workoutExercise.sessionId = this.session.id;
 		childComponent.workoutExercise = workoutExercise;
 		childComponent.exercises = this.exercises;
-
 		// add reference for newly created component
 		this.componentsReferences.push(childComponentRef);
 	}
@@ -146,7 +146,8 @@ export class SessionComponent implements OnInit, myinterface, AfterViewInit {
 
 	updateSessionDetails() {
 		this.sessionService.postSession(this.session).subscribe(response => {
-			let resp = response;
+			const sessionId = (response as PostSessionResponse).ids[0];
+			this.session.id = sessionId;
 		});
 	}
 
