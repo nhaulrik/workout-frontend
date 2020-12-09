@@ -29,11 +29,9 @@ export class SessionEditComponent implements OnInit, AfterViewInit, myinterface 
 	@ViewChild('sessionCreateRef', {static: false, read: ViewContainerRef}) VCR3: ViewContainerRef;
 
 	child_unique_key: number = 0;
-	sessionReferences = Array<ComponentRef<SessionComponent>>()
+	sessionReferences = Array<ComponentRef<SessionComponent>>();
 	private sessionCalendarComponent: SessionCalendarComponent;
 	private sessionCreateComponent: SessionCreateComponent;
-
-	dataLoading: boolean = false;
 
 	constructor(
 		private CFR: ComponentFactoryResolver,
@@ -59,7 +57,6 @@ export class SessionEditComponent implements OnInit, AfterViewInit, myinterface 
 	}
 
 	loadSessions(date) {
-		this.dataLoading = true;
 		let formattedDate = this.formatDateToString(date);
 
 		let sessions: Session[] = [];
@@ -90,7 +87,6 @@ export class SessionEditComponent implements OnInit, AfterViewInit, myinterface 
 						this.remove(key)
 					})
 				}
-				this.dataLoading = false;
 				this.ref.detectChanges();
 			});
 		this.ref.detectChanges();

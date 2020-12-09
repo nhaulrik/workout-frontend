@@ -24,7 +24,9 @@
 			</kt-portlet-header>
 			<kt-portlet-body>
 				<div #viewWorkoutExerciseRef></div>
+				<mat-spinner style="margin-left: auto; margin-right: auto;" [diameter]="100" *ngIf="this.componentsReferences.length == 0"></mat-spinner>
 				<button mat-button color="primary"
+						*ngIf="this.componentsReferences.length > 0"
 						[disabled]="this.sessionLock == 'Lock'"
 						(click)="createWorkoutExerciseComponent()">Add Exercise</button>
 			</kt-portlet-body>

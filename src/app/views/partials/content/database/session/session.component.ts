@@ -51,7 +51,6 @@ export class SessionComponent implements OnInit, myinterface, AfterViewInit {
 	}
 
 	ngAfterViewInit(): void {
-
 		this.exerciseService.getExercises().subscribe(response => {
 			this.exercises = (response as GraphQlResponse).data.exercises;
 			this.session.workoutExercises.sort((we1, we2) => we1.exerciseNumber - we2.exerciseNumber).forEach(we => {
