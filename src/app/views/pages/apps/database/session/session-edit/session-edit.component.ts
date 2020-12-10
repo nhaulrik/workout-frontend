@@ -31,7 +31,7 @@ export class SessionEditComponent implements OnInit, AfterViewInit, myinterface 
 	child_unique_key: number = 0;
 	sessionReferences = Array<ComponentRef<SessionComponent>>();
 	private sessionCalendarComponent: SessionCalendarComponent;
-	private sessionCreateComponent: SessionCreateComponent;
+	sessionCreateComponent: SessionCreateComponent;
 
 	constructor(
 		private CFR: ComponentFactoryResolver,
@@ -89,6 +89,7 @@ export class SessionEditComponent implements OnInit, AfterViewInit, myinterface 
 				}
 				this.ref.detectChanges();
 			});
+		this.sessionCalendarComponent.ngOnInit();
 		this.ref.detectChanges();
 	}
 
@@ -185,6 +186,8 @@ export class SessionEditComponent implements OnInit, AfterViewInit, myinterface 
 		this.sessionReferences = this.sessionReferences.filter(
 			x => x.instance.unique_key !== key
 		);
+		this.sessionCreateComponent.resetSelection();
+		this.ref.detectChanges();
 	}
 
 	updateCalendar() {

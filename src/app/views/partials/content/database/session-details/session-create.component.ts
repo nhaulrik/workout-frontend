@@ -12,7 +12,6 @@ import {SessionEditComponent} from '../../../../pages/apps/database/session/sess
 export class SessionCreateComponent implements OnInit {
 
 	users: Map<User, boolean> = new Map<User, boolean>();
-	selectedDate: Date = new Date();
 	sessionUsers: string[] = [];
 
 	public unique_key: number;
@@ -29,14 +28,14 @@ export class SessionCreateComponent implements OnInit {
 		this.loadUsers();
 	}
 
+	resetSelection(): void {
+		this.sessionUsers = [];
+	}
+
 	private loadUsers() {
 		this.userService.getUsers().subscribe(response => {
 			let data = (response as GraphQlResponse).data;
 			if (data != null) {
-				//debugger;
-				//let currentSessionUsers = new Map<string, boolean>();
-				//this.parentRef.sessionReferences.forEach(session => currentSessionUsers.set(session.instance.session.id, true));
-
 				data.users.forEach(user => {
 					//if (!currentSessionUsers.has(user.id)) {
 					this.users.set(user, false);
@@ -60,9 +59,9 @@ export class SessionCreateComponent implements OnInit {
 			}
 		});
 		if (usersToAdd.length > 0) {
-			this.sessionService.createSessions(usersToAdd, this.selectedDate).subscribe(response => {
+			this.sessionService.createSessions(usersToAdd, this.parentRef.selectedDate).subscribe(response => {
 				if (response != null) {
-					this.parentRef.loadSessions(this.selectedDate);
+					this.parentRef.loadSessions(this.parentRef.selectedDate);
 				}
 			})
 		}
