@@ -19,7 +19,10 @@
 							   placeholder="split name"
 						/>
 					</div>
-					<img src="assets/media/icons/svg/General/Trash.svg" alt="Delete" (click)="deleteSession()"/>
+					<img src="assets/media/icons/svg/General/Trash.svg" alt="Delete"
+						 (click)="deleteSession()"
+						 *ngIf="this.sessionLock == 'Unlock'"
+					/>
 				</ng-container>
 			</kt-portlet-header>
 			<kt-portlet-body>

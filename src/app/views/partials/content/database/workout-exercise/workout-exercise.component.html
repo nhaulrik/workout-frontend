@@ -1,7 +1,8 @@
 <div class="row align-items-center">
 	<div>
 		<img src="assets/media/icons/svg/General/Trash.svg" alt="Delete"
-			 (click)="removeWorkoutExercise()"/>
+			 (click)="removeWorkoutExercise()"
+			 *ngIf="this.parentRef.sessionLock == 'Unlock'"/>
 	</div>
 	<div>
 		{{workoutExercise.exerciseNumber}}
