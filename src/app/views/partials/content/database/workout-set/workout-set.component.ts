@@ -50,7 +50,7 @@ export class WorkoutSetComponent implements AfterViewInit {
 		if (this.workoutSet.setNumber > 0 &&
 			this.workoutSet.repetitions > 0 &&
 			this.workoutSet.weight > 0) {
-			this.workoutSetService.postWorkoutSet(this.workoutSet, this.parentRef.parentRef.session.userId, this.parentRef.workoutExercise.sessionId, this.parentRef.workoutExercise.id).subscribe(response => {
+			this.workoutSetService.postWorkoutSet(this.workoutSet, this.parentRef.workoutExercise.id).subscribe(response => {
 				let id = (response as PostWorkoutSetResponse).postedWorkoutSetIds[0];
 				this.workoutSet.id = id;
 			});

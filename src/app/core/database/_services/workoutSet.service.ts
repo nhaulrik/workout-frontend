@@ -48,13 +48,11 @@ export class WorkoutSetService {
 			'Something bad happened; please try again later.');
 	}
 
-	postWorkoutSet(workoutSet: WorkoutSet,userId: string, sessionId: string, workoutExerciseId: string) {
+	postWorkoutSet(workoutSet: WorkoutSet, workoutExerciseId: string) {
 
 		let postWorkoutSetRequests: PostWorkoutSetRequest[] = [
 			{
 				id: workoutSet.id,
-				userId: userId,
-				sessionId: sessionId,
 				workoutExerciseId: workoutExerciseId,
 				repetitions: workoutSet.repetitions,
 				repetitionMaximum: workoutSet.repetitionMaximum,
