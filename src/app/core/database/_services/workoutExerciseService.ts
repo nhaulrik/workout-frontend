@@ -30,11 +30,10 @@ export class WorkoutExerciseService {
 			)
 	}
 
-	postWorkoutExercise(userId: string, workoutExercise: WorkoutExercise) {
+	postWorkoutExercise(workoutExercise: WorkoutExercise) {
 		let postWorkoutExerciseRequests: PostWorkoutExerciseRequest[] = [
 			{
 				id: workoutExercise.id,
-				userId: userId,
 				exerciseId: workoutExercise.exerciseId,
 				exerciseNumber: workoutExercise.exerciseNumber,
 				sessionId: workoutExercise.sessionId,

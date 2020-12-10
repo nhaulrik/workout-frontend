@@ -119,7 +119,7 @@ export class WorkoutExerciseComponent implements OnInit, myinterface, AfterViewI
 	}
 
 	updateExerciseId() {
-		this.workoutExerciseService.postWorkoutExercise(this.parentRef.session.userId, this.workoutExercise).subscribe(response => {
+		this.workoutExerciseService.postWorkoutExercise(this.workoutExercise).subscribe(response => {
 			let id = (response as PostWorkoutExerciseResponse).postedWorkoutExerciseIds[0];
 			this.workoutExercise.id = id;
 		})
