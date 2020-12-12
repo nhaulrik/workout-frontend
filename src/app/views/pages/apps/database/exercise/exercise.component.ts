@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ExerciseService} from '../../../../../core/database/_services/exercise.service';
-import {Exercise} from '../../../../../core/database/_models/exercise';
 import {GraphQlResponse} from '../../../../../core/database/_models/graphQlResponse';
+import {Muscle} from '../../../../../core/database';
+import {MatSort, MatTableDataSource} from '@angular/material';
 
 @Component({
 	selector: 'kt-exercise',
@@ -10,7 +11,11 @@ import {GraphQlResponse} from '../../../../../core/database/_models/graphQlRespo
 	providers: [ExerciseService],
 })
 export class ExerciseComponent implements OnInit {
-	exercises: Exercise[] = [];
+	dataSource;
+	columnsToDisplay: string[] = ['name', 'bodyPart', 'compound'];
+	expandedElement: Muscle | null;
+
+	@ViewChild(MatSort, {static: true}) sort: MatSort;
 
 	constructor(
 		private exerciseService: ExerciseService,
@@ -20,8 +25,11 @@ export class ExerciseComponent implements OnInit {
 	ngOnInit() {
 		this.exerciseService.getExercises().subscribe(response => {
 			let data = (response as GraphQlResponse).data;
-			this.exercises = data.exercises;
+			this.dataSource = new MatTableDataSource(data.exercises);
+			this.dataSource.sort = this.sort;
+			debugger;
 		})
 	}
 
 }
+
