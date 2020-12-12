@@ -56,6 +56,7 @@ import {NgbProgressbarModule} from '@ng-bootstrap/ng-bootstrap';
 import { SessionComponent } from './session/session.component';
 import { SessionEditComponent } from './session/session-edit/session-edit.component';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { ExerciseComponent } from './exercise/exercise.component';
 
 // tslint:disable-next-line:class-name
 const routes: Routes = [
@@ -71,6 +72,9 @@ const routes: Routes = [
 				pathMatch: 'full'
 			},
 			{
+				path: 'exercises',
+				component: ExerciseComponent
+			},			{
 				path: 'muscles',
 				component: MuscleComponent
 			},
@@ -165,6 +169,7 @@ const routes: Routes = [
 		MuscleComponent,
 		SessionComponent,
 		SessionEditComponent,
+		ExerciseComponent,
 	]
 })
 export class DatabaseModule {

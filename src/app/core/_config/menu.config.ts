@@ -441,6 +441,9 @@ export class MenuConfig {
 						{
 							title: 'Muscles',
 							page: '/database/muscleDtos'
+						}, {
+							title: 'Exercises',
+							page: '/database/exercises'
 						},
 						{
 							title: 'Customers',
