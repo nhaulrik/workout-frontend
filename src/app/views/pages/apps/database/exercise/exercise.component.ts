@@ -1,8 +1,8 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {ExerciseService} from '../../../../../core/database/_services/exercise.service';
 import {GraphQlResponse} from '../../../../../core/database/_models/graphQlResponse';
 import {Muscle, MuscleService} from '../../../../../core/database';
-import {MatSort, MatTableDataSource} from '@angular/material';
+import {MatTable, MatTableDataSource} from '@angular/material';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 
@@ -23,15 +23,16 @@ export class ExerciseComponent implements OnInit {
 	exerciseDataSource;
 	displayedExerciseColumns: string[] = ['name', 'bodyPart', 'compound'];
 
-	muscleDataSource;
+	muscleDataSource: Muscle[];
 	displayedMuscleColumns: string[] = ['name', 'bodyPart'];
 	expandedElement: Muscle | null;
 
-	@ViewChild(MatSort, {static: true}) sort: MatSort;
+	@ViewChild('muscleTable', {static: false}) muscleTable: MatTable<any>;
 
 	constructor(
 		private exerciseService: ExerciseService,
-		private muscleService: MuscleService
+		private muscleService: MuscleService,
+		private ref: ChangeDetectorRef
 	) {
 	}
 
@@ -44,6 +45,7 @@ export class ExerciseComponent implements OnInit {
 		this.muscleService.getMuscles()
 			.subscribe(response => {
 				this.muscleDataSource = (response as GraphQlResponse).data.muscles;
+				this.ref.detectChanges();
 			});
 	}
 
@@ -51,15 +53,14 @@ export class ExerciseComponent implements OnInit {
 		this.exerciseService.getExercises().subscribe(response => {
 			let data = (response as GraphQlResponse).data;
 			this.exerciseDataSource = new MatTableDataSource(data.exercises);
-			this.exerciseDataSource.sort = this.sort;
-			debugger;
+			this.ref.detectChanges();
 		})
 	}
 
 	drop(event: CdkDragDrop<Muscle[]>) {
-		debugger;
-		moveItemInArray(this.muscleDataSource, event.previousIndex, event.currentIndex);
-		console.log(event.container.data);
+		const prevIndex = this.muscleDataSource.findIndex((d) => d === event.item.data);
+		moveItemInArray(this.muscleDataSource, prevIndex, event.currentIndex);
+		this.muscleTable.renderRows();
 	}
 
 }
