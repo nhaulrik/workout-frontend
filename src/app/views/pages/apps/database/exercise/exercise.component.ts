@@ -4,7 +4,7 @@ import {GraphQlResponse} from '../../../../../core/database/_models/graphQlRespo
 import {Muscle, MuscleService} from '../../../../../core/database';
 import {MatTable} from '@angular/material';
 import {animate, state, style, transition, trigger} from '@angular/animations';
-import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+import {CdkDragDrop, CdkDragEnter, moveItemInArray} from '@angular/cdk/drag-drop';
 import {Exercise} from '../../../../../core/database/_models/exercise';
 
 @Component({
@@ -23,7 +23,7 @@ import {Exercise} from '../../../../../core/database/_models/exercise';
 export class ExerciseComponent implements OnInit {
 	exerciseDataSource: Exercise[];
 	displayedExerciseColumns: string[] = ['name', 'bodyPart', 'compound'];
-	expandedElement: Muscle | null;
+	expandedExercise: Exercise | null;
 
 	muscleDataSource: Muscle[];
 	displayedMuscleColumns: string[] = ['name', 'bodyPart'];
@@ -69,6 +69,10 @@ export class ExerciseComponent implements OnInit {
 		const prevIndex = this.exerciseDataSource.findIndex((d) => d === event.item.data);
 		moveItemInArray(this.exerciseDataSource, prevIndex, event.currentIndex);
 		this.exerciseTable.renderRows();
+	}
+
+	dropMuscle($event: CdkDragDrop<Exercise[], any>) {
+		debugger;
 	}
 
 }
