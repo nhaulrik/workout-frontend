@@ -11,7 +11,7 @@ import {MatSort, MatTableDataSource} from '@angular/material';
 
 export class MuscleComponent implements OnInit {
 	dataSource;
-	displayedColumns: string[] = ['id', 'name', 'bodyPart'];
+	displayedColumns: string[] = ['name', 'bodyPart'];
 
 	constructor(private muscleService: MuscleService) {
 	}
@@ -27,6 +27,7 @@ export class MuscleComponent implements OnInit {
 			.subscribe(response => {
 				this.dataSource = new MatTableDataSource((response as GraphQlResponse).data.muscles);
 				this.dataSource.sort = this.sort;
+				debugger;
 			});
 	}
 
