@@ -23,7 +23,7 @@ import {PostExerciseResponse} from '../../../../../core/database/_models/respons
 })
 export class ExerciseComponent implements OnInit {
 	exerciseDataSource: Exercise[];
-	displayedExerciseColumns: string[] = ['name', 'bodyPart', 'compound'];
+	displayedExerciseColumns: string[] = ['name', 'bodyPart', 'isCompound'];
 	expandedExercise: Exercise | null;
 
 	muscleDataSource: Muscle[];
@@ -63,6 +63,7 @@ export class ExerciseComponent implements OnInit {
 					muscles: exercise.muscles != null ? exercise.muscles : []
 				}
 			);
+			debugger;
 			this.ref.detectChanges();
 		});
 	}
@@ -99,5 +100,14 @@ export class ExerciseComponent implements OnInit {
 		}
 	}
 
+	getCssClassForBadge(muscle: Muscle) {
+		switch (muscle.bodyPart) {
+			case "Leg":
+				return 'accent';
+			case "arm":
+				return 'accent';
+		}
+		return 'primary';
+	}
 }
 

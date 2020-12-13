@@ -19,7 +19,7 @@
 								[attr.colspan]="displayedExerciseColumns.length">
 								<div class="example-element-detail" [@detailExpand]="exercise == expandedExercise ? 'expanded' : 'collapsed'">
 								<span
-									class="kt-badge kt-badge--inline kt-badge--pill kt-list-timeline__badge--primary kt-badge--wide"
+									class="kt-badge kt-badge--inline kt-badge--pill kt-badge--{{ getCssClassForBadge(muscle) }} kt-badge--wide"
 									*ngFor="let muscle of exercise.muscles">
 								{{ muscle.name }}
 								</span>
