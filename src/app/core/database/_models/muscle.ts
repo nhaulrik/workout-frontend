@@ -1,5 +1,5 @@
 export class Muscle {
   bodyPart: string;
-  id: number;
+  id: string;
   name: string;
 }

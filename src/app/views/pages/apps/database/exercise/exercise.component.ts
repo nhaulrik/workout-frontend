@@ -6,6 +6,7 @@ import {MatTable} from '@angular/material';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import {Exercise} from '../../../../../core/database/_models/exercise';
+import {PostExerciseResponse} from '../../../../../core/database/_models/responses/PostExerciseResponse';
 
 @Component({
 	selector: 'kt-exercise',
@@ -91,8 +92,10 @@ export class ExerciseComponent implements OnInit {
 				return;
 			} else {
 				exercise.muscles.push(muscle);
+				this.exerciseService.postExercise(exercise).subscribe(response => {
+					let id = (response as PostExerciseResponse).postedExerciseIds[0];
+				});
 			}
-			debugger;
 		}
 	}
 

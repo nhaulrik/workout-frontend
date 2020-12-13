@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {HttpErrorResponse} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 
 import {throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
+import {Exercise} from '../_models/exercise';
+import {PostExerciseRequest} from '../_models/requests/PostExerciseRequest';
 
 const httpOptions = {
 	headers: new HttpHeaders({
@@ -16,12 +17,32 @@ const httpOptions = {
 export class ExerciseService {
 	getExercisesUrl = 'http://localhost:9090/graphql';
 	getExercisesPayload = '{"query":"{\\n  exercises {\\n    name\\n    id\\n    bodyPart\\n    isCompound\\n muscles {\\n      id\\n      name\\n      bodyPart\\n }  }\\n}\\n","variables":null,"operationName":null}';
+	exerciseControllerEndpoint = 'http://localhost:9090/api/v1/exercise';
+
 
 	constructor(private http: HttpClient) {
 	}
 
 	getExercises() {
 		return this.http.post(this.getExercisesUrl, this.getExercisesPayload, httpOptions)
+			.pipe(
+				catchError(this.handleError)
+			)
+	}
+
+	postExercise(exercise: Exercise) {
+
+		let postExerciseRequests: PostExerciseRequest[] = [
+			{
+				id: exercise.id,
+				name: exercise.name,
+				bodyPart: exercise.bodyPart,
+				isCompound: exercise.isCompound,
+				muscleIds: exercise.muscles.map(muscle => muscle.id)
+			}
+		]
+
+		return this.http.post(this.exerciseControllerEndpoint, postExerciseRequests, httpOptions)
 			.pipe(
 				catchError(this.handleError)
 			)
@@ -42,5 +63,6 @@ export class ExerciseService {
 		return throwError(
 			'Something bad happened; please try again later.');
 	}
+
 
 }
