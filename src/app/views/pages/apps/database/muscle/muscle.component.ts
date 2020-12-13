@@ -1,7 +1,9 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {MuscleService} from '../../../../../core/database/_services/muscle.service';
 import {GraphQlResponse} from '../../../../../core/database/_models/graphQlResponse';
-import {MatSort, MatTableDataSource} from '@angular/material';
+import {MatSort} from '@angular/material';
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+import {Muscle} from '../../../../../core/database';
 
 @Component({
 	selector: 'kt-muscle',
@@ -13,7 +15,9 @@ export class MuscleComponent implements OnInit {
 	dataSource;
 	displayedColumns: string[] = ['name', 'bodyPart'];
 
-	constructor(private muscleService: MuscleService) {
+	constructor(
+		private muscleService: MuscleService
+	) {
 	}
 
 	@ViewChild(MatSort, {static: true}) sort: MatSort;
@@ -25,10 +29,15 @@ export class MuscleComponent implements OnInit {
 	getMuscles() {
 		this.muscleService.getMuscles()
 			.subscribe(response => {
-				this.dataSource = new MatTableDataSource((response as GraphQlResponse).data.muscles);
+				this.dataSource = (response as GraphQlResponse).data.muscles;
 				this.dataSource.sort = this.sort;
-				debugger;
 			});
+	}
+
+	drop(event: CdkDragDrop<Muscle[]>) {
+		debugger;
+		moveItemInArray(this.dataSource, event.previousIndex, event.currentIndex);
+		console.log(event.container.data);
 	}
 
 }

@@ -57,6 +57,7 @@ import { SessionComponent } from './session/session.component';
 import { SessionEditComponent } from './session/session-edit/session-edit.component';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { ExerciseComponent } from './exercise/exercise.component';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 // tslint:disable-next-line:class-name
 const routes: Routes = [
@@ -98,6 +99,7 @@ const routes: Routes = [
 	imports: [
 		MatDialogModule,
 		CommonModule,
+		DragDropModule,
 		HttpClientModule,
 		PartialsModule,
 		NgxPermissionsModule.forChild(),
