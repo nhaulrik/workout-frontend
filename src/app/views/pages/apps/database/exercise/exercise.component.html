@@ -6,8 +6,8 @@
 			</kt-portlet-header>
 			<kt-portlet-body>
 				<ng-container ktPortletTools>
-					<table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8">
-						<ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
+					<table mat-table [dataSource]="exerciseDataSource" multiTemplateDataRows class="mat-elevation-z8">
+						<ng-container matColumnDef="{{column}}" *ngFor="let column of displayedExerciseColumns">
 							<th mat-header-cell *matHeaderCellDef> {{column}} </th>
 							<td mat-cell *matCellDef="let exercise"> {{exercise[column]}} </td>
 						</ng-container>
@@ -15,7 +15,7 @@
 						Expanded Content Column - The detail row is made up of this one column that spans across all
 						columns
 						<ng-container matColumnDef="expandedDetail">
-							<td mat-cell *matCellDef="let exercise" [attr.colspan]="columnsToDisplay.length">
+							<td mat-cell *matCellDef="let exercise" [attr.colspan]="displayedExerciseColumns.length">
 								<div class="example-element-detail"
 									 [@detailExpand]="exercise == expandedElement ? 'expanded' : 'collapsed'">
 									<div class="example-element-diagram">
@@ -30,8 +30,8 @@
 							</td>
 						</ng-container>
 
-						<tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-						<tr mat-row *matRowDef="let exercise; columns: columnsToDisplay;"
+						<tr mat-header-row *matHeaderRowDef="displayedExerciseColumns"></tr>
+						<tr mat-row *matRowDef="let exercise; columns: displayedExerciseColumns;"
 							class="example-element-row"
 							[class.example-expanded-row]="expandedElement === exercise"
 							(click)="expandedElement = expandedElement === exercise ? null : exercise"
@@ -48,7 +48,23 @@
 			<kt-portlet-header [title]="'Muscles'">
 			</kt-portlet-header>
 			<kt-portlet-body>
-				<kt-muscle></kt-muscle>
+				<table mat-table [dataSource]="muscleDataSource" cdkDropList [cdkDropListData]="muscleDataSource"
+					   (cdkDropListDropped)="drop($event)" class="mat-elevation-z8">
+
+					<ng-container matColumnDef="name">
+						<th mat-header-cell *matHeaderCellDef> Name</th>
+						<td mat-cell *matCellDef="let muscle"> {{muscle.name}} </td>
+					</ng-container>
+
+					<ng-container matColumnDef="bodyPart">
+						<th mat-header-cell *matHeaderCellDef> Body part</th>
+						<td mat-cell *matCellDef="let muscle"> {{muscle.bodyPart}} </td>
+					</ng-container>
+
+					<tr mat-header-row *matHeaderRowDef="displayedMuscleColumns"></tr>
+					<tr mat-row *matRowDef="let row; columns: displayedMuscleColumns;" cdkDrag [cdkDragData]="row">
+					</tr>
+				</table>
 			</kt-portlet-body>
 		</kt-portlet>
 	</div>

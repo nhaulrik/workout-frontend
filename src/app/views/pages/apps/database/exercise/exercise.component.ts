@@ -1,9 +1,10 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ExerciseService} from '../../../../../core/database/_services/exercise.service';
 import {GraphQlResponse} from '../../../../../core/database/_models/graphQlResponse';
-import {Muscle} from '../../../../../core/database';
+import {Muscle, MuscleService} from '../../../../../core/database';
 import {MatSort, MatTableDataSource} from '@angular/material';
 import {animate, state, style, transition, trigger} from '@angular/animations';
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 
 @Component({
 	selector: 'kt-exercise',
@@ -19,24 +20,46 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 	],
 })
 export class ExerciseComponent implements OnInit {
-	dataSource;
-	columnsToDisplay: string[] = ['name', 'bodyPart', 'compound'];
+	exerciseDataSource;
+	displayedExerciseColumns: string[] = ['name', 'bodyPart', 'compound'];
+
+	muscleDataSource;
+	displayedMuscleColumns: string[] = ['name', 'bodyPart'];
 	expandedElement: Muscle | null;
 
 	@ViewChild(MatSort, {static: true}) sort: MatSort;
 
 	constructor(
 		private exerciseService: ExerciseService,
+		private muscleService: MuscleService
 	) {
 	}
 
 	ngOnInit() {
+		this.getMuscles();
+		this.getExercises();
+	}
+
+	private getMuscles() {
+		this.muscleService.getMuscles()
+			.subscribe(response => {
+				this.muscleDataSource = (response as GraphQlResponse).data.muscles;
+			});
+	}
+
+	private getExercises() {
 		this.exerciseService.getExercises().subscribe(response => {
 			let data = (response as GraphQlResponse).data;
-			this.dataSource = new MatTableDataSource(data.exercises);
-			this.dataSource.sort = this.sort;
+			this.exerciseDataSource = new MatTableDataSource(data.exercises);
+			this.exerciseDataSource.sort = this.sort;
 			debugger;
 		})
+	}
+
+	drop(event: CdkDragDrop<Muscle[]>) {
+		debugger;
+		moveItemInArray(this.muscleDataSource, event.previousIndex, event.currentIndex);
+		console.log(event.container.data);
 	}
 
 }
