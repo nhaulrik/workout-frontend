@@ -2,9 +2,10 @@ import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {ExerciseService} from '../../../../../core/database/_services/exercise.service';
 import {GraphQlResponse} from '../../../../../core/database/_models/graphQlResponse';
 import {Muscle, MuscleService} from '../../../../../core/database';
-import {MatTable, MatTableDataSource} from '@angular/material';
+import {MatTable} from '@angular/material';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+import {Exercise} from '../../../../../core/database/_models/exercise';
 
 @Component({
 	selector: 'kt-exercise',
@@ -20,14 +21,15 @@ import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 	],
 })
 export class ExerciseComponent implements OnInit {
-	exerciseDataSource;
+	exerciseDataSource: Exercise[];
 	displayedExerciseColumns: string[] = ['name', 'bodyPart', 'compound'];
+	expandedElement: Muscle | null;
 
 	muscleDataSource: Muscle[];
 	displayedMuscleColumns: string[] = ['name', 'bodyPart'];
-	expandedElement: Muscle | null;
 
 	@ViewChild('muscleTable', {static: false}) muscleTable: MatTable<any>;
+	@ViewChild('exerciseTable', {static: false}) exerciseTable: MatTable<any>;
 
 	constructor(
 		private exerciseService: ExerciseService,
@@ -52,15 +54,21 @@ export class ExerciseComponent implements OnInit {
 	private getExercises() {
 		this.exerciseService.getExercises().subscribe(response => {
 			let data = (response as GraphQlResponse).data;
-			this.exerciseDataSource = new MatTableDataSource(data.exercises);
+			this.exerciseDataSource = data.exercises;
 			this.ref.detectChanges();
-		})
+		});
 	}
 
 	drop(event: CdkDragDrop<Muscle[]>) {
 		const prevIndex = this.muscleDataSource.findIndex((d) => d === event.item.data);
 		moveItemInArray(this.muscleDataSource, prevIndex, event.currentIndex);
 		this.muscleTable.renderRows();
+	}
+
+	dropExercise(event: CdkDragDrop<Exercise[]>) {
+		const prevIndex = this.exerciseDataSource.findIndex((d) => d === event.item.data);
+		moveItemInArray(this.exerciseDataSource, prevIndex, event.currentIndex);
+		this.exerciseTable.renderRows();
 	}
 
 }
