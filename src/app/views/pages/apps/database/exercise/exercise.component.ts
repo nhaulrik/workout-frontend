@@ -4,7 +4,7 @@ import {GraphQlResponse} from '../../../../../core/database/_models/graphQlRespo
 import {Muscle, MuscleService} from '../../../../../core/database';
 import {MatTable} from '@angular/material';
 import {animate, state, style, transition, trigger} from '@angular/animations';
-import {CdkDragDrop, CdkDragEnter, moveItemInArray} from '@angular/cdk/drag-drop';
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import {Exercise} from '../../../../../core/database/_models/exercise';
 
 @Component({
@@ -54,7 +54,14 @@ export class ExerciseComponent implements OnInit {
 	private getExercises() {
 		this.exerciseService.getExercises().subscribe(response => {
 			let data = (response as GraphQlResponse).data;
-			this.exerciseDataSource = data.exercises;
+			this.exerciseDataSource = data.exercises.map(exercise => <Exercise>{
+					id: exercise.id,
+					name: exercise.name,
+					isCompound: exercise.isCompound,
+					bodyPart: exercise.bodyPart,
+					muscles: exercise.muscles != null ? exercise.muscles : []
+				}
+			);
 			this.ref.detectChanges();
 		});
 	}
@@ -71,8 +78,22 @@ export class ExerciseComponent implements OnInit {
 		this.exerciseTable.renderRows();
 	}
 
-	dropMuscle($event: CdkDragDrop<Exercise[], any>) {
-		debugger;
+	dropMuscle($event: CdkDragDrop<Exercise[], any>, exercise: Exercise) {
+
+		if ($event.previousContainer === $event.container) {
+			//move inside (implement later)
+		} else {
+			//muscle has been dropped
+			let muscle = this.muscleDataSource[$event.previousIndex];
+			const hasMuscle: boolean = exercise.muscles.filter(m => m.id === muscle.id).length > 0
+
+			if (hasMuscle) {
+				return;
+			} else {
+				exercise.muscles.push(muscle);
+			}
+			debugger;
+		}
 	}
 
 }
