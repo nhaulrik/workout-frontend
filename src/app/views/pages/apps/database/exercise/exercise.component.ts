@@ -2,7 +2,7 @@ import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {ExerciseService} from '../../../../../core/database/_services/exercise.service';
 import {GraphQlResponse} from '../../../../../core/database/_models/graphQlResponse';
 import {Muscle, MuscleService} from '../../../../../core/database';
-import {MatTable} from '@angular/material';
+import {MatSnackBar, MatTable} from '@angular/material';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import {Exercise} from '../../../../../core/database/_models/exercise';
@@ -35,7 +35,8 @@ export class ExerciseComponent implements OnInit {
 	constructor(
 		private exerciseService: ExerciseService,
 		private muscleService: MuscleService,
-		private ref: ChangeDetectorRef
+		private ref: ChangeDetectorRef,
+		public snackBar: MatSnackBar
 	) {
 	}
 
@@ -63,7 +64,6 @@ export class ExerciseComponent implements OnInit {
 					muscles: exercise.muscles != null ? exercise.muscles : []
 				}
 			);
-			debugger;
 			this.ref.detectChanges();
 		});
 	}
@@ -102,12 +102,30 @@ export class ExerciseComponent implements OnInit {
 
 	getCssClassForBadge(muscle: Muscle) {
 		switch (muscle.bodyPart) {
-			case "Leg":
+			case 'Leg':
 				return 'accent';
-			case "arm":
+			case 'arm':
 				return 'accent';
 		}
 		return 'primary';
+	}
+
+	deleteMuscleFromExercise(exerciseId: string, muscleId: string) {
+		this.exerciseService.removeMuscleFromExercise(exerciseId, muscleId).subscribe(response => {
+			if (response) {
+				let exercise: Exercise = (this.exerciseDataSource.filter(exercise => exercise.id == exerciseId))[0] as Exercise;
+				exercise.muscles = exercise.muscles.filter(muscle => muscle.id != muscleId);
+				this.ref.detectChanges();
+			} else {
+				this.showSnackBar('Something went wrong removing the muscle');
+			}
+		})
+	}
+
+	showSnackBar(message: string) {
+		this.snackBar.open(message, '', {
+			duration: 3000
+		});
 	}
 }
 

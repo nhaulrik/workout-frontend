@@ -65,4 +65,10 @@ export class ExerciseService {
 	}
 
 
+	removeMuscleFromExercise(exerciseId: string, muscleId: string) {
+		return this.http.delete(this.exerciseControllerEndpoint + '/' + exerciseId + '/' + muscleId, httpOptions)
+			.pipe(
+				catchError(this.handleError)
+			)
+	}
 }

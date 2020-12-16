@@ -21,7 +21,7 @@
 								<span
 									class="kt-badge kt-badge--inline kt-badge--pill kt-badge--{{ getCssClassForBadge(muscle) }} kt-badge--wide"
 									*ngFor="let muscle of exercise.muscles">
-								{{ muscle.name }}
+								{{ muscle.name }} 	<img src="assets/media/icons/svg/Navigation/Close.svg" alt="Delete" (click)="deleteMuscleFromExercise(exercise.id, muscle.id)"/>
 								</span>
 								</div>
 							</td>
