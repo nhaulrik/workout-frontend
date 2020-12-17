@@ -1,74 +1,81 @@
 <!--This is the entry page for the sessions-->
-<div class="row" cdkDropListGroup>
-	<div class="col-xl-7">
+<div class="row">
+	<div class="col-xl-12">
 		<kt-portlet [class]="'kt-portlet'">
-			<kt-portlet-header [title]="'Exercises'">
+			<kt-portlet-header [title]="'Exercises and muscle organizer'">
 			</kt-portlet-header>
 			<kt-portlet-body>
-				<ng-container ktPortletTools>
-					<table #exerciseTable mat-table [dataSource]="exerciseDataSource" multiTemplateDataRows
-						   class="mat-elevation-z8">
-						<ng-container matColumnDef="{{column}}" *ngFor="let column of displayedExerciseColumns">
-							<th mat-header-cell *matHeaderCellDef> {{column}} </th>
-							<td mat-cell *matCellDef="let exercise"> {{exercise[column]}} </td>
-						</ng-container>
-						Expanded Content Column - The detail row is made up of this one column that spans across all
-						columns
-						<ng-container matColumnDef="expandedDetail">
-							<td mat-cell *matCellDef="let exercise"
-								[attr.colspan]="displayedExerciseColumns.length">
-								<div class="example-element-detail" [@detailExpand]="exercise == expandedExercise ? 'expanded' : 'collapsed'">
-								<span
-									class="kt-badge kt-badge--inline kt-badge--pill kt-badge--{{ getCssClassForBadge(muscle) }} kt-badge--wide"
-									*ngFor="let muscle of exercise.muscles">
-								{{ muscle.name }} 	<img src="assets/media/icons/svg/Navigation/Close.svg" alt="Delete" (click)="deleteMuscleFromExercise(exercise.id, muscle.id)"/>
-								</span>
-								</div>
-							</td>
-						</ng-container>
-
-						<tr mat-header-row *matHeaderRowDef="displayedExerciseColumns"></tr>
-						<tr mat-row *matRowDef="let exercise; columns: displayedExerciseColumns;"
-							class="example-element-row"
-							[class.example-expanded-row]="expandedExercise === exercise"
-							(click)="expandedExercise = expandedExercise === exercise ? null : exercise"
-							cdkDropList
-							[cdkDropListData]="exerciseDataSource"
-							(cdkDropListDropped)="dropMuscle($event, exercise)"
-							(cdkDropListEntered)="expandedExercise = expandedExercise === exercise ? null : exercise">
-						</tr>
-						<tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"
-							class="example-detail-row"></tr>
-					</table>
-				</ng-container>
 			</kt-portlet-body>
 		</kt-portlet>
 	</div>
+</div>
+<div class="row" cdkDropListGroup>
+	<div ktPortletTools class="col-xl-7">
+		<table #exerciseTable mat-table [dataSource]="exerciseDataSource" multiTemplateDataRows
+			   class="mat-elevation-z8">
+			<ng-container matColumnDef="name">
+				<th mat-header-cell *matHeaderCellDef> Exercise</th>
+				<td mat-cell *matCellDef="let exercise"> {{exercise.name}} </td>
+			</ng-container>
+			<ng-container matColumnDef="bodyPart">
+				<th mat-header-cell *matHeaderCellDef> Body part</th>
+				<td mat-cell *matCellDef="let exercise"> {{exercise.bodyPart}} </td>
+			</ng-container>
+			<ng-container matColumnDef="isCompound">
+				<th mat-header-cell *matHeaderCellDef> Compound</th>
+				<td mat-cell *matCellDef="let exercise"> {{exercise.isCompound}} </td>
+			</ng-container>
+
+			Expanded Content Column - The detail row is made up of this one column that spans across all
+			columns
+			<ng-container matColumnDef="expandedDetail">
+				<td mat-cell *matCellDef="let exercise"
+					[attr.colspan]="displayedExerciseColumns.length">
+					<div class="example-element-detail"
+						 [@detailExpand]="exercise == expandedExercise ? 'expanded' : 'collapsed'">
+								<span
+									class="kt-badge kt-badge--inline kt-badge--pill kt-badge--{{ getCssClassForBadge(muscle) }} kt-badge--wide"
+									*ngFor="let muscle of exercise.muscles">
+								{{ muscle.name }}    <img src="assets/media/icons/svg/Navigation/Close.svg" alt="Delete"
+														  (click)="deleteMuscleFromExercise(exercise.id, muscle.id)"/>
+								</span>
+					</div>
+				</td>
+			</ng-container>
+
+			<tr mat-header-row *matHeaderRowDef="displayedExerciseColumns"></tr>
+			<tr mat-row *matRowDef="let exercise; columns: displayedExerciseColumns;"
+				class="example-element-row"
+				[class.example-expanded-row]="expandedExercise === exercise"
+				(click)="expandedExercise = expandedExercise === exercise ? null : exercise"
+				cdkDropList
+				[cdkDropListData]="exerciseDataSource"
+				(cdkDropListDropped)="dropMuscle($event, exercise)"
+				(cdkDropListEntered)="expandedExercise = expandedExercise === exercise ? null : exercise">
+			</tr>
+			<tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"
+				class="example-detail-row"></tr>
+		</table>
+	</div>
 	<div class="col-xl-5">
-		<kt-portlet [class]="'kt-portlet'">
-			<kt-portlet-header [title]="'Muscles'">
-			</kt-portlet-header>
-			<kt-portlet-body>
-				<table #muscleTable mat-table [dataSource]="muscleDataSource" cdkDropList
-					   [cdkDropListData]="muscleDataSource"
-					   (cdkDropListDropped)="drop($event)"
-					   class="mat-elevation-z8">
-					<ng-container matColumnDef="name">
-						<th mat-header-cell *matHeaderCellDef> Name</th>
-						<td mat-cell *matCellDef="let muscle"> {{muscle.name}} </td>
-					</ng-container>
+		<table #muscleTable mat-table [dataSource]="muscleDataSource" cdkDropList
+			   [cdkDropListData]="muscleDataSource"
+			   (cdkDropListDropped)="drop($event)"
+			   class="mat-elevation-z8">
+			<ng-container matColumnDef="name">
+				<th mat-header-cell *matHeaderCellDef> Name</th>
+				<td mat-cell *matCellDef="let muscle"> {{muscle.name}} </td>
+			</ng-container>
 
-					<ng-container matColumnDef="bodyPart">
-						<th mat-header-cell *matHeaderCellDef> Body part</th>
-						<td mat-cell *matCellDef="let muscle"> {{muscle.bodyPart}} </td>
-					</ng-container>
+			<ng-container matColumnDef="bodyPart">
+				<th mat-header-cell *matHeaderCellDef> Body part</th>
+				<td mat-cell *matCellDef="let muscle"> {{muscle.bodyPart}} </td>
+			</ng-container>
 
-					<tr mat-header-row *matHeaderRowDef="displayedMuscleColumns"></tr>
-					<tr mat-row *matRowDef="let row; columns: displayedMuscleColumns;" cdkDrag [cdkDragData]="row"
-						class="example-element-row">
-					</tr>
-				</table>
-			</kt-portlet-body>
-		</kt-portlet>
+			<tr mat-header-row *matHeaderRowDef="displayedMuscleColumns"></tr>
+			<tr mat-row *matRowDef="let row; columns: displayedMuscleColumns;" cdkDrag [cdkDragData]="row"
+				class="example-element-row">
+			</tr>
+		</table>
 	</div>
 </div>
