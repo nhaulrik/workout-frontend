@@ -446,13 +446,9 @@ export class MenuConfig {
 							page: '/database/exercises'
 						},
 						{
-							title: 'Customers',
-							page: '/ecommerce/customers'
-						},
-						{
-							title: 'Products',
-							page: '/ecommerce/products'
-						},
+							title: 'Body Measurements',
+							page: '/database/body'
+						}
 					]
 				},
 				{
@@ -460,7 +456,13 @@ export class MenuConfig {
 					root: true,
 					bullet: 'dot',
 					icon: 'flaticon2-user-outline-symbol',
-					page: '/user-management/users'
+					submenu: [
+						{
+							title: 'Administrate',
+							page: '/user-management/users'
+						},
+					]
+
 				},
 			]
 		},

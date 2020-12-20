@@ -3,14 +3,12 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterModule, Routes} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 // Fake API Angular-in-memory
 import {HttpClientInMemoryWebApiModule} from 'angular-in-memory-web-api';
 // Translate Module
 import {TranslateModule} from '@ngx-translate/core';
 // NGRX
-import {StoreModule} from '@ngrx/store';
-import {EffectsModule} from '@ngrx/effects';
 // UI
 import {PartialsModule} from '../../../partials/partials.module';
 // Core
@@ -22,42 +20,52 @@ import {SessionService} from '../../../../core/database/_services/session.servic
 import {WorkoutSetService} from '../../../../core/database/_services/workoutSet.service';
 
 // Core => Utils
-import {
-HttpUtilsService,
-TypesUtilsService,
-InterceptService,
-LayoutUtilsService
-} from '../../../../core/_base/crud';
+import {HttpUtilsService, InterceptService, LayoutUtilsService, TypesUtilsService} from '../../../../core/_base/crud';
 // Shared
 import {
-ActionNotificationComponent,
-DeleteEntityDialogComponent,
-FetchEntityDialogComponent,
-UpdateStatusDialogComponent
+	ActionNotificationComponent,
+	DeleteEntityDialogComponent,
+	FetchEntityDialogComponent,
+	UpdateStatusDialogComponent
 } from '../../../partials/content/crud';
 // Components
 import {DatabaseComponent} from './database.component';
 // Muscles
 import {MuscleComponent} from './muscle/muscle.component';
 import {
-MAT_DATE_LOCALE,
-MAT_DIALOG_DEFAULT_OPTIONS,
-MatAutocompleteModule,
-MatButtonModule, MatButtonToggleModule, MatCardModule, MatCheckboxModule, MatDatepickerModule,
-MatDialogModule, MatIconModule,
-MatInputModule,
-MatMenuModule, MatNativeDateModule, MatPaginatorModule, MatProgressBarModule, MatProgressSpinnerModule, MatRadioModule,
-MatSelectModule, MatSnackBarModule, MatSortModule,
-MatTableModule, MatTabsModule, MatTooltipModule
+	MAT_DATE_LOCALE,
+	MAT_DIALOG_DEFAULT_OPTIONS,
+	MatAutocompleteModule,
+	MatButtonModule,
+	MatButtonToggleModule,
+	MatCardModule,
+	MatCheckboxModule,
+	MatDatepickerModule,
+	MatDialogModule,
+	MatIconModule,
+	MatInputModule,
+	MatMenuModule,
+	MatNativeDateModule,
+	MatPaginatorModule,
+	MatProgressBarModule,
+	MatProgressSpinnerModule,
+	MatRadioModule,
+	MatSelectModule,
+	MatSnackBarModule,
+	MatSortModule,
+	MatTableModule,
+	MatTabsModule,
+	MatTooltipModule
 } from '@angular/material';
 import {NgxPermissionsModule} from 'ngx-permissions';
 import {environment} from '../../../../../environments/environment';
 import {NgbProgressbarModule} from '@ng-bootstrap/ng-bootstrap';
-import { SessionComponent } from './session/session.component';
-import { SessionEditComponent } from './session/session-edit/session-edit.component';
+import {SessionComponent} from './session/session.component';
+import {SessionEditComponent} from './session/session-edit/session-edit.component';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import { ExerciseComponent } from './exercise/exercise.component';
+import {ExerciseComponent} from './exercise/exercise.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import {BodyComponent} from './body/body.component';
 
 // tslint:disable-next-line:class-name
 const routes: Routes = [
@@ -75,7 +83,7 @@ const routes: Routes = [
 			{
 				path: 'exercises',
 				component: ExerciseComponent
-			},			{
+			}, {
 				path: 'muscles',
 				component: MuscleComponent
 			},
@@ -90,6 +98,10 @@ const routes: Routes = [
 			{
 				path: 'sessions/edit',
 				component: SessionEditComponent
+			},
+			{
+				path: 'body',
+				component: BodyComponent
 			},
 		]
 	}
@@ -135,7 +147,7 @@ const routes: Routes = [
 		}) : [],
 	],
 	providers: [
-		{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
+		{provide: MAT_DATE_LOCALE, useValue: 'en-GB'},
 		InterceptService,
 		{
 			provide: HTTP_INTERCEPTORS,
@@ -172,6 +184,7 @@ const routes: Routes = [
 		SessionComponent,
 		SessionEditComponent,
 		ExerciseComponent,
+		BodyComponent,
 	]
 })
 export class DatabaseModule {
