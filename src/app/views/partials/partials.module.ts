@@ -79,6 +79,8 @@ import {WorkoutExerciseComponent} from './content/database/workout-exercise/work
 import {SessionCalendarComponent} from './content/database/session-calendar/session-calendar.component';
 import {WorkoutSetComponent} from './content/database/workout-set/workout-set.component';
 import {SessionComponent} from './content/database/session/session.component';
+import {BodyComponent} from './content/database/body/body.component';
+import {UserBodyComponent} from './content/database/body/user-body/user-body.component';
 
 @NgModule({
 	declarations: [
@@ -120,6 +122,8 @@ import {SessionComponent} from './content/database/session/session.component';
 		SessionCalendarComponent,
 		WorkoutSetComponent,
 		SessionComponent,
+		BodyComponent,
+		UserBodyComponent,
 	],
 	exports: [
 		ExerciseSelectorComponent,
@@ -208,7 +212,8 @@ import {SessionComponent} from './content/database/session/session.component';
 		WorkoutExerciseComponent,
 		SessionComponent,
 		SessionCalendarComponent,
-		SessionCreateComponent
+		SessionCreateComponent,
+		UserBodyComponent,
 	]
 })
 export class PartialsModule {

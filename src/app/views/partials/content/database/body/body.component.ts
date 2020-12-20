@@ -1,4 +1,4 @@
-import {Component, ComponentFactoryResolver, ComponentRef, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
+import {ChangeDetectorRef, Component, ComponentFactoryResolver, ComponentRef, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {UserService} from '../../../../../core/database';
 import {GraphQlResponse} from '../../../../../core/database/_models/graphQlResponse';
 import {User} from '../../../../../core/database/_models/user';
@@ -19,6 +19,7 @@ export class BodyComponent implements OnInit {
 	constructor(
 		private userService: UserService,
 		private CFR: ComponentFactoryResolver,
+		private ref: ChangeDetectorRef
 	) {
 	}
 
@@ -27,6 +28,7 @@ export class BodyComponent implements OnInit {
 		this.userService.getUsers().subscribe(response => {
 			let users: User[] = (response as GraphQlResponse).data.users;
 			users.forEach(user => this.createUserBodyComponent(user));
+			this.ref.detectChanges();
 		})
 
 	}
