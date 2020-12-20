@@ -66,6 +66,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {ExerciseComponent} from './exercise/exercise.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {BodyComponent} from './body/body.component';
+import { UserBodyComponent } from './body/user-body/user-body.component';
 
 // tslint:disable-next-line:class-name
 const routes: Routes = [
@@ -185,6 +186,7 @@ const routes: Routes = [
 		SessionEditComponent,
 		ExerciseComponent,
 		BodyComponent,
+		UserBodyComponent,
 	]
 })
 export class DatabaseModule {
