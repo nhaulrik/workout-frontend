@@ -27,46 +27,46 @@
 								<tr>
 									<mat-slide-toggle></mat-slide-toggle>
 									<td>Weight</td>
-									<input>
+									<input type="number" [(ngModel)]="bodyMeasurements.weight">
 								</tr>
 								<tr>
 									<mat-slide-toggle></mat-slide-toggle>
 									<td>Chest</td>
-									<input>
+									<input type="number" [(ngModel)]="bodyMeasurements.chest">
 								</tr>
 								<tr>
 									<mat-slide-toggle></mat-slide-toggle>
 									<td>Hips</td>
-									<input>
+									<input type="number" [(ngModel)]="bodyMeasurements.hips">
 								</tr>
 								<tr>
 									<mat-slide-toggle></mat-slide-toggle>
-									<td>Weight</td>
-									<input>
+									<td>Stomach</td>
+									<input type="number" [(ngModel)]="bodyMeasurements.stomach">
 								</tr>
 								<tr>
 									<mat-slide-toggle></mat-slide-toggle>
 									<td>thigh</td>
-									<input>
+									<input type="number" [(ngModel)]="bodyMeasurements.thigh">
 								</tr>
 								<tr>
 									<mat-slide-toggle></mat-slide-toggle>
 									<td>Calves</td>
-									<input>
+									<input type="number" [(ngModel)]="bodyMeasurements.calves">
 								</tr>
 								<tr>
 									<mat-slide-toggle></mat-slide-toggle>
 									<td>Biceps</td>
-									<input>
+									<input type="number" [(ngModel)]="bodyMeasurements.biceps">
 								</tr>
 								<tr>
 									<mat-slide-toggle></mat-slide-toggle>
 									<td>Forearm</td>
-									<input>
+									<input type="number" [(ngModel)]="bodyMeasurements.forearm">
 								</tr>
 							</table>
 						</div>
-						<button mat-raised-button>Post</button>
+						<button mat-raised-button (click)="postMeasurements()">Post</button>
 					</kt-portlet-body>
 				</kt-portlet>
 			</div>

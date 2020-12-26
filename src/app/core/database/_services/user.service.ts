@@ -5,6 +5,9 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {User} from '../_models/user';
+import {WorkoutSet} from '../_models/workoutSet';
+import {PostWorkoutSetRequest} from '../_models/requests/PostWorkoutSetRequest';
+import {BodyMeasurements} from '../_models/bodyMeasurements';
 
 const httpOptions = {
 	headers: new HttpHeaders({
@@ -15,6 +18,8 @@ const httpOptions = {
 
 @Injectable()
 export class UserService {
+	userControllerEndpoint = 'http://localhost:9090/api/v1/user';
+	bodyMeasurementControllerEndpoint = 'http://localhost:9090/api/v1/bodymeasurement';
 	graphQLEndpoint = 'http://localhost:9090/graphql';
 	getUsersPayload = '{"query":"{\\n  users {\\n     id\\n    firstName\\n    lastName\\n    birthday\\n    gender\\n    id\\n  }\\n}","variables":null,"operationName":null}';
 
@@ -59,6 +64,15 @@ export class UserService {
 			return formattedDate;
 		}
 	}
+
+	postBodyMeasurements(bodyMeasurements: BodyMeasurements) {
+
+		return this.http.post(this.bodyMeasurementControllerEndpoint, [bodyMeasurements], httpOptions)
+			.pipe(
+				catchError(this.handleError)
+			)
+	}
+
 
 	private handleError(error: HttpErrorResponse) {
 		if (error.error instanceof ErrorEvent) {
