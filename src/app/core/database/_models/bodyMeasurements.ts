@@ -2,6 +2,7 @@ export class BodyMeasurements {
 
 	id: string;
 	userId: string;
+	createDate: Date;
 
 	weight: number;
 	chest: number;
