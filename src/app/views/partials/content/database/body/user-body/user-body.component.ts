@@ -2,17 +2,22 @@ import {Component, OnInit} from '@angular/core';
 import {BodyComponent} from '../body.component';
 import {User} from '../../../../../../core/database/_models/user';
 import {BodyMeasurements} from '../../../../../../core/database/_models/bodyMeasurements';
-import {UserService} from '../../../../../../core/database';
+import {BodyMeasurementService} from '../../../../../../core/database';
+import {GraphQlResponse} from '../../../../../../core/database/_models/graphQlResponse';
 
 @Component({
 	selector: 'kt-user-body',
 	templateUrl: './user-body.component.html',
-	styleUrls: ['./user-body.component.scss']
+	styleUrls: ['./user-body.component.scss'],
+	providers: [BodyMeasurementService],
 })
 export class UserBodyComponent implements OnInit {
 
 	user: User;
-	bodyMeasurements: BodyMeasurements = {
+
+	bodyMeasurements: BodyMeasurements[] = [];
+
+	postBodyMeasurements: BodyMeasurements = {
 		id: null,
 		userId: null,
 
@@ -34,16 +39,20 @@ export class UserBodyComponent implements OnInit {
 	public parentRef: BodyComponent;
 
 	constructor(
-		private userService: UserService
+		private bodyMeasurementService: BodyMeasurementService
 	) {
 	}
 
 	ngOnInit() {
-		this.bodyMeasurements.userId = this.user.id;
+		this.postBodyMeasurements.userId = this.user.id;
+		this.bodyMeasurementService.getBodyMeasurements(this.user.id).subscribe(response => {
+			let data = (response as GraphQlResponse).data.bodyMeasurements;
+			this.bodyMeasurements = data;
+		})
 	}
 
 	postMeasurements() {
-		this.userService.postBodyMeasurements(this.bodyMeasurements).subscribe(response => {
+		this.bodyMeasurementService.postBodyMeasurements(this.postBodyMeasurements).subscribe(response => {
 			let bla = response;
 		})
 	}

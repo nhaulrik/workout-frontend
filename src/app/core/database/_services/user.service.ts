@@ -65,13 +65,7 @@ export class UserService {
 		}
 	}
 
-	postBodyMeasurements(bodyMeasurements: BodyMeasurements) {
 
-		return this.http.post(this.bodyMeasurementControllerEndpoint, [bodyMeasurements], httpOptions)
-			.pipe(
-				catchError(this.handleError)
-			)
-	}
 
 
 	private handleError(error: HttpErrorResponse) {
