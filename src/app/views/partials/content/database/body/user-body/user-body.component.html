@@ -4,52 +4,86 @@
 			<kt-portlet-header [title]="user.firstName + ' ' + user.lastName">
 			</kt-portlet-header>
 			<kt-portlet-body>
-				<mat-slide-toggle (change)="inputEnabled = !inputEnabled">Enable input</mat-slide-toggle>
+				<mat-slide-toggle (change)="inputEnabled = !inputEnabled">Enable basic input</mat-slide-toggle>
 				<br>
 				<table #bodyMeasurementsTable mat-table [dataSource]="bodyMeasurements" multiTemplateDataRows
 					   class="mat-elevation-z8">
 					<ng-container matColumnDef="date">
 						<th mat-header-cell *matHeaderCellDef>
 							Date
-							<input *ngIf="inputEnabled" type="number" matInput placeholder="Select">
+							<mat-form-field *ngIf="inputEnabled">
+								<mat-label style="margin-left: 15px;">Select</mat-label>
+								<input matInput [matDatepicker]="picker">
+								<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+								<mat-datepicker #picker></mat-datepicker>
+							</mat-form-field>
 						</th>
 						<td mat-cell *matCellDef="let bodyMeasurement"> {{bodyMeasurement.createDate}} </td>
 					</ng-container>
 					<ng-container matColumnDef="weight">
 						<th mat-header-cell *matHeaderCellDef>
 							Weight
-							<input *ngIf="inputEnabled" type="number" matInput placeholder="0">
+							<input class="input-values" *ngIf="inputEnabled" type="number" matInput placeholder="0">
 						</th>
 						<td mat-cell *matCellDef="let bodyMeasurement"> {{bodyMeasurement.weight}} </td>
 					</ng-container>
 					<ng-container matColumnDef="chest">
 						<th mat-header-cell *matHeaderCellDef>
 							Chest
-							<input *ngIf="inputEnabled" type="number" matInput placeholder="0">
+							<input class="input-values" *ngIf="inputEnabled" type="number" matInput placeholder="0">
 						</th>
 						<td mat-cell *matCellDef="let bodyMeasurement"> {{bodyMeasurement.chest}} </td>
 					</ng-container>
 					<ng-container matColumnDef="hip">
 						<th mat-header-cell *matHeaderCellDef>
 							Hip
-							<input *ngIf="inputEnabled" type="number" matInput placeholder="0">
+							<input class="input-values" *ngIf="inputEnabled" type="number" matInput placeholder="0">
 						</th>
 						<td mat-cell *matCellDef="let bodyMeasurement"> {{bodyMeasurement.hip}} </td>
 					</ng-container>
 					<ng-container matColumnDef="stomach">
 						<th mat-header-cell *matHeaderCellDef>
 							Stomach
-							<input *ngIf="inputEnabled" type="number" matInput placeholder="0">
+							<input class="input-values" *ngIf="inputEnabled" type="number" matInput placeholder="0">
 						</th>
 						<td mat-cell *matCellDef="let bodyMeasurement"> {{bodyMeasurement.stomach}} </td>
 					</ng-container>
+					<ng-container matColumnDef="thigh">
+						<th mat-header-cell *matHeaderCellDef>
+							Thigh
+							<input class="input-values" *ngIf="inputEnabled" type="number" matInput placeholder="0">
+						</th>
+						<td mat-cell *matCellDef="let bodyMeasurement"> {{bodyMeasurement.singleThigh}} </td>
+					</ng-container>
+					<ng-container matColumnDef="biceps">
+						<th mat-header-cell *matHeaderCellDef>
+							Biceps
+							<input class="input-values" *ngIf="inputEnabled" type="number" matInput placeholder="0">
+						</th>
+						<td mat-cell *matCellDef="let bodyMeasurement"> {{bodyMeasurement.singleBiceps}} </td>
+					</ng-container>
+					<ng-container matColumnDef="calves">
+						<th mat-header-cell *matHeaderCellDef>
+							Calves
+							<input class="input-values" *ngIf="inputEnabled" type="number" matInput placeholder="0">
+						</th>
+						<td mat-cell *matCellDef="let bodyMeasurement"> {{bodyMeasurement.singleCalve}} </td>
+					</ng-container>
+					<ng-container matColumnDef="forearm">
+						<th mat-header-cell *matHeaderCellDef>
+							Forearm
+							<input class="input-values" *ngIf="inputEnabled" type="number" matInput placeholder="0">
+						</th>
+						<td mat-cell *matCellDef="let bodyMeasurement"> {{bodyMeasurement.singleForearm}} </td>
+					</ng-container>
+
 					<ng-container matColumnDef="submitInput">
 						<th mat-header-cell *matHeaderCellDef>
 							<button *ngIf="inputEnabled" mat-raised-button color="primary">
 								Submit
 							</button>
 						</th>
-						<td mat-cell *matCellDef="let bodyMeasurement"> {{bodyMeasurement.stomach}} </td>
+						<td mat-cell *matCellDef="let bodyMeasurement"></td>
 					</ng-container>
 
 					<tr mat-header-row [class.highlight-row]="true"
