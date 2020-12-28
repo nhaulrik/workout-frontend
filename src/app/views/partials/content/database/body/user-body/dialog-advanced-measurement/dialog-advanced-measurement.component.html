@@ -1,12 +1,64 @@
-<h1 mat-dialog-title>Hi</h1>
-<div mat-dialog-content>
-	<p>What's your favorite animal?</p>
+<div class="measurements-container">
+	<h1 mat-dialog-title>Advanced Measurements</h1>
+	<h2 mat-dialog-title>{{user.firstName}} {{user.lastName}}</h2>
 	<mat-form-field>
-		<mat-label>Favorite Animal</mat-label>
-		<input matInput>
+		<input matInput [matDatepicker]="picker" placeholder="Choose a date" (dateChange)="dateChanged($event)">
+		<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+		<mat-datepicker #picker></mat-datepicker>
 	</mat-form-field>
-</div>
-<div mat-dialog-actions>
-	<button mat-button (click)="onCancelClick()">Cancel</button>
-<!--	<button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button>-->
+	<table>
+		<tr>
+			<td>Weight</td>
+			<input type="number" [(ngModel)]="postBodyMeasurements.weight">
+		</tr>
+		<tr>
+			<td>Chest</td>
+			<input type="number" [(ngModel)]="postBodyMeasurements.chest">
+		</tr>
+		<tr>
+			<td>Hips</td>
+			<input type="number" [(ngModel)]="postBodyMeasurements.hip">
+		</tr>
+		<tr>
+			<td>Stomach</td>
+			<input type="number" [(ngModel)]="postBodyMeasurements.stomach">
+		</tr>
+		<tr>
+			<td>Left thigh</td>
+			<input type="number" [(ngModel)]="postBodyMeasurements.leftThigh">
+		</tr>
+		<tr>
+			<td>Right thigh</td>
+			<input type="number" [(ngModel)]="postBodyMeasurements.rightThigh">
+		</tr>
+		<tr>
+			<td>Left calve</td>
+			<input type="number" [(ngModel)]="postBodyMeasurements.leftCalve">
+		</tr>
+		<tr>
+			<td>Right calve</td>
+			<input type="number" [(ngModel)]="postBodyMeasurements.rightCalve">
+		</tr>
+		<tr>
+			<td>Left biceps</td>
+			<input type="number" [(ngModel)]="postBodyMeasurements.leftBiceps">
+		</tr>
+		<tr>
+			<td>Right biceps</td>
+			<input type="number" [(ngModel)]="postBodyMeasurements.rightBiceps">
+		</tr>
+		<tr>
+			<td>Left forearm</td>
+			<input type="number" [(ngModel)]="postBodyMeasurements.leftForearm">
+		</tr>
+		<tr>
+			<td>Right forearm</td>
+			<input type="number" [(ngModel)]="postBodyMeasurements.rightForearm">
+		</tr>
+		<br>
+		<tr>
+			<button [disabled]="!formIsValid()" (click)="submitBodyMeasurements()" mat-raised-button color="primary">Submit</button>
+			<button mat-raised-button color="warn" (click)="onCancelClick()">Cancel</button>
+		</tr>
+	</table>
 </div>

@@ -35,7 +35,6 @@ export class MuscleComponent implements OnInit {
 	}
 
 	drop(event: CdkDragDrop<Muscle[]>) {
-		debugger;
 		moveItemInArray(this.dataSource, event.previousIndex, event.currentIndex);
 		console.log(event.container.data);
 	}

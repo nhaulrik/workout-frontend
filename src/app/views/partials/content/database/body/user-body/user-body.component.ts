@@ -4,7 +4,7 @@ import {User} from '../../../../../../core/database/_models/user';
 import {BodyMeasurements} from '../../../../../../core/database/_models/bodyMeasurements';
 import {BodyMeasurementService} from '../../../../../../core/database';
 import {GraphQlResponse} from '../../../../../../core/database/_models/graphQlResponse';
-import {MatDialog} from '@angular/material';
+import {MatDialog, MatSnackBar} from '@angular/material';
 import {DialogAdvancedMeasurementComponent} from './dialog-advanced-measurement/dialog-advanced-measurement.component';
 
 @Component({
@@ -24,7 +24,8 @@ export class UserBodyComponent implements OnInit {
 	postBodyMeasurements: BodyMeasurements = {
 		id: null,
 		userId: null,
-		createDate: null,
+		date: null,
+		dateString: null,
 		weight: null,
 		chest: null,
 		hip: null,
@@ -49,7 +50,8 @@ export class UserBodyComponent implements OnInit {
 	constructor(
 		private bodyMeasurementService: BodyMeasurementService,
 		private ref: ChangeDetectorRef,
-		public dialog: MatDialog
+		public dialog: MatDialog,
+		public snackBar: MatSnackBar
 	) {
 	}
 
@@ -62,21 +64,47 @@ export class UserBodyComponent implements OnInit {
 		})
 	}
 
-	postMeasurements() {
-		this.bodyMeasurementService.postBodyMeasurements(this.postBodyMeasurements).subscribe(response => {
-			let bla = response;
-		})
-	}
-
 	openDialog(): void {
 		const dialogRef = this.dialog.open(DialogAdvancedMeasurementComponent, {
-			width: '800px',
+			width: '400px',
 			data: {user: this.user}
 		});
 
 		dialogRef.afterClosed().subscribe(result => {
-			console.log('The dialog was closed');
-			// this.animal = result;
+			this.ngOnInit();
 		});
+	}
+
+	submitBodyMeasurements() {
+		this.bodyMeasurementService.postBodyMeasurements(this.postBodyMeasurements).subscribe(response => {
+			this.showSnackBar('Body measurement was submitted');
+			this.ngOnInit();
+		})
+	}
+
+	showSnackBar(message: string) {
+		this.snackBar.open(message, '', {
+			duration: 3000
+		});
+	}
+
+	dateChanged($event) {
+		let date = $event.value;
+		this.postBodyMeasurements.date = date;
+	}
+
+	formIsValid() {
+		let hasDateAndUserId = this.postBodyMeasurements.userId != null && this.postBodyMeasurements.date != null;
+		let hasValues =
+			this.postBodyMeasurements.weight != null ||
+			this.postBodyMeasurements.chest != null ||
+			this.postBodyMeasurements.hip != null ||
+			this.postBodyMeasurements.stomach != null ||
+			this.postBodyMeasurements.singleThigh != null ||
+			this.postBodyMeasurements.singleForearm != null ||
+			this.postBodyMeasurements.singleBiceps != null ||
+			this.postBodyMeasurements.singleCalve != null;
+
+		return hasDateAndUserId && hasValues == true;
 	}
 }

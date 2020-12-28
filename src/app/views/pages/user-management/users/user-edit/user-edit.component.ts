@@ -194,7 +194,6 @@ export class UserEditComponent implements OnInit, OnDestroy {
 	prepareUser(): User {
 		const controls = this.userForm.controls;
 		const _user = new User();
-		_user.clear();
 		_user.firstName = controls.firstname.value;
 		_user.lastName = controls.lastname.value;
 		_user.gender = controls.gender.value;

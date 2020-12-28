@@ -1,6 +1,4 @@
-import {BaseModel} from '../../_base/crud';
-
-export class User extends BaseModel {
+export class User {
 
 	id: string;
 	firstName: string;
@@ -8,11 +6,4 @@ export class User extends BaseModel {
 	birthday: Date;
 	gender: string;
 
-	clear(): void {
-	this.id = undefined;
-	this.firstName = '';
-	this.lastName = '';
-	this.gender = '';
-	this.birthday = undefined;
-}
 }

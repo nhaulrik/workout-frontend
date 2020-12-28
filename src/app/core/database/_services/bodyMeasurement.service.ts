@@ -15,7 +15,7 @@ const httpOptions = {
 export class BodyMeasurementService {
 	graphQLEndpoint = 'http://localhost:9090/graphql';
 
-	getBodyMeasurementsPayload = '{"query":"{  bodyMeasurements (userId: \\"{userId}\\") {    id    userId    createDate    weight    chest    hip    stomach    leftBiceps    rightBiceps    leftCalve    rightCalve    leftForearm    rightForearm    leftThigh    rightThigh  }}","variables":null,"operationName":null}';
+	getBodyMeasurementsPayload = '{"query":"{  bodyMeasurements (userId: \\"{userId}\\") {    id    userId    date    weight    chest    hip    stomach    leftBiceps    rightBiceps    leftCalve    rightCalve    leftForearm    rightForearm    leftThigh    rightThigh  }}","variables":null,"operationName":null}';
 
 	bodyMeasurementControllerEndpoint = 'http://localhost:9090/api/v1/bodymeasurement';
 
@@ -40,6 +40,7 @@ export class BodyMeasurementService {
 
 	postBodyMeasurements(bodyMeasurements: BodyMeasurements) {
 
+		bodyMeasurements.dateString = this.formatDateToString(bodyMeasurements.date);
 		return this.http.post(this.bodyMeasurementControllerEndpoint, [bodyMeasurements], httpOptions)
 			.pipe(
 				catchError(this.handleError)
@@ -59,5 +60,29 @@ export class BodyMeasurementService {
 			.pipe(
 				catchError(this.handleError)
 			)
+	}
+
+	formatDateToString(dateObject: Date) {
+		if (dateObject != undefined) {
+			const date = '{date}-{month}-{year} {hh}:{mm}';
+
+			let hours: number = dateObject.getHours();
+			let minutes: number = dateObject.getMinutes();
+			let month: number = dateObject.getMonth();
+			let day: number = dateObject.getDate();
+
+			const fullHours = dateObject.getHours() < 10 ? '0' + hours : hours;
+			const fullMinutes = dateObject.getMinutes() < 10 ? '0' + minutes : minutes;
+			const fullMonth = dateObject.getMonth() + 1 < 10 ? '0' + month + 1 : month + 1;
+			const fullDay = dateObject.getDate() < 10 ? '0' + day : day.toString();
+			const formattedDate = date
+				.replace('{date}', fullDay)
+				.replace('{month}', fullMonth.toString())
+				.replace('{year}', dateObject.getFullYear().toString())
+				.replace('{hh}', fullHours.toString())
+				.replace('{mm}', fullMinutes.toString());
+
+			return formattedDate;
+		}
 	}
 }
