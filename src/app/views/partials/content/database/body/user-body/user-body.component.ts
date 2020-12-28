@@ -16,7 +16,7 @@ export class UserBodyComponent implements OnInit {
 	user: User;
 
 	bodyMeasurements: BodyMeasurements[] = [];
-	displayedBodyMeasurementsColumns: string[] = ['date', 'weight', 'chest', 'hip', 'stomach'];
+	displayedBodyMeasurementsColumns: string[] = ['date', 'weight', 'chest', 'hip', 'stomach', 'submitInput'];
 
 	postBodyMeasurements: BodyMeasurements = {
 		id: null,

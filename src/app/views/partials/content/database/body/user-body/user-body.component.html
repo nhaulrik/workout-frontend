@@ -1,137 +1,59 @@
-<kt-portlet [class]="'kt-portlet'">
-	<kt-portlet-header [title]="user.firstName + ' ' + user.lastName">
-	</kt-portlet-header>
-	<kt-portlet-body>
-		<div class="row">
-			<div class="col-xl-8">
-				<kt-portlet [class]="'kt-portlet'">
-					<kt-portlet-header [title]="'Measurements'">
-					</kt-portlet-header>
-					<kt-portlet-body>
-						<table #bodyMeasurementsTable mat-table [dataSource]="bodyMeasurements" multiTemplateDataRows
-							   class="mat-elevation-z8">
-							<ng-container matColumnDef="date">
-								<th mat-header-cell *matHeaderCellDef> Date</th>
-								<td mat-cell *matCellDef="let bodyMeasurement"> {{bodyMeasurement.createDate}} </td>
-							</ng-container>
-							<ng-container matColumnDef="weight">
-								<th mat-header-cell *matHeaderCellDef> Weight</th>
-								<td mat-cell *matCellDef="let bodyMeasurement"> {{bodyMeasurement.weight}} </td>
-							</ng-container>
-							<ng-container matColumnDef="chest">
-								<th mat-header-cell *matHeaderCellDef> Chest</th>
-								<td mat-cell *matCellDef="let bodyMeasurement"> {{bodyMeasurement.chest}} </td>
-							</ng-container>
-							<ng-container matColumnDef="hip">
-								<th mat-header-cell *matHeaderCellDef> Hip</th>
-								<td mat-cell *matCellDef="let bodyMeasurement"> {{bodyMeasurement.hip}} </td>
-							</ng-container>
-							<ng-container matColumnDef="stomach">
-								<th mat-header-cell *matHeaderCellDef> Stomach</th>
-								<td mat-cell *matCellDef="let bodyMeasurement"> {{bodyMeasurement.stomach}} </td>
-							</ng-container>
-							Expanded Content Column - The detail row is made up of this one column that spans across all
-							columns
-<!--							<ng-container matColumnDef="expandedDetail">-->
-<!--								<td mat-cell *matCellDef="let exercise"-->
-<!--									[attr.colspan]="displayedExerciseColumns.length">-->
-<!--									<div class="example-element-detail"-->
-<!--										 [@detailExpand]="exercise == expandedExercise ? 'expanded' : 'collapsed'">-->
-<!--								<span-->
-<!--									class="kt-badge kt-badge&#45;&#45;inline kt-badge&#45;&#45;pill kt-badge&#45;&#45;{{ getCssClassForBadge(muscle) }} kt-badge&#45;&#45;wide"-->
-<!--									*ngFor="let muscle of exercise.muscles">-->
-<!--								{{ muscle.name }}    <img src="assets/media/icons/svg/Navigation/Close.svg" alt="Delete"-->
-<!--														  (click)="deleteMuscleFromExercise(exercise.id, muscle.id)"/>-->
-<!--								</span>-->
-<!--									</div>-->
-<!--								</td>-->
-<!--							</ng-container>-->
+<div class="row">
+	<div class="col-xl-12">
+		<kt-portlet [class]="'kt-portlet'">
+			<kt-portlet-header [title]="user.firstName + ' ' + user.lastName">
+			</kt-portlet-header>
+			<kt-portlet-body>
+				<table #bodyMeasurementsTable mat-table [dataSource]="bodyMeasurements" multiTemplateDataRows
+					   class="mat-elevation-z8">
+					<ng-container matColumnDef="date">
+						<th mat-header-cell *matHeaderCellDef>
+							Date
+							<input matInput placeholder="Select">
+						</th>
+						<td mat-cell *matCellDef="let bodyMeasurement"> {{bodyMeasurement.createDate}} </td>
+					</ng-container>
+					<ng-container matColumnDef="weight">
+						<th mat-header-cell *matHeaderCellDef>
+							Weight
+							<input matInput placeholder="0">
+						</th>
+						<td mat-cell *matCellDef="let bodyMeasurement"> {{bodyMeasurement.weight}} </td>
+					</ng-container>
+					<ng-container matColumnDef="chest">
+						<th mat-header-cell *matHeaderCellDef>
+							Chest
+							<input matInput placeholder="0">
+						</th>
+						<td mat-cell *matCellDef="let bodyMeasurement"> {{bodyMeasurement.chest}} </td>
+					</ng-container>
+					<ng-container matColumnDef="hip">
+						<th mat-header-cell *matHeaderCellDef>
+							Hip
+							<input matInput placeholder="0">
+						</th>
+						<td mat-cell *matCellDef="let bodyMeasurement"> {{bodyMeasurement.hip}} </td>
+					</ng-container>
+					<ng-container matColumnDef="stomach">
+						<th mat-header-cell *matHeaderCellDef>
+							Stomach
+							<input matInput placeholder="0">
+						</th>
+						<td mat-cell *matCellDef="let bodyMeasurement"> {{bodyMeasurement.stomach}} </td>
+					</ng-container>
+					<ng-container matColumnDef="submitInput">
+						<th mat-header-cell *matHeaderCellDef>
+							<button mat-button color="warn">
+								Submit
+							</button>
+						</th>
+						<td mat-cell *matCellDef="let bodyMeasurement"> {{bodyMeasurement.stomach}} </td>
+					</ng-container>
 
-							<tr mat-header-row *matHeaderRowDef="displayedBodyMeasurementsColumns"></tr>
-							<tr mat-row *matRowDef="let exercise; columns: displayedBodyMeasurementsColumns;"></tr>
-<!--							<tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"-->
-<!--								class="example-detail-row"></tr>-->
-						</table>
-					</kt-portlet-body>
-				</kt-portlet>
-			</div>
-			<div class="col-xl-4">
-				<kt-portlet [class]="'kt-portlet'">
-					<kt-portlet-header [title]="'Add Measurements here'">
-					</kt-portlet-header>
-					<kt-portlet-body>
-						<div class="measurements-container">
-							<mat-form-field>
-								<input matInput [matDatepicker]="picker" placeholder="Choose a date">
-								<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-								<mat-datepicker #picker></mat-datepicker>
-							</mat-form-field>
-							<table>
-								<tr>
-									<mat-slide-toggle></mat-slide-toggle>
-									<td>Weight</td>
-									<input type="number" [(ngModel)]="postBodyMeasurements.weight">
-								</tr>
-								<tr>
-									<mat-slide-toggle></mat-slide-toggle>
-									<td>Chest</td>
-									<input type="number" [(ngModel)]="postBodyMeasurements.chest">
-								</tr>
-								<tr>
-									<mat-slide-toggle></mat-slide-toggle>
-									<td>Hips</td>
-									<input type="number" [(ngModel)]="postBodyMeasurements.hip">
-								</tr>
-								<tr>
-									<mat-slide-toggle></mat-slide-toggle>
-									<td>Stomach</td>
-									<input type="number" [(ngModel)]="postBodyMeasurements.stomach">
-								</tr>
-								<tr>
-									<mat-slide-toggle></mat-slide-toggle>
-									<td>Left thigh</td>
-									<input type="number" [(ngModel)]="postBodyMeasurements.leftThigh">
-								</tr>
-								<tr>
-									<mat-slide-toggle></mat-slide-toggle>
-									<td>Right thigh</td>
-									<input type="number" [(ngModel)]="postBodyMeasurements.rightThigh">
-								</tr>
-								<tr>
-									<mat-slide-toggle></mat-slide-toggle>
-									<td>Left calve</td>
-									<input type="number" [(ngModel)]="postBodyMeasurements.leftCalve">
-								</tr>
-								<tr>
-									<mat-slide-toggle></mat-slide-toggle>
-									<td>Right calve</td>
-									<input type="number" [(ngModel)]="postBodyMeasurements.rightCalve">
-								</tr>
-								<tr>
-									<mat-slide-toggle></mat-slide-toggle>
-									<td>Left biceps</td>
-									<input type="number" [(ngModel)]="postBodyMeasurements.leftBiceps">
-								</tr>
-								<tr>
-									<mat-slide-toggle></mat-slide-toggle>
-									<td>Right biceps</td>
-									<input type="number" [(ngModel)]="postBodyMeasurements.rightBiceps">
-								</tr>
-								<tr>
-									<mat-slide-toggle></mat-slide-toggle>
-									<td>Left forearm</td>
-									<input type="number" [(ngModel)]="postBodyMeasurements.leftForearm">
-								</tr><tr>
-									<mat-slide-toggle></mat-slide-toggle>
-									<td>Right forearm</td>
-									<input type="number" [(ngModel)]="postBodyMeasurements.rightForearm">
-								</tr>
-							</table>
-						</div>
-						<button mat-raised-button (click)="postMeasurements()">Post</button>
-					</kt-portlet-body>
-				</kt-portlet>
-			</div>
-		</div>
-	</kt-portlet-body>
-</kt-portlet>
+					<tr mat-header-row [class.highlight-row]="true" *matHeaderRowDef="displayedBodyMeasurementsColumns"></tr>
+					<tr mat-row *matRowDef="let exercise; columns: displayedBodyMeasurementsColumns;"></tr>
+				</table>
+			</kt-portlet-body>
+		</kt-portlet>
+	</div>
+</div>
