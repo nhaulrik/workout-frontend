@@ -81,6 +81,7 @@ import {WorkoutSetComponent} from './content/database/workout-set/workout-set.co
 import {SessionComponent} from './content/database/session/session.component';
 import {BodyComponent} from './content/database/body/body.component';
 import {UserBodyComponent} from './content/database/body/user-body/user-body.component';
+import { DialogAdvancedMeasurementComponent } from './content/database/body/user-body/dialog-advanced-measurement/dialog-advanced-measurement.component';
 
 @NgModule({
 	declarations: [

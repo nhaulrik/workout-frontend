@@ -66,6 +66,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {ExerciseComponent} from './exercise/exercise.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {BodyComponent} from '../../../partials/content/database/body/body.component';
+import {DialogAdvancedMeasurementComponent} from '../../../partials/content/database/body/user-body/dialog-advanced-measurement/dialog-advanced-measurement.component';
 
 // tslint:disable-next-line:class-name
 const routes: Routes = [
@@ -177,6 +178,7 @@ const routes: Routes = [
 		DeleteEntityDialogComponent,
 		FetchEntityDialogComponent,
 		UpdateStatusDialogComponent,
+		DialogAdvancedMeasurementComponent,
 	],
 	declarations: [
 		DatabaseComponent,
@@ -184,6 +186,7 @@ const routes: Routes = [
 		SessionComponent,
 		SessionEditComponent,
 		ExerciseComponent,
+		DialogAdvancedMeasurementComponent,
 	]
 })
 export class DatabaseModule {

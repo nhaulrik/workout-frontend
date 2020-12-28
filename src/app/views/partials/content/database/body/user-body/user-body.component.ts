@@ -4,6 +4,8 @@ import {User} from '../../../../../../core/database/_models/user';
 import {BodyMeasurements} from '../../../../../../core/database/_models/bodyMeasurements';
 import {BodyMeasurementService} from '../../../../../../core/database';
 import {GraphQlResponse} from '../../../../../../core/database/_models/graphQlResponse';
+import {MatDialog} from '@angular/material';
+import {DialogAdvancedMeasurementComponent} from './dialog-advanced-measurement/dialog-advanced-measurement.component';
 
 @Component({
 	selector: 'kt-user-body',
@@ -46,7 +48,8 @@ export class UserBodyComponent implements OnInit {
 
 	constructor(
 		private bodyMeasurementService: BodyMeasurementService,
-		private ref: ChangeDetectorRef
+		private ref: ChangeDetectorRef,
+		public dialog: MatDialog
 	) {
 	}
 
@@ -63,5 +66,17 @@ export class UserBodyComponent implements OnInit {
 		this.bodyMeasurementService.postBodyMeasurements(this.postBodyMeasurements).subscribe(response => {
 			let bla = response;
 		})
+	}
+
+	openDialog(): void {
+		const dialogRef = this.dialog.open(DialogAdvancedMeasurementComponent, {
+			width: '800px',
+			data: {user: this.user}
+		});
+
+		dialogRef.afterClosed().subscribe(result => {
+			console.log('The dialog was closed');
+			// this.animal = result;
+		});
 	}
 }

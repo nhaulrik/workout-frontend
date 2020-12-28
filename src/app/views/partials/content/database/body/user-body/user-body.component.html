@@ -5,6 +5,7 @@
 			</kt-portlet-header>
 			<kt-portlet-body>
 				<mat-slide-toggle (change)="inputEnabled = !inputEnabled">Enable basic input</mat-slide-toggle>
+				<button mat-raised-button (click)="openDialog()">Add advanced measurements</button>
 				<br>
 				<table #bodyMeasurementsTable mat-table [dataSource]="bodyMeasurements" multiTemplateDataRows
 					   class="mat-elevation-z8">
