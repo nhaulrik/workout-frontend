@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {BodyComponent} from '../body.component';
 import {User} from '../../../../../../core/database/_models/user';
 import {BodyMeasurements} from '../../../../../../core/database/_models/bodyMeasurements';
@@ -17,6 +17,7 @@ export class UserBodyComponent implements OnInit {
 
 	bodyMeasurements: BodyMeasurements[] = [];
 	displayedBodyMeasurementsColumns: string[] = ['date', 'weight', 'chest', 'hip', 'stomach', 'submitInput'];
+	inputEnabled: boolean = false;
 
 	postBodyMeasurements: BodyMeasurements = {
 		id: null,
@@ -40,7 +41,8 @@ export class UserBodyComponent implements OnInit {
 	public parentRef: BodyComponent;
 
 	constructor(
-		private bodyMeasurementService: BodyMeasurementService
+		private bodyMeasurementService: BodyMeasurementService,
+		private ref: ChangeDetectorRef
 	) {
 	}
 
@@ -49,6 +51,7 @@ export class UserBodyComponent implements OnInit {
 		this.bodyMeasurementService.getBodyMeasurements(this.user.id).subscribe(response => {
 			let data = (response as GraphQlResponse).data.bodyMeasurements;
 			this.bodyMeasurements = data;
+			this.ref.detectChanges();
 		})
 	}
 
