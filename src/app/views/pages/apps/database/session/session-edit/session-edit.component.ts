@@ -74,7 +74,9 @@ export class SessionEditComponent implements OnInit, AfterViewInit, myinterface 
 						users: s.users,
 						workoutExercises: s.workoutExercises
 					}));
-					sessions.forEach(session => {
+
+						sessions = sessions.sort((s1, s2) => s1.users[0].firstName.localeCompare(s2.users[0].firstName));
+						sessions.forEach(session => {
 						if (!this.sessionExists(session.id)) {
 							this.createSessionComponent(session);
 						}
