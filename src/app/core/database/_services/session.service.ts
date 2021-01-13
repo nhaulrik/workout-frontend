@@ -69,7 +69,7 @@ export class SessionService {
 
 			const fullHours = dateObject.getHours() < 10 ? '0' + hours : hours;
 			const fullMinutes = dateObject.getMinutes() < 10 ? '0' + minutes : minutes;
-			const fullMonth = dateObject.getMonth() + 1 < 10 ? '0' + month + 1 : month + 1;
+			const fullMonth = dateObject.getMonth() + 1 < 10 ? '0' + (month + 1) : month + 1;
 			const fullDay = dateObject.getDate() < 10 ? '0' + day : day.toString();
 			const formattedDate = date
 				.replace('{date}', fullDay)
@@ -100,7 +100,6 @@ export class SessionService {
 
 	createSessions(userIds: string[], date: Date) {
 		let formattedDate = this.formatDateToString(date);
-
 		let postSessionRequests: PostSessionRequest[] = userIds.map(userId => {
 			return {
 				userId: userId,
