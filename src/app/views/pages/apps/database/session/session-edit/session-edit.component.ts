@@ -71,12 +71,12 @@ export class SessionEditComponent implements OnInit, AfterViewInit, myinterface 
 						splitName: s.splitName,
 						localDateTime: s.localDateTime,
 						userId: s.userId,
-						users: s.users,
+						user: s.user[0],
 						workoutExercises: s.workoutExercises
 					}));
 
-						sessions = sessions.sort((s1, s2) => s1.users[0].firstName.localeCompare(s2.users[0].firstName));
-						sessions.forEach(session => {
+					sessions = sessions.sort((s1, s2) => s1.user.firstName.localeCompare(s2.user.firstName));
+					sessions.forEach(session => {
 						if (!this.sessionExists(session.id)) {
 							this.createSessionComponent(session);
 						}
@@ -206,6 +206,7 @@ export class SessionEditComponent implements OnInit, AfterViewInit, myinterface 
 		childComponent.unique_key = ++this.child_unique_key;
 		childComponent.parentRef = this;
 	}
+
 }
 
 // Interface

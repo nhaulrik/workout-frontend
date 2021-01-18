@@ -1,4 +1,3 @@
-import {WorkoutSet} from './workoutSet';
 import {User} from './user';
 import {WorkoutExercise} from './workoutExercise';
 
@@ -10,6 +9,6 @@ export class Session {
 	localDateTime: Date;
 
 	userId: string;
-	users: User[];
+	user: User;
 	workoutExercises: WorkoutExercise[];
 }

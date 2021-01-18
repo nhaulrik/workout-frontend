@@ -82,6 +82,7 @@ import {SessionComponent} from './content/database/session/session.component';
 import {BodyComponent} from './content/database/body/body.component';
 import {UserBodyComponent} from './content/database/body/user-body/user-body.component';
 import { DialogAdvancedMeasurementComponent } from './content/database/body/user-body/dialog-advanced-measurement/dialog-advanced-measurement.component';
+import { IntelligenceComponent } from './content/database/intelligence/intelligence.component';
 
 @NgModule({
 	declarations: [
@@ -125,6 +126,7 @@ import { DialogAdvancedMeasurementComponent } from './content/database/body/user
 		SessionComponent,
 		BodyComponent,
 		UserBodyComponent,
+		IntelligenceComponent,
 	],
 	exports: [
 		ExerciseSelectorComponent,
@@ -166,6 +168,7 @@ import { DialogAdvancedMeasurementComponent } from './content/database/body/user
 		CartComponent,
 
 		ErrorComponent,
+		IntelligenceComponent,
 	],
 	imports: [
 		CommonModule,
@@ -215,6 +218,7 @@ import { DialogAdvancedMeasurementComponent } from './content/database/body/user
 		SessionCalendarComponent,
 		SessionCreateComponent,
 		UserBodyComponent,
+		IntelligenceComponent,
 	]
 })
 export class PartialsModule {

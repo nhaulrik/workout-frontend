@@ -1,6 +1,6 @@
 <!--This is the entry page for the sessions-->
 <div class="row">
-	<div class="col-xl-12">
+	<div class="col-xl-6">
 		<kt-portlet [class]="'kt-portlet'">
 			<kt-portlet-header [title]="getTitle()">
 			</kt-portlet-header>
@@ -10,6 +10,22 @@
 				<div #sessionCreateRef></div>
 			</kt-portlet-body>
 		</kt-portlet>
+	</div>
+	<div class="col-xl-6">
+		<kt-portlet [class]="'kt-portlet'">
+			<kt-portlet-header [title]="'Intelligence'">
+			</kt-portlet-header>
+			<kt-portlet-body>
+				<kt-intelligence
+					[selectedDate]="selectedDate"
+				></kt-intelligence>
+			</kt-portlet-body>
+		</kt-portlet>
+
+	</div>
+</div>
+<div class="row">
+	<div class="col-xl-12">
 		<ng-container ktPortletTools>
 			<div #viewSessionRef></div>
 		</ng-container>

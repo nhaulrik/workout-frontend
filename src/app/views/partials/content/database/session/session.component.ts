@@ -124,8 +124,8 @@ export class SessionComponent implements OnInit, myinterface, AfterViewInit {
 	}
 
 	getUserName() {
-		if (this.session.users != undefined && this.session.users.length > 0) {
-			return this.session.users[0].firstName + ' ' + this.session.users[0].lastName;
+		if (this.session.user != undefined) {
+			return this.session.user.firstName + ' ' + this.session.user.lastName;
 		} else {
 			return this.session.userId;
 		}
@@ -133,7 +133,7 @@ export class SessionComponent implements OnInit, myinterface, AfterViewInit {
 
 
 	getColor() {
-		let gender: string = this.session.users[0].gender;
+		let gender: string = this.session.user.gender;
 		if (gender == 'MALE') {
 			return '#b9bfd7'
 		} else if (gender == 'FEMALE') {

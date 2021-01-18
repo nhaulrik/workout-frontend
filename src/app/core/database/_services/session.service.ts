@@ -17,8 +17,12 @@ export class SessionService {
 	graphQLEndpoint = 'http://localhost:9090/graphql';
 	sessionControllerEndpoint = 'http://localhost:9090/api/v1/session';
 	getSessionEndpoint = 'http://localhost:9090/api/v1/session/{userId}/{date}';
-	getSessionsForMonthPayload = '{"query":"{\\n sessions (month:{month} year:{year} ) {id localDateTime users { id }}}","variables": null}';
-	getSessionWithWorkoutExercisesPayload = '{"query":"{\\n sessions (date:\\"{date}\\") {id localDateTime location programme splitName userId users {\\n      firstName\\n      lastName\\n      gender\\n      birthday   }\\n workoutExercises { exerciseNumber id exerciseId sessionId workoutSet {  id repetitionMaximum repetitions setNumber single weight  } }  }\\n}\\n","variables":null,"operationName":null}';
+	getSessionsForMonthPayload = '{"query":"{\\n sessions (month:{month} year:{year} ) {id localDateTime user { id }}}","variables": null}';
+	getSessionWithWorkoutExercisesPayload = '{"query":"{\\n sessions (date:\\"{date}\\") {id localDateTime location programme splitName userId user {\\n      firstName\\n      lastName\\n      gender\\n      birthday   }\\n workoutExercises { exerciseNumber id exerciseId sessionId workoutSet {  id repetitionMaximum repetitions setNumber single weight  } }  }\\n}\\n","variables":null,"operationName":null}';
+
+
+	getSessionWithExerciseIdsAndUsersPayload = '{"query":"{  sessions (date: \\"{date}\\") {    user {      id      firstName      lastName    }    workoutExercises {      exerciseId    }  }}","variables":null,"operationName":null}';
+
 
 	postSessionRequest =
 		'[\n' +
@@ -58,7 +62,18 @@ export class SessionService {
 			)
 	}
 
-	formatDateToString(dateObject: Date) {
+	getSessionWithExerciseIdsAndUsers(date: Date) {
+		let formattedDate = this.formatDateToShortString(date);
+		const query = this.getSessionWithExerciseIdsAndUsersPayload
+			.replace('{date}', formattedDate);
+
+		return this.http.post(this.graphQLEndpoint, query, httpOptions)
+			.pipe(
+				catchError(this.handleError)
+			)
+	}
+
+	formatDateToFullString(dateObject: Date) {
 		if (dateObject != undefined) {
 			const date = '{date}-{month}-{year} {hh}:{mm}';
 
@@ -82,6 +97,23 @@ export class SessionService {
 		}
 	}
 
+	formatDateToShortString(dateObject: Date): string {
+
+		if (dateObject != null) {
+
+			const date = '{date}-{month}-{year}';
+			const fullMonth = dateObject.getMonth() + 1 < 10 ? '0' + (dateObject.getMonth() + 1) : (dateObject.getMonth() + 1).toString();
+			const fullDay = dateObject.getDate() < 10 ? '0' + dateObject.getDate().toString() : dateObject.getDate().toString();
+			const formattedDate = date
+				.replace('{date}', fullDay)
+				.replace('{month}', fullMonth)
+				.replace('{year}', dateObject.getFullYear().toString())
+
+			return formattedDate;
+		}
+		return '';
+	}
+
 	private handleError(error: HttpErrorResponse) {
 		if (error.error instanceof ErrorEvent) {
 			// A client-side or network error occurred. Handle it accordingly.
@@ -99,7 +131,7 @@ export class SessionService {
 	}
 
 	createSessions(userIds: string[], date: Date) {
-		let formattedDate = this.formatDateToString(date);
+		let formattedDate = this.formatDateToFullString(date);
 		let postSessionRequests: PostSessionRequest[] = userIds.map(userId => {
 			return {
 				userId: userId,
@@ -125,7 +157,7 @@ export class SessionService {
 			location: session.location != null ? session.location : null,
 			programme: session.programme != null ? session.programme : null,
 			splitName: session.splitName != null ? session.splitName : null,
-			date: session.localDateTime != null ? this.formatDateToString(new Date(session.localDateTime)) : null
+			date: session.localDateTime != null ? this.formatDateToFullString(new Date(session.localDateTime)) : null
 		}];
 
 		return this.http.post(this.sessionControllerEndpoint, postSessionRequest, httpOptions)
