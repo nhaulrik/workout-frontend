@@ -40,6 +40,14 @@ export class ExerciseComponent implements OnInit {
 		id: null,
 		clear: Exercise.prototype.clear
 	}
+	updateExercise: Exercise = {
+		name: "",
+		bodyPart: "",
+		isCompound : false,
+		muscles: [],
+		id: null,
+		clear: Exercise.prototype.clear
+	}
 
 	constructor(
 		private exerciseService: ExerciseService,
@@ -137,14 +145,14 @@ export class ExerciseComponent implements OnInit {
 		});
 	}
 
-	addExercise() {
+	addExercise(exercise: Exercise) {
 		if (
-			this.exercise.name != null && this.exercise.name.length > 0 &&
-			this.exercise.bodyPart != null && this.exercise.bodyPart.length > 0 &&
-			this.exercise.isCompound != null
+			exercise.name != null && exercise.name.length > 0 &&
+			exercise.bodyPart != null && exercise.bodyPart.length > 0 &&
+			exercise.isCompound != null
 		) {
-			this.exerciseService.postExercise(this.exercise).subscribe(response => {
-				this.showSnackBar('New exercise ' + this.exercise.name + ' was added');
+			this.exerciseService.postExercise(exercise).subscribe(response => {
+				this.showSnackBar('New exercise ' + exercise.name + ' was added');
 				this.exercise.clear();
 				this.getExercises();
 			})
@@ -159,6 +167,10 @@ export class ExerciseComponent implements OnInit {
 			})
 		} else {
 		}
+	}
+
+	changeExercise(exercise: Exercise) {
+		this.updateExercise = exercise;
 	}
 }
 
