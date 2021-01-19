@@ -8,4 +8,5 @@ export class WorkoutExercise {
 	exerciseNumber: number;
 	workoutSet: WorkoutSet[];
 	exercise: Exercise;
+	isWarmup: boolean;
 }

@@ -18,7 +18,7 @@ export class SessionService {
 	sessionControllerEndpoint = 'http://localhost:9090/api/v1/session';
 	getSessionEndpoint = 'http://localhost:9090/api/v1/session/{userId}/{date}';
 	getSessionsForMonthPayload = '{"query":"{\\n sessions (month:{month} year:{year} ) {id localDateTime user { id }}}","variables": null}';
-	getSessionWithWorkoutExercisesPayload = '{"query":"{\\n sessions (date:\\"{date}\\") {id localDateTime location programme splitName userId user {\\n      firstName\\n      lastName\\n      gender\\n      birthday   }\\n workoutExercises { exerciseNumber id exerciseId sessionId workoutSet {  id repetitionMaximum repetitions setNumber single weight  } }  }\\n}\\n","variables":null,"operationName":null}';
+	getSessionWithWorkoutExercisesPayload = '{"query":"{\\n sessions (date:\\"{date}\\") {id localDateTime location programme splitName userId user {\\n      firstName\\n      lastName\\n      gender\\n      birthday   }\\n workoutExercises { exerciseNumber id exerciseId isWarmup sessionId workoutSet {  id repetitionMaximum repetitions setNumber single weight  } }  }\\n}\\n","variables":null,"operationName":null}';
 
 
 	getSessionWithExerciseIdsAndUsersPayload = '{"query":"{  sessions (date: \\"{date}\\") {    user {      id      firstName      lastName    }    workoutExercises {      exerciseId    }  }}","variables":null,"operationName":null}';

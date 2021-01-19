@@ -37,6 +37,7 @@ export class WorkoutExerciseService {
 				exerciseId: workoutExercise.exerciseId,
 				exerciseNumber: workoutExercise.exerciseNumber,
 				sessionId: workoutExercise.sessionId,
+				isWarmup: workoutExercise.isWarmup,
 			}
 		];
 

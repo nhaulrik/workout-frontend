@@ -31,7 +31,8 @@ export class WorkoutExerciseComponent implements OnInit, myinterface, AfterViewI
 		exerciseNumber: null,
 		sessionId: null,
 		exercise: null,
-		workoutSet: []
+		workoutSet: [],
+		isWarmup: false
 	};
 
 	public unique_key: number;

@@ -3,4 +3,5 @@ export interface PostWorkoutExerciseRequest {
 	exerciseNumber: number;
 	sessionId: string;
 	exerciseId: string;
+	isWarmup: boolean;
 }

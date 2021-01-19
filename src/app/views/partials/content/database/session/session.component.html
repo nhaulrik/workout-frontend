@@ -25,10 +25,19 @@
 				</ng-container>
 			</kt-portlet-header>
 			<kt-portlet-body>
+				<h3 *ngIf="warmupComponentsReferences.length > 0">Warmup</h3>
+				<div #viewWarmupExerciseRef></div>
+				<button mat-button color="primary"
+						[disabled]="this.sessionLock == 'Lock'"
+						(click)="createWarmupExerciseComponent(null)">Add Warmup
+				</button>
+				<mat-divider></mat-divider>
+				<br>
+				<h3>Main</h3>
 				<div #viewWorkoutExerciseRef></div>
 				<button mat-button color="primary"
 						[disabled]="this.sessionLock == 'Lock'"
-						(click)="createWorkoutExerciseComponent()">Add Exercise
+						(click)="createWorkoutExerciseComponent(null)">Add Exercise
 				</button>
 			</kt-portlet-body>
 		</kt-portlet>

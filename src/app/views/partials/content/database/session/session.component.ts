@@ -37,9 +37,11 @@ export class SessionComponent implements OnInit, myinterface, AfterViewInit {
 	public parentRef: SessionEditComponent;
 
 	@ViewChild('viewWorkoutExerciseRef', {static: false, read: ViewContainerRef}) VCR: ViewContainerRef;
+	@ViewChild('viewWarmupExerciseRef', {static: false, read: ViewContainerRef}) VCR2: ViewContainerRef;
 	child_unique_key: number = 0;
 
 	componentsReferences = Array<ComponentRef<WorkoutExerciseComponent>>()
+	warmupComponentsReferences = Array<ComponentRef<WorkoutExerciseComponent>>()
 
 	constructor(
 		public snackBar: MatSnackBar,
@@ -54,7 +56,11 @@ export class SessionComponent implements OnInit, myinterface, AfterViewInit {
 		this.exerciseService.getExercises().subscribe(response => {
 			this.exercises = (response as GraphQlResponse).data.exercises;
 			this.session.workoutExercises.sort((we1, we2) => we1.exerciseNumber - we2.exerciseNumber).forEach(we => {
-				this.initializeWorkoutExerciseComponent(we);
+				if (we.isWarmup) {
+					this.createWarmupExerciseComponent(we);
+				} else {
+					this.initializeWorkoutExerciseComponent(we);
+				}
 			});
 			this.ref.detectChanges();
 		})
@@ -89,7 +95,7 @@ export class SessionComponent implements OnInit, myinterface, AfterViewInit {
 		this.componentsReferences.push(childComponentRef);
 	}
 
-	createWorkoutExerciseComponent() {
+	createWorkoutExerciseComponent(workoutExercise: WorkoutExercise) {
 		let componentFactory = this.CFR.resolveComponentFactory(WorkoutExerciseComponent);
 
 		let childComponentRef = this.VCR.createComponent(componentFactory);
@@ -98,9 +104,12 @@ export class SessionComponent implements OnInit, myinterface, AfterViewInit {
 		childComponent.unique_key = ++this.child_unique_key;
 		childComponent.parentRef = this;
 		childComponent.workoutExercise.sessionId = this.session.id;
+		childComponent.workoutExercise.isWarmup = false;
 		childComponent.workoutExercise.exerciseNumber = this.componentsReferences.length + 1;
 		childComponent.exercises = this.exercises;
-
+		if (workoutExercise != null) {
+			childComponent.workoutExercise = workoutExercise;
+		}
 		// add reference for newly created component
 		this.componentsReferences.push(childComponentRef);
 	}
@@ -180,6 +189,27 @@ export class SessionComponent implements OnInit, myinterface, AfterViewInit {
 			this.sessionLock = 'Lock';
 		}
 	}
+
+	createWarmupExerciseComponent(workoutExercise: WorkoutExercise) {
+		let componentFactory = this.CFR.resolveComponentFactory(WorkoutExerciseComponent);
+
+		let childComponentRef = this.VCR2.createComponent(componentFactory);
+
+		let childComponent = childComponentRef.instance;
+		childComponent.unique_key = ++this.child_unique_key;
+		childComponent.parentRef = this;
+		childComponent.workoutExercise.sessionId = this.session.id;
+		childComponent.workoutExercise.isWarmup = true;
+		childComponent.workoutExercise.exerciseNumber = this.warmupComponentsReferences.length + 1;
+		if (workoutExercise != null) {
+			childComponent.workoutExercise = workoutExercise;
+		}
+		childComponent.exercises = this.exercises;
+
+		// add reference for newly created component
+		this.warmupComponentsReferences.push(childComponentRef);
+	}
+
 }
 
 // Interface
