@@ -16,7 +16,7 @@ export class IntelligenceComponent implements AfterViewInit {
 
 	exerciseIdsMap: Map<string, string[]> = new Map<string, string[]>();
 	userNameMap: Map<string, string> = new Map<string, string>();
-	private exerciseIntelligenceList: ExerciseIntelligence[] = [];
+	exerciseIntelligenceMap: Map<string, ExerciseIntelligence> = new Map<string, ExerciseIntelligence>();
 
 
 	constructor(
@@ -29,19 +29,19 @@ export class IntelligenceComponent implements AfterViewInit {
 	clearData(): void {
 		this.exerciseIdsMap = new Map<string, string[]>();
 		this.userNameMap = new Map<string, string>();
-		this.exerciseIntelligenceList = [];
+		this.exerciseIntelligenceMap = new Map<string, ExerciseIntelligence>();
 	}
 
 	initialize() {
+		this.clearData();
+
 		this.sessionService.getSessionWithExerciseIdsAndUsers(this.selectedDate).subscribe(response => {
 			(response as GraphQlResponse).data.sessions.forEach(session => {
-				this.clearData();
-
 				this.exerciseIdsMap.set(session.user[0].id, session.workoutExercises.map(we => we.exerciseId));
 				this.userNameMap.set(session.user[0].id, session.user[0].firstName + ' ' + session.user[0].lastName);
 				this.exerciseIdsMap.forEach((exerciseIds: string[], userId: string) => {
 					this.intelligenceService.getIntelligence(userId, exerciseIds).subscribe(response => {
-						this.exerciseIntelligenceList.push((response as GraphQlResponse).data.exerciseIntelligence);
+						this.exerciseIntelligenceMap.set(this.userNameMap.get(userId), (response as GraphQlResponse).data.exerciseIntelligence);
 						this.ref.detectChanges();
 					});
 				});

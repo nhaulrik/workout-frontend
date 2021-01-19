@@ -1,14 +1,15 @@
-<div *ngFor="let exerciseIntelligence of exerciseIntelligenceList">
+<div *ngFor="let exerciseIntelligence of exerciseIntelligenceMap.values()">
 	<h2>{{userNameMap.get(exerciseIntelligence.userId)}}</h2>
 	<table>
-	<th>Exercise</th>
-	<th>Set Count</th>
-	<th>Average Weight</th>
-	<tr *ngFor="let exerciseAverages of exerciseIntelligence.exerciseAverages">
-		<td>{{exerciseAverages.exerciseName}}</td>
-		<td>{{exerciseAverages.setCount}}</td>
-		<td>{{exerciseAverages.exerciseAverage.toFixed(2)}}</td>
-	</tr>
-</table>
+		<th>Exercise</th>
+		<th>Set Count</th>
+		<th>Average Weight</th>
+		<tr *ngFor="let exerciseAverages of exerciseIntelligence.exerciseAverages">
+			<td>{{exerciseAverages.exerciseName}}</td>
+			<td>{{exerciseAverages.setCount}}</td>
+			<td>{{exerciseAverages.exerciseAverage.toFixed(2)}}</td>
+		</tr>
+	</table>
+	<br>
 </div>
 <button mat-raised-button (click)="initialize()">Refresh</button>
