@@ -71,4 +71,11 @@ export class ExerciseService {
 				catchError(this.handleError)
 			)
 	}
+
+	deleteExercise(id: string) {
+		return this.http.delete(this.exerciseControllerEndpoint + '/' + id, httpOptions)
+			.pipe(
+				catchError(this.handleError)
+			)
+	}
 }

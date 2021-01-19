@@ -71,9 +71,13 @@ export class WorkoutExerciseComponent implements OnInit, myinterface, AfterViewI
 	removeWorkoutExercise() {
 		this.workoutExerciseService.deleteWorkoutExercise(this.workoutExercise.id).subscribe(response => {
 			let data = response;
-			console.log(this.unique_key)
+			this.ref.detectChanges();
 		})
-		this.parentRef.remove(this.unique_key)
+		if (this.workoutExercise.isWarmup) {
+			this.parentRef.removeWarmup(this.unique_key)
+		} else {
+			this.parentRef.remove(this.unique_key)
+		}
 	}
 
 	createWorkoutSetComponent() {

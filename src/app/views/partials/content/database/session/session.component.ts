@@ -132,6 +132,25 @@ export class SessionComponent implements OnInit, myinterface, AfterViewInit {
 		);
 	}
 
+	removeWarmup(key: number) {
+		if (this.VCR2.length < 1) return;
+
+		let componentRef = this.warmupComponentsReferences.filter(
+			x => x.instance.unique_key == key
+		)[0];
+
+		let vcrIndex: number = this.VCR2.indexOf(componentRef as any);
+
+		// removing component from container
+		this.VCR2.remove(vcrIndex);
+
+		// removing component from the list
+		this.warmupComponentsReferences = this.warmupComponentsReferences.filter(
+			x => x.instance.unique_key !== key
+		);
+	}
+
+
 	getUserName() {
 		if (this.session.user != undefined) {
 			return this.session.user.firstName + ' ' + this.session.user.lastName;

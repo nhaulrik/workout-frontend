@@ -32,6 +32,15 @@ export class ExerciseComponent implements OnInit {
 	@ViewChild('muscleTable', {static: false}) muscleTable: MatTable<any>;
 	@ViewChild('exerciseTable', {static: false}) exerciseTable: MatTable<any>;
 
+	exercise: Exercise = {
+		name: "",
+		bodyPart: "",
+		isCompound : false,
+		muscles: [],
+		id: null,
+		clear: Exercise.prototype.clear
+	}
+
 	constructor(
 		private exerciseService: ExerciseService,
 		private muscleService: MuscleService,
@@ -126,6 +135,30 @@ export class ExerciseComponent implements OnInit {
 		this.snackBar.open(message, '', {
 			duration: 3000
 		});
+	}
+
+	addExercise() {
+		if (
+			this.exercise.name != null && this.exercise.name.length > 0 &&
+			this.exercise.bodyPart != null && this.exercise.bodyPart.length > 0 &&
+			this.exercise.isCompound != null
+		) {
+			this.exerciseService.postExercise(this.exercise).subscribe(response => {
+				this.showSnackBar('New exercise ' + this.exercise.name + ' was added');
+				this.exercise.clear();
+				this.getExercises();
+			})
+		}
+	}
+
+	removeExercise(id: string) {
+		if (confirm('Are you sure you want to remove this exercise from the database?')) {
+			this.exerciseService.deleteExercise(id).subscribe(response => {
+				this.showSnackBar('Exercise was deleted');
+				this.getExercises();
+			})
+		} else {
+		}
 	}
 }
 
