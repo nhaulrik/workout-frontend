@@ -67,6 +67,7 @@ import {ExerciseComponent} from './exercise/exercise.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {BodyComponent} from '../../../partials/content/database/body/body.component';
 import {DialogAdvancedMeasurementComponent} from '../../../partials/content/database/body/user-body/dialog-advanced-measurement/dialog-advanced-measurement.component';
+import { ProgrammeComponent } from './programme/programme.component';
 
 // tslint:disable-next-line:class-name
 const routes: Routes = [
@@ -103,6 +104,10 @@ const routes: Routes = [
 			{
 				path: 'body',
 				component: BodyComponent
+			},
+			{
+				path: 'programme',
+				component: ProgrammeComponent
 			},
 		]
 	}
@@ -187,6 +192,7 @@ const routes: Routes = [
 		SessionEditComponent,
 		ExerciseComponent,
 		DialogAdvancedMeasurementComponent,
+		ProgrammeComponent,
 	]
 })
 export class DatabaseModule {

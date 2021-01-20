@@ -448,6 +448,10 @@ export class MenuConfig {
 						{
 							title: 'Body Measurements',
 							page: '/database/body'
+						},
+						{
+							title: 'Programme',
+							page: '/database/programme'
 						}
 					]
 				},
