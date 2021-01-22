@@ -1,15 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
-  selector: 'kt-programme',
-  templateUrl: './programme.component.html',
-  styleUrls: ['./programme.component.scss']
+	selector: 'kt-programme',
+	templateUrl: './programme.component.html',
+	styleUrls: ['./programme.component.scss']
 })
 export class ProgrammeComponent implements OnInit {
 
-  constructor() { }
+	programmes: any = [
+		{
+			name: 'Stronglifts 5x5',
+		},
+		{
+			name: 'Max Muscle Plan',
+		}
+	];
 
-  ngOnInit() {
-  }
+
+	constructor() {
+	}
+
+	ngOnInit() {
+	}
 
 }

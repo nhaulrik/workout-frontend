@@ -28,6 +28,7 @@ export class DialogAdvancedMeasurementComponent implements AfterViewInit {
 		weight: null,
 		chest: null,
 		hip: null,
+		waist: null,
 		stomach: null,
 		singleThigh: null,
 		leftThigh: null,
@@ -65,6 +66,7 @@ export class DialogAdvancedMeasurementComponent implements AfterViewInit {
 			this.postBodyMeasurements.weight != null ||
 			this.postBodyMeasurements.chest != null ||
 			this.postBodyMeasurements.hip != null ||
+			this.postBodyMeasurements.waist != null ||
 			this.postBodyMeasurements.stomach != null ||
 			this.postBodyMeasurements.leftThigh != null ||
 			this.postBodyMeasurements.rightThigh != null ||

@@ -47,6 +47,14 @@
 						</th>
 						<td mat-cell *matCellDef="let bodyMeasurement"> {{bodyMeasurement.hip}} </td>
 					</ng-container>
+					<ng-container matColumnDef="waist">
+						<th mat-header-cell *matHeaderCellDef>
+							Waist
+							<input class="input-values" *ngIf="inputEnabled" type="number" matInput placeholder="0"
+								   [(ngModel)]="postBodyMeasurements.waist">
+						</th>
+						<td mat-cell *matCellDef="let bodyMeasurement"> {{bodyMeasurement.waist}} </td>
+					</ng-container>
 					<ng-container matColumnDef="stomach">
 						<th mat-header-cell *matHeaderCellDef>
 							Stomach

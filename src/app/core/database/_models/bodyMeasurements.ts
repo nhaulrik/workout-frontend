@@ -8,6 +8,7 @@ export class BodyMeasurements {
 	weight: number;
 	chest: number;
 	hip: number;
+	waist: number;
 	stomach: number;
 	singleThigh: number;
 	leftThigh: number;

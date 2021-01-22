@@ -1,1 +1,26 @@
-<p>programme works!</p>
+<div class="row">
+	<div class="col-xl-8">
+		<kt-portlet [class]="'kt-portlet--height-fluid'">
+			<kt-portlet-header [title]="'Manage programme'" [class]="'kt-portlet__head--lg kt-portlet__head--break-sm'">
+				<ng-container ktPortletTools>
+					<kt-context-menu></kt-context-menu>
+				</ng-container>
+			</kt-portlet-header>
+			<kt-portlet-body>
+			<div>hej</div>
+			</kt-portlet-body>
+		</kt-portlet>
+	</div>
+	<div class="col-xl-4">
+		<kt-portlet [class]="'kt-portlet--height-fluid'">
+			<kt-portlet-header [title]="'Programmes'">
+				<ng-container ktPortletTools>
+					<kt-context-menu2></kt-context-menu2>
+				</ng-container>
+			</kt-portlet-header>
+			<kt-portlet-body>
+				<div *ngFor="let programme of programmes">{{programme.name}}</div>
+			</kt-portlet-body>
+		</kt-portlet>
+	</div>
+</div>
