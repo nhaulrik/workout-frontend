@@ -161,11 +161,13 @@ export class SessionComponent implements OnInit, myinterface, AfterViewInit {
 
 
 	getColor() {
-		let gender: string = this.session.user.gender;
-		if (gender == 'MALE') {
+		let gender: string = this.session.user.firstName;
+		if (gender == 'Nikolaj') {
 			return '#b9bfd7'
-		} else if (gender == 'FEMALE') {
+		} else if (gender == 'Rikke') {
 			return '#e0b5cc'
+		} else if (gender == 'Klaus') {
+			return '#c5e0b5'
 		} else {
 			return 'white';
 		}
