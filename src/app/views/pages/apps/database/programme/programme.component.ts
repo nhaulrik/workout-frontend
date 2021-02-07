@@ -1,8 +1,7 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ProgrammeService} from '../../../../../core/database/_services/programme.service';
-import {DialogAdvancedMeasurementComponent} from '../../../../partials/content/database/body/user-body/dialog-advanced-measurement/dialog-advanced-measurement.component';
 import {MatDialog} from '@angular/material';
-import {DialogCreateProgrammeComponent} from './dialog/dialog-create-programme/dialog-create-programme.component';
+import {DialogCreateProgrammeComponent} from '../../../../partials/content/database/programme/dialog-create-component/dialog-create-programme.component';
 
 @Component({
 	selector: 'kt-programme',

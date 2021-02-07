@@ -68,7 +68,7 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
 import {BodyComponent} from '../../../partials/content/database/body/body.component';
 import {DialogAdvancedMeasurementComponent} from '../../../partials/content/database/body/user-body/dialog-advanced-measurement/dialog-advanced-measurement.component';
 import { ProgrammeComponent } from './programme/programme.component';
-import { DialogCreateProgrammeComponent } from './programme/dialog/dialog-create-programme/dialog-create-programme.component';
+import {DialogCreateProgrammeComponent} from '../../../partials/content/database/programme/dialog-create-component/dialog-create-programme.component';
 
 // tslint:disable-next-line:class-name
 const routes: Routes = [
@@ -185,6 +185,7 @@ const routes: Routes = [
 		FetchEntityDialogComponent,
 		UpdateStatusDialogComponent,
 		DialogAdvancedMeasurementComponent,
+		DialogCreateProgrammeComponent,
 	],
 	declarations: [
 		DatabaseComponent,
