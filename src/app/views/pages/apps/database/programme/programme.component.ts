@@ -1,9 +1,11 @@
 import {Component, OnInit} from '@angular/core';
+import {ProgrammeService} from '../../../../../core/database/_services/programme.service';
 
 @Component({
 	selector: 'kt-programme',
 	templateUrl: './programme.component.html',
-	styleUrls: ['./programme.component.scss']
+	styleUrls: ['./programme.component.scss'],
+	providers: [ProgrammeService]
 })
 export class ProgrammeComponent implements OnInit {
 
@@ -17,10 +19,17 @@ export class ProgrammeComponent implements OnInit {
 	];
 
 
-	constructor() {
+	constructor(
+		private programmeService: ProgrammeService
+	) {
 	}
 
 	ngOnInit() {
 	}
 
+	createProgramme() {
+		debugger;
+
+		this.programmeService.postProgramme(null);
+	}
 }

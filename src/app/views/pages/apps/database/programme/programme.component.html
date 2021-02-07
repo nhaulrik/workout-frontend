@@ -3,6 +3,7 @@
 		<kt-portlet [class]="'kt-portlet--height-fluid'">
 			<kt-portlet-header [title]="'Manage programme'" [class]="'kt-portlet__head--lg kt-portlet__head--break-sm'">
 				<ng-container ktPortletTools>
+					<button (click)="createProgramme()" mat-button color="primary">Create</button>
 					<kt-context-menu></kt-context-menu>
 				</ng-container>
 			</kt-portlet-header>
