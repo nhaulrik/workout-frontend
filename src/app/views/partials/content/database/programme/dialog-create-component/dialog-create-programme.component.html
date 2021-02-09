@@ -1,4 +1,10 @@
 <div class="create-programme-container">
 	<h1 mat-dialog-title>Create Programme</h1>
-	<p>dialog-create-programme works!</p>
+	Name: <input onClick="this.select();" type="text"
+				 [(ngModel)]="programme.name">
+	Description: <input onClick="this.select();" type="text"
+				 [(ngModel)]="programme.description">
+
+	<button [disabled]="!formIsValid()" (click)="createProgramme()" mat-raised-button color="primary">Create</button>
+	<button mat-raised-button color="warn" (click)="onCancelClick()">Cancel</button>
 </div>

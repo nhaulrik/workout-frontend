@@ -2,6 +2,8 @@ import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ProgrammeService} from '../../../../../core/database/_services/programme.service';
 import {MatDialog} from '@angular/material';
 import {DialogCreateProgrammeComponent} from '../../../../partials/content/database/programme/dialog-create-component/dialog-create-programme.component';
+import {GraphQlResponse} from '../../../../../core/database/_models/graphQlResponse';
+import {Programme} from '../../../../../core/database/_models/programme';
 
 @Component({
 	selector: 'kt-programme',
@@ -11,15 +13,7 @@ import {DialogCreateProgrammeComponent} from '../../../../partials/content/datab
 })
 export class ProgrammeComponent implements OnInit {
 
-	programmes: any = [
-		{
-			name: 'Stronglifts 5x5',
-		},
-		{
-			name: 'Max Muscle Plan',
-		}
-	];
-
+	programmes: Programme[] = [];
 
 	constructor(
 		private programmeService: ProgrammeService,
@@ -29,7 +23,10 @@ export class ProgrammeComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		this.ref.detectChanges();
+		this.programmeService.getProgrammes().subscribe(response => {
+			this.programmes = (response as GraphQlResponse).data.programmes;
+			this.ref.detectChanges();
+		})
 	}
 
 	createProgramme() {

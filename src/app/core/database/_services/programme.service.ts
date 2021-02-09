@@ -3,8 +3,6 @@ import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 
 import {throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
-import {Session} from '../_models/session';
-import {PostSessionRequest} from '../_models/requests/postSessionRequest';
 import {Programme} from '../_models/programme';
 import {PostProgrammeRequest} from '../_models/requests/PostProgrammeRequest';
 
@@ -19,6 +17,8 @@ export class ProgrammeService {
 	graphQLEndpoint = 'http://localhost:9090/graphql';
 	programmeControllerEndpoint = 'http://localhost:9090/api/v1/programme';
 	getProgrammeEndpoint = 'http://localhost:9090/api/v1/session/{userId}/{date}';
+
+	getProgrammesPayload = '{"query":"{  programmes {    id    name    description    phases {      id      name      description      number    }  }}","variables":null,"operationName":null}';
 
 	constructor(private http: HttpClient) {
 	}
@@ -82,9 +82,11 @@ export class ProgrammeService {
 	}
 
 	postProgramme(programme: Programme) {
-		debugger;
 		let postProgrammeRequests: PostProgrammeRequest[] = [{
-			id: programme.id != null ? programme.id : null
+			id: programme.id != null ? programme.id : null,
+			name: programme.name,
+			description: programme.description,
+			date: programme.date != null ? this.formatDateToShortString(programme.date) : null
 		}];
 
 		return this.http.post(this.programmeControllerEndpoint, postProgrammeRequests, httpOptions)
@@ -94,4 +96,12 @@ export class ProgrammeService {
 
 	}
 
+	getProgrammes() {
+		const query = this.getProgrammesPayload;
+
+		return this.http.post(this.graphQLEndpoint, query, httpOptions)
+			.pipe(
+				catchError(this.handleError)
+			)
+	}
 }
