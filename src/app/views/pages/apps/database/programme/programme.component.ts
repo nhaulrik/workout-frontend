@@ -4,16 +4,28 @@ import {MatDialog} from '@angular/material';
 import {DialogCreateProgrammeComponent} from '../../../../partials/content/database/programme/dialog-create-component/dialog-create-programme.component';
 import {GraphQlResponse} from '../../../../../core/database/_models/graphQlResponse';
 import {Programme} from '../../../../../core/database/_models/programme';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 
 @Component({
 	selector: 'kt-programme',
 	templateUrl: './programme.component.html',
 	styleUrls: ['./programme.component.scss'],
-	providers: [ProgrammeService]
+	providers: [ProgrammeService],
+	animations: [
+		trigger('detailExpand', [
+			state('collapsed', style({height: '0px', minHeight: '0'})),
+			state('expanded', style({height: '*'})),
+			transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+		]),
+	],
 })
 export class ProgrammeComponent implements OnInit {
 
 	programmes: Programme[] = [];
+	programmeDataSource: Programme[] = [];
+	displayedProgrammeColumns: string[] = ['name'];
+	expandedProgramme: Programme | null;
+
 
 	constructor(
 		private programmeService: ProgrammeService,

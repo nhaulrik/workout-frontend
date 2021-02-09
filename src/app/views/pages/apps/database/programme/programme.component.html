@@ -25,3 +25,34 @@
 		</kt-portlet>
 	</div>
 </div>
+<div class="row">
+	<div ktPortletTools class="col-xl-7">
+		<table #programmeTable mat-table [dataSource]="programmes" multiTemplateDataRows
+			   class="mat-elevation-z8">
+			<ng-container matColumnDef="name">
+				<th mat-header-cell *matHeaderCellDef> Programme</th>
+				<td mat-cell *matCellDef="let programme">{{programme.name}}
+				</td>
+			</ng-container>
+			<ng-container matColumnDef="expandedDetail">
+				<td class = "expanded-field" mat-cell *matCellDef="let programme"
+					[attr.colspan]="displayedProgrammeColumns.length">
+					<div class="example-element-detail"
+						 [@detailExpand]="programme == expandedProgramme ? 'expanded' : 'collapsed'">
+						<p>{{programme.description}}</p>
+					</div>
+				</td>
+			</ng-container>
+
+			<tr mat-header-row *matHeaderRowDef="displayedProgrammeColumns"></tr>
+			<tr mat-row *matRowDef="let programme; columns: displayedProgrammeColumns;"
+				class="example-element-row"
+				[class.example-expanded-row]="expandedProgramme === programme"
+				(click)="expandedProgramme = expandedProgramme === programme ? null : programme"
+				cdkDropList
+				[cdkDropListData]="programmes">
+			</tr>
+			<tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row" class="example-detail-row"></tr>
+		</table>
+	</div>
+</div>
