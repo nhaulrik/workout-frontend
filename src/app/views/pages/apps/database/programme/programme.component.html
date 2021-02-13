@@ -1,41 +1,24 @@
 <div class="row">
-	<div class="col-xl-8">
-		<kt-portlet [class]="'kt-portlet--height-fluid'">
-			<kt-portlet-header [title]="'Manage programme'" [class]="'kt-portlet__head--lg kt-portlet__head--break-sm'">
-				<ng-container ktPortletTools>
-					<button (click)="createProgramme()" mat-button color="primary">Create</button>
-					<kt-context-menu></kt-context-menu>
-				</ng-container>
-			</kt-portlet-header>
-			<kt-portlet-body>
-			<div>hej</div>
-			</kt-portlet-body>
-		</kt-portlet>
-	</div>
-	<div class="col-xl-4">
-		<kt-portlet [class]="'kt-portlet--height-fluid'">
-			<kt-portlet-header [title]="'Programmes'">
-				<ng-container ktPortletTools>
-					<kt-context-menu2></kt-context-menu2>
-				</ng-container>
-			</kt-portlet-header>
-			<kt-portlet-body>
-				<div *ngFor="let programme of programmes">{{programme.name}}</div>
-			</kt-portlet-body>
-		</kt-portlet>
-	</div>
-</div>
-<div class="row">
-	<div ktPortletTools class="col-xl-7">
+	<div ktPortletTools class="col-xl-8">
 		<table #programmeTable mat-table [dataSource]="programmes" multiTemplateDataRows
 			   class="mat-elevation-z8">
 			<ng-container matColumnDef="name">
-				<th mat-header-cell *matHeaderCellDef> Programme</th>
+				<th mat-header-cell *matHeaderCellDef>
+					<div style="width: 100%">
+						<div style="float: left;">
+							<h3>Programmes</h3>
+						</div>
+						<div style="float: right;">
+							<button (click)="createProgramme()" mat-button color="primary">Create</button>
+							<kt-context-menu></kt-context-menu>
+						</div>
+					</div>
+				</th>
 				<td mat-cell *matCellDef="let programme">{{programme.name}}
 				</td>
 			</ng-container>
 			<ng-container matColumnDef="expandedDetail">
-				<td class = "expanded-field" mat-cell *matCellDef="let programme"
+				<td class="expanded-field" mat-cell *matCellDef="let programme"
 					[attr.colspan]="displayedProgrammeColumns.length">
 					<div class="example-element-detail"
 						 [@detailExpand]="programme == expandedProgramme ? 'expanded' : 'collapsed'">
@@ -52,7 +35,20 @@
 				cdkDropList
 				[cdkDropListData]="programmes">
 			</tr>
-			<tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row" class="example-detail-row"></tr>
+			<tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"
+				class="example-detail-row"></tr>
 		</table>
+	</div>
+	<div class="col-xl-4">
+		<kt-portlet [class]="'kt-portlet--height-fluid'">
+			<kt-portlet-header [title]="'Programmes'">
+				<ng-container ktPortletTools>
+					<kt-context-menu2></kt-context-menu2>
+				</ng-container>
+			</kt-portlet-header>
+			<kt-portlet-body>
+				<div *ngFor="let programme of programmes">{{programme.name}}</div>
+			</kt-portlet-body>
+		</kt-portlet>
 	</div>
 </div>
