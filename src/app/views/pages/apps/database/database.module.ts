@@ -60,7 +60,6 @@ import {
 import {NgxPermissionsModule} from 'ngx-permissions';
 import {environment} from '../../../../../environments/environment';
 import {NgbProgressbarModule} from '@ng-bootstrap/ng-bootstrap';
-import {SessionComponent} from './session/session.component';
 import {SessionEditComponent} from './session/session-edit/session-edit.component';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {ExerciseComponent} from './exercise/exercise.component';
@@ -89,10 +88,6 @@ const routes: Routes = [
 			}, {
 				path: 'muscles',
 				component: MuscleComponent
-			},
-			{
-				path: 'sessions',
-				component: SessionComponent
 			},
 			{
 				path: 'sessions/add',
@@ -190,7 +185,6 @@ const routes: Routes = [
 	declarations: [
 		DatabaseComponent,
 		MuscleComponent,
-		SessionComponent,
 		SessionEditComponent,
 		ExerciseComponent,
 		DialogAdvancedMeasurementComponent,
