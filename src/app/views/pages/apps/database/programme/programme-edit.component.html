@@ -1,4 +1,25 @@
 <div class="row">
+	<div class="col-12">
+		<kt-portlet [class]="'kt-portlet'">
+			<kt-portlet-header [title]="'Manage programmes'">
+				<ng-container ktPortletTools class="col1">
+					<div style="float: right;">
+						<button (click)="createProgramme()" mat-button color="primary">Create</button>
+						<kt-context-menu></kt-context-menu>
+					</div>
+				</ng-container>
+			</kt-portlet-header>
+			<kt-portlet-body>
+				<div #phaseRef></div>
+			</kt-portlet-body>
+		</kt-portlet>
+	</div>
+</div>
+
+
+
+
+<div class="row">
 	<div ktPortletTools class="col-xl-12">
 		<table #programmeTable mat-table [dataSource]="programmes" multiTemplateDataRows
 			   class="mat-elevation-z8">
@@ -24,20 +45,7 @@
 						 [@detailExpand]="programme == expandedProgramme ? 'expanded' : 'collapsed'">
 						<div>
 							<p>{{programme.description}}</p>
-							<div>
-							<span class="phase">
-								<h5>Strength Phase</h5>
-								<p>Splits: 4</p>
-							</span>
-								<span class="phase">
-								<h5>Muscle Phase</h5>
-								<p>Splits: 5</p>
-							</span>
-								<span class="phase">
-								<h5>Endurance Phase</h5>
-								<p>Splits: 6</p>
-							</span>
-							</div>
+<!--							<ng-template class="phase" #phaseRef></ng-template>-->
 						</div>
 					</div>
 				</td>

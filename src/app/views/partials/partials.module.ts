@@ -84,7 +84,7 @@ import {BodyComponent} from './content/database/body/body.component';
 import {UserBodyComponent} from './content/database/body/user-body/user-body.component';
 import {IntelligenceComponent} from './content/database/intelligence/intelligence.component';
 import {DialogPhaseComponent} from './content/database/programme/dialog-phase/dialog-phase.component';
-import { PhaseComponent } from './content/database/programme/phase/phase.component';
+import {PhaseComponent} from './content/database/programme/phase/phase.component';
 
 @NgModule({
 	declarations: [
@@ -123,8 +123,8 @@ import { PhaseComponent } from './content/database/programme/phase/phase.compone
 		UserSelectorComponent,
 		SessionCreateComponent,
 		WorkoutExerciseComponent,
-		SessionCalendarComponent,
 		WorkoutSetComponent,
+		SessionCalendarComponent,
 		SessionComponent,
 		BodyComponent,
 		UserBodyComponent,
@@ -216,13 +216,14 @@ import { PhaseComponent } from './content/database/programme/phase/phase.compone
 		MatDividerModule,
 	],
 	entryComponents: [
-		WorkoutSetComponent,
 		WorkoutExerciseComponent,
+		WorkoutSetComponent,
 		SessionComponent,
 		SessionCalendarComponent,
 		SessionCreateComponent,
 		UserBodyComponent,
 		IntelligenceComponent,
+		PhaseComponent,
 	]
 })
 export class PartialsModule {
