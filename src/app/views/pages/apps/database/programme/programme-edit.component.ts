@@ -12,9 +12,9 @@ import {ProgrammeService} from '../../../../../core/database/_services/programme
 import {MatDialog} from '@angular/material';
 import {DialogCreateProgrammeComponent} from '../../../../partials/content/database/programme/dialog-create-component/dialog-create-programme.component';
 import {GraphQlResponse} from '../../../../../core/database/_models/graphQlResponse';
-import {Programme} from '../../../../../core/database/_models/programme';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {ProgrammeComponent} from '../../../../partials/content/database/programme/programme/programme.component';
+import {Programme} from '../../../../../core/database/_models/programme/programme';
 
 @Component({
 	selector: 'kt-programme-edit',

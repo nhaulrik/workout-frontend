@@ -7,7 +7,7 @@ import {Session} from './session';
 import {User} from './user';
 import {BodyMeasurements} from './bodyMeasurements';
 import {ExerciseIntelligence} from './intelligence';
-import {Programme} from './programme';
+import {Programme} from './programme/programme';
 
 export class GraphQlResponse {
 	data: GraphQlData;

@@ -1,5 +1,6 @@
 import {AfterViewInit, ChangeDetectorRef, Component, ComponentFactoryResolver, OnInit} from '@angular/core';
-import {ProgrammeEditComponent} from '../../../../../pages/apps/database/programme/programme-edit.component';
+import {ProgrammeComponent} from '../programme/programme.component';
+import {Phase} from '../../../../../../core/database/_models/programme/phase';
 
 @Component({
 	selector: 'kt-phase',
@@ -9,7 +10,8 @@ import {ProgrammeEditComponent} from '../../../../../pages/apps/database/program
 export class PhaseComponent implements OnInit, AfterViewInit {
 
 	public unique_key: number;
-	public parentRef: ProgrammeEditComponent;
+	public parentRef: ProgrammeComponent;
+	phase: Phase;
 
 	constructor(
 		private ref: ChangeDetectorRef,
