@@ -53,4 +53,9 @@ export class ProgrammeComponent implements OnInit {
 	}
 
 
+	getRowColor(programme: any) {
+		if (programme === this.expandedProgramme) {
+			return "gainsboro";
+		}
+	}
 }
