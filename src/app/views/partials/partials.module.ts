@@ -85,6 +85,7 @@ import {UserBodyComponent} from './content/database/body/user-body/user-body.com
 import {IntelligenceComponent} from './content/database/intelligence/intelligence.component';
 import {DialogPhaseComponent} from './content/database/programme/dialog-phase/dialog-phase.component';
 import {PhaseComponent} from './content/database/programme/phase/phase.component';
+import { ProgrammeComponent } from './content/database/programme/programme/programme.component';
 
 @NgModule({
 	declarations: [
@@ -131,6 +132,7 @@ import {PhaseComponent} from './content/database/programme/phase/phase.component
 		IntelligenceComponent,
 		DialogPhaseComponent,
 		PhaseComponent,
+		ProgrammeComponent,
 	],
 	exports: [
 		ExerciseSelectorComponent,
