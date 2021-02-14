@@ -1,11 +1,20 @@
-import {AfterViewInit, ChangeDetectorRef, Component, ComponentFactoryResolver, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
+import {
+	AfterViewInit,
+	ChangeDetectorRef,
+	Component,
+	ComponentFactoryResolver,
+	ComponentRef,
+	OnInit,
+	ViewChild,
+	ViewContainerRef
+} from '@angular/core';
 import {ProgrammeService} from '../../../../../core/database/_services/programme.service';
 import {MatDialog} from '@angular/material';
 import {DialogCreateProgrammeComponent} from '../../../../partials/content/database/programme/dialog-create-component/dialog-create-programme.component';
 import {GraphQlResponse} from '../../../../../core/database/_models/graphQlResponse';
 import {Programme} from '../../../../../core/database/_models/programme';
 import {animate, state, style, transition, trigger} from '@angular/animations';
-import {PhaseComponent} from '../../../../partials/content/database/programme/phase/phase.component';
+import {ProgrammeComponent} from '../../../../partials/content/database/programme/programme/programme.component';
 
 @Component({
 	selector: 'kt-programme-edit',
@@ -22,13 +31,14 @@ import {PhaseComponent} from '../../../../partials/content/database/programme/ph
 })
 export class ProgrammeEditComponent implements OnInit, AfterViewInit {
 
-	programmes: Programme[] = [];
 	programmeDataSource: Programme[] = [];
 	displayedProgrammeColumns: string[] = ['name'];
 	expandedProgramme: Programme | null;
 
-	@ViewChild('phaseRef', {static: false, read: ViewContainerRef}) VCR: ViewContainerRef;
+	@ViewChild('programmeRef', {static: false, read: ViewContainerRef}) VCR: ViewContainerRef;
 	child_unique_key: number = 0;
+	programmeReferences = Array<ComponentRef<ProgrammeComponent>>()
+
 
 	constructor(
 		private CFR: ComponentFactoryResolver,
@@ -39,14 +49,10 @@ export class ProgrammeEditComponent implements OnInit, AfterViewInit {
 	}
 
 	ngAfterViewInit(): void {
-		this.loadPhases();
+		this.loadProgrammes();
 	}
 
 	ngOnInit() {
-		this.programmeService.getProgrammes().subscribe(response => {
-			this.programmes = (response as GraphQlResponse).data.programmes;
-			this.ref.detectChanges();
-		})
 	}
 
 	createProgramme() {
@@ -67,21 +73,27 @@ export class ProgrammeEditComponent implements OnInit, AfterViewInit {
 		}
 	}
 
-	private loadPhases() {
-		this.createPhaseComponent();
+	private loadProgrammes() {
+
+		this.programmeService.getProgrammes().subscribe(response => {
+			(response as GraphQlResponse).data.programmes.forEach(programme => {
+				this.createProgrammeComponent(programme);
+				this.ref.detectChanges();
+			});
+		})
 	}
 
-	private createPhaseComponent() {
-		let componentFactory = this.CFR.resolveComponentFactory(PhaseComponent);
+	private createProgrammeComponent(programme: Programme) {
+		let componentFactory = this.CFR.resolveComponentFactory(ProgrammeComponent);
 		let childComponentRef = this.VCR.createComponent(componentFactory);
 
 		let childComponent = childComponentRef.instance;
 		childComponent.unique_key = ++this.child_unique_key;
 		childComponent.parentRef = this;
 
-		// childComponent.session = session;
+		childComponent.programme = programme;
 
 		// add reference for newly created component
-		// this.sessionReferences.push(childComponentRef);
+		this.programmeReferences.push(childComponentRef);
 	}
 }

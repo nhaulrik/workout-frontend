@@ -225,6 +225,7 @@ import { ProgrammeComponent } from './content/database/programme/programme/progr
 		SessionCreateComponent,
 		UserBodyComponent,
 		IntelligenceComponent,
+		ProgrammeComponent,
 		PhaseComponent,
 	]
 })

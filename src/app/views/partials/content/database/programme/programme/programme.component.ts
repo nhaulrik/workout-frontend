@@ -1,15 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {ProgrammeEditComponent} from '../../../../../pages/apps/database/programme/programme-edit.component';
+import {Programme} from '../../../../../../core/database/_models/programme';
 
 @Component({
-  selector: 'kt-programme',
-  templateUrl: './programme.component.html',
-  styleUrls: ['./programme.component.scss']
+	selector: 'kt-programme',
+	templateUrl: './programme.component.html',
+	styleUrls: ['./programme.component.scss']
 })
 export class ProgrammeComponent implements OnInit {
 
-  constructor() { }
+	public unique_key: number;
+	public parentRef: ProgrammeEditComponent;
 
-  ngOnInit() {
-  }
+	programme: Programme;
+
+
+	constructor() {
+	}
+
+	ngOnInit() {
+	}
 
 }
