@@ -9,7 +9,13 @@ import {Phase} from '../../../../../../core/database/_models/programme/phase';
 })
 export class DialogPhaseComponent implements AfterViewInit {
 
-	phase: Phase;
+	phase: Phase = {
+		name: null,
+		description: null,
+		number: null,
+		splits: [],
+		id: null
+	};
 
 	constructor(
 		public dialogRef: MatDialogRef<DialogPhaseComponent>,
