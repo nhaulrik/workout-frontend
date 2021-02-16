@@ -12,6 +12,8 @@ import {ProgrammeEditComponent} from '../../../../../pages/apps/database/program
 import {PhaseComponent} from '../phase/phase.component';
 import {Programme} from '../../../../../../core/database/_models/programme/programme';
 import {Phase} from '../../../../../../core/database/_models/programme/phase';
+import {DialogPhaseComponent} from '../dialog-phase/dialog-phase.component';
+import {MatDialog} from '@angular/material';
 
 @Component({
 	selector: 'kt-programme',
@@ -32,7 +34,8 @@ export class ProgrammeComponent implements OnInit, AfterViewInit {
 
 	constructor(
 		private CFR: ComponentFactoryResolver,
-		public ref: ChangeDetectorRef
+		public ref: ChangeDetectorRef,
+		public dialog: MatDialog,
 	) {
 	}
 
@@ -40,10 +43,6 @@ export class ProgrammeComponent implements OnInit, AfterViewInit {
 	}
 
 	ngAfterViewInit(): void {
-
-		this.programme.phases.push({name: 'test', number: 1,splits: [], description: 'someDesca asd asd as as', id: '1234'})
-		this.programme.phases.push({name: 'test22222', number: 2, splits: [], description: 'dsfsfvsdfd asd asd as as', id: '432234323'})
-
 		this.programme.phases.sort((phase1, phase2) => phase1.number.toString().localeCompare(phase2.number.toString())).forEach(phase => {
 			this.createPhaseComponents(phase);
 		});
@@ -61,5 +60,17 @@ export class ProgrammeComponent implements OnInit, AfterViewInit {
 
 		// add reference for newly created component
 		this.phaseReferences.push(childComponentRef);
+	}
+
+
+	createPhase() {
+		const dialogRef = this.dialog.open(DialogPhaseComponent, {
+			width: '400px',
+			data: {}
+		});
+
+		dialogRef.afterClosed().subscribe(result => {
+			this.ngOnInit();
+		});
 	}
 }

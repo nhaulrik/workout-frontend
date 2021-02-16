@@ -15,6 +15,7 @@ import {GraphQlResponse} from '../../../../../core/database/_models/graphQlRespo
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {ProgrammeComponent} from '../../../../partials/content/database/programme/programme/programme.component';
 import {Programme} from '../../../../../core/database/_models/programme/programme';
+import {DialogPhaseComponent} from '../../../../partials/content/database/programme/dialog-phase/dialog-phase.component';
 
 @Component({
 	selector: 'kt-programme-edit',
@@ -64,17 +65,10 @@ export class ProgrammeEditComponent implements OnInit, AfterViewInit {
 		dialogRef.afterClosed().subscribe(result => {
 			this.ngOnInit();
 		});
-	}
+}
 
-
-	getRowColor(programme: any) {
-		if (programme === this.expandedProgramme) {
-			return 'gainsboro';
-		}
-	}
 
 	private loadProgrammes() {
-
 		this.programmeService.getProgrammes().subscribe(response => {
 			(response as GraphQlResponse).data.programmes.forEach(programme => {
 				this.createProgrammeComponent(programme);

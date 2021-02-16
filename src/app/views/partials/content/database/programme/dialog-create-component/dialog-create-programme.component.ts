@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef, MatSnackBar} from '@angular/material';
-import {Programme} from '../../../../../../core/database/_models/programme';
 import {ProgrammeService} from '../../../../../../core/database/_services/programme.service';
+import {Programme} from '../../../../../../core/database/_models/programme/programme';
 
 @Component({
 	selector: 'kt-dialog-create-programme',
@@ -16,6 +16,7 @@ export class DialogCreateProgrammeComponent implements AfterViewInit {
 		name: null,
 		description: null,
 		date: new Date(),
+		phases: []
 	}
 
 	constructor(

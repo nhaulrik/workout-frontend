@@ -68,6 +68,7 @@ import {BodyComponent} from '../../../partials/content/database/body/body.compon
 import {DialogAdvancedMeasurementComponent} from '../../../partials/content/database/body/user-body/dialog-advanced-measurement/dialog-advanced-measurement.component';
 import {DialogCreateProgrammeComponent} from '../../../partials/content/database/programme/dialog-create-component/dialog-create-programme.component';
 import {ProgrammeEditComponent} from './programme/programme-edit.component';
+import {DialogPhaseComponent} from '../../../partials/content/database/programme/dialog-phase/dialog-phase.component';
 
 // tslint:disable-next-line:class-name
 const routes: Routes = [
@@ -181,6 +182,7 @@ const routes: Routes = [
 		UpdateStatusDialogComponent,
 		DialogAdvancedMeasurementComponent,
 		DialogCreateProgrammeComponent,
+		DialogPhaseComponent,
 	],
 	declarations: [
 		DatabaseComponent,

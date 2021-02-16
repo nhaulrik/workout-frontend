@@ -3,8 +3,8 @@ import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 
 import {throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
-import {Programme} from '../_models/programme';
 import {PostProgrammeRequest} from '../_models/requests/PostProgrammeRequest';
+import {Programme} from '../_models/programme/programme';
 
 const httpOptions = {
 	headers: new HttpHeaders({
