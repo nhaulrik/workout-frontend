@@ -1,1 +1,28 @@
-<p>split works!</p>
+<div class="row align-items-center">
+	<div>
+		<img src="assets/media/icons/svg/General/Trash.svg" alt="Delete"/>
+	</div>
+	<div>
+		{{split.number}}
+	</div>
+	<div class="col-2">
+		<mat-select placeholder="select exercise">
+			<mat-option *ngFor="let exercise of exerciseDictionary"
+						[value]="exercise.id"
+			>{{exercise.name}}</mat-option>
+		</mat-select>
+	</div>
+<!--	<div class="col">-->
+<!--		<div #viewWorkoutSetRef></div>-->
+<!--		<button style="float: left;"-->
+<!--				*ngIf="workoutExercise.exerciseId != undefined &&-->
+<!--				this.parentRef.sessionLock == 'Unlock'" mat-button color="primary"-->
+<!--				(click)="createWorkoutSetComponent()">Add set-->
+<!--		</button>-->
+<!--	</div>-->
+</div>
+<div class="row align-items-center">
+	<div class="col">
+		<mat-divider></mat-divider>
+	</div>
+</div>
