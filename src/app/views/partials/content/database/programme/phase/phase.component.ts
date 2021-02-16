@@ -25,4 +25,8 @@ export class PhaseComponent implements OnInit, AfterViewInit {
 	ngAfterViewInit(): void {
 	}
 
+	showPhaseDetails(phase: Phase) {
+
+		debugger;
+	}
 }
