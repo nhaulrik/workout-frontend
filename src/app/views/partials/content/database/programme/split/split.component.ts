@@ -1,15 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {DialogPhaseComponent} from '../dialog-phase/dialog-phase.component';
+import {Split} from '../../../../../../core/database/_models/programme/split';
 
 @Component({
-  selector: 'kt-split',
-  templateUrl: './split.component.html',
-  styleUrls: ['./split.component.scss']
+	selector: 'kt-split',
+	templateUrl: './split.component.html',
+	styleUrls: ['./split.component.scss']
 })
 export class SplitComponent implements OnInit {
 
-  constructor() { }
+	public unique_key: number;
+	public parentRef: DialogPhaseComponent;
 
-  ngOnInit() {
-  }
+	split: Split;
+
+	constructor() {
+	}
+
+	ngOnInit() {
+	}
 
 }

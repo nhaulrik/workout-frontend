@@ -229,6 +229,7 @@ import { SplitComponent } from './content/database/programme/split/split.compone
 		IntelligenceComponent,
 		ProgrammeComponent,
 		PhaseComponent,
+		SplitComponent,
 	]
 })
 export class PartialsModule {
