@@ -1,1 +1,24 @@
-<p>dialog-create-phase works!</p>
+<div class="create-phase-container">
+	<h1 mat-dialog-title>{{programme.name}}</h1>
+<!--	Phase Number: <input type="text" [(ngModel)]="phase.number">-->
+<!--	Phase Name: <input type="text" [(ngModel)]="phase.name">-->
+<!--	Description: <input type="text" [(ngModel)]="phase.description">-->
+	<table>
+		<tr>
+			<td>Phase Number</td>
+			<input type="number" [(ngModel)]="phase.number">
+		</tr>
+		<tr>
+			<td>Phase Name</td>
+			<input type="text" [(ngModel)]="phase.name">
+		</tr>
+		<tr>
+			<td>Description</td>
+			<input type="text" [(ngModel)]="phase.description">
+		</tr>
+		<tr>
+			<button [disabled]="!formIsValid()" (click)="createPhase()" mat-raised-button color="primary">Create</button>
+			<button mat-raised-button color="warn" (click)="onCancelClick()">Cancel</button>
+		</tr>
+	</table>
+</div>

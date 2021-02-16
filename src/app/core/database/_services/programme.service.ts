@@ -3,8 +3,10 @@ import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 
 import {throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
-import {PostProgrammeRequest} from '../_models/requests/PostProgrammeRequest';
 import {Programme} from '../_models/programme/programme';
+import {Phase} from '../_models/programme/phase';
+import {PostProgrammeRequest} from '../_models/requests/PostProgrammeRequest';
+import {PostPhaseRequest} from '../_models/requests/PostPhaseRequest';
 
 const httpOptions = {
 	headers: new HttpHeaders({
@@ -16,6 +18,7 @@ const httpOptions = {
 export class ProgrammeService {
 	graphQLEndpoint = 'http://localhost:9090/graphql';
 	programmeControllerEndpoint = 'http://localhost:9090/api/v1/programme';
+	phaseControllerEndpoint = 'http://localhost:9090/api/v1/phase';
 	getProgrammeEndpoint = 'http://localhost:9090/api/v1/session/{userId}/{date}';
 
 	getProgrammesPayload = '{"query":"{  programmes {    id    name    description    phases {      id      name      description      number    }  }}","variables":null,"operationName":null}';
@@ -104,4 +107,21 @@ export class ProgrammeService {
 				catchError(this.handleError)
 			)
 	}
+
+	postPhase(programmeId: string, phase: Phase) {
+
+		let postPhasesRequest: PostPhaseRequest[] = [{
+			id: phase.id,
+			programmeId: programmeId,
+			name: phase.name,
+			description: phase.description,
+			number: phase.number
+		}];
+
+		return this.http.post(this.phaseControllerEndpoint, postPhasesRequest, httpOptions)
+			.pipe(
+				catchError(this.handleError)
+			)
+	}
+
 }

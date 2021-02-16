@@ -64,7 +64,7 @@ export class ProgrammeEditComponent implements AfterViewInit {
 	}
 
 
-	private loadProgrammes() {
+	public loadProgrammes() {
 		this.VCR.clear();
 		this.programmeService.getProgrammes().subscribe(response => {
 			(response as GraphQlResponse).data.programmes.forEach(programme => {

@@ -46,6 +46,7 @@ export class ProgrammeComponent implements OnInit, AfterViewInit {
 	ngAfterViewInit(): void {
 		this.programme.phases.sort((phase1, phase2) => phase1.number.toString().localeCompare(phase2.number.toString())).forEach(phase => {
 			this.createPhaseComponents(phase);
+			this.ref.detectChanges();
 		});
 	}
 
@@ -64,14 +65,14 @@ export class ProgrammeComponent implements OnInit, AfterViewInit {
 	}
 
 
-	createPhase() {
+	createPhase(programme: Programme) {
 		const dialogRef = this.dialog.open(DialogCreatePhaseComponent, {
-			width: '400px',
-			data: {}
+			width: '800px',
+			data: { programme }
 		});
 
 		dialogRef.afterClosed().subscribe(result => {
-			this.ngOnInit();
+			this.parentRef.loadProgrammes();
 		});
 	}
 }

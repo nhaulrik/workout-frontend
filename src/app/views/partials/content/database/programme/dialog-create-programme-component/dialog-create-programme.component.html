@@ -1,10 +1,17 @@
 <div class="create-programme-container">
 	<h1 mat-dialog-title>Create Programme</h1>
-	Name: <input onClick="this.select();" type="text"
-				 [(ngModel)]="programme.name">
-	Description: <input onClick="this.select();" type="text"
-				 [(ngModel)]="programme.description">
-
-	<button [disabled]="!formIsValid()" (click)="createProgramme()" mat-raised-button color="primary">Create</button>
-	<button mat-raised-button color="warn" (click)="onCancelClick()">Cancel</button>
+	<table>
+		<tr>
+			<td>Name</td>
+			<input onClick="this.select();" type="text" [(ngModel)]="programme.name">
+		</tr>
+		<tr>
+			<td>Description</td>
+			<input onClick="this.select();" type="text" [(ngModel)]="programme.description">
+		</tr>
+		<tr>
+			<button [disabled]="!formIsValid()" (click)="createProgramme()" mat-raised-button color="primary">Create</button>
+			<button mat-raised-button color="warn" (click)="onCancelClick()">Cancel</button>
+		</tr>
+	</table>
 </div>
