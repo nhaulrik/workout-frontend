@@ -61,16 +61,6 @@ export class DialogPhaseComponent implements OnInit, AfterViewInit {
 	}
 
 	private createSplitComponents(splits: Split[]) {
-
-		splits = [{
-			week: 1,
-			phaseId: this.phase.id,
-			number: 1,
-			name: 'leg day',
-			id: 'asdasd',
-			dayOfWeek: 'MONDAY',
-		}]
-
 		splits.forEach(split => {
 			let componentFactory = this.CFR.resolveComponentFactory(SplitComponent);
 			let childComponentRef = this.VCR.createComponent(componentFactory);

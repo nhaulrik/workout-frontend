@@ -14,6 +14,7 @@ import {Programme} from '../../../../../../core/database/_models/programme/progr
 import {Phase} from '../../../../../../core/database/_models/programme/phase';
 import {DialogPhaseComponent} from '../dialog-phase/dialog-phase.component';
 import {MatDialog} from '@angular/material';
+import {DialogCreatePhaseComponent} from '../dialog-create-phase/dialog-create-phase.component';
 
 @Component({
 	selector: 'kt-programme',
@@ -64,7 +65,7 @@ export class ProgrammeComponent implements OnInit, AfterViewInit {
 
 
 	createPhase() {
-		const dialogRef = this.dialog.open(DialogPhaseComponent, {
+		const dialogRef = this.dialog.open(DialogCreatePhaseComponent, {
 			width: '400px',
 			data: {}
 		});

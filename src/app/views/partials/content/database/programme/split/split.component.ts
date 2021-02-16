@@ -13,14 +13,7 @@ export class SplitComponent implements OnInit {
 	public unique_key: number;
 	public parentRef: DialogPhaseComponent;
 
-	split: Split = {
-		number: null,
-		dayOfWeek: null,
-		id: null,
-		name: null,
-		phaseId: null,
-		week: null
-	};
+	split: Split;
 	exerciseDictionary: Exercise[] = [];
 
 	constructor() {
