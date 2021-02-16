@@ -1,5 +1,6 @@
 import {AfterViewInit, Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef, MatSnackBar} from '@angular/material';
+import {Phase} from '../../../../../../core/database/_models/programme/phase';
 
 @Component({
 	selector: 'kt-dialog-phase',
@@ -7,6 +8,8 @@ import {MAT_DIALOG_DATA, MatDialogRef, MatSnackBar} from '@angular/material';
 	styleUrls: ['./dialog-phase.component.scss']
 })
 export class DialogPhaseComponent implements AfterViewInit {
+
+	phase: Phase;
 
 	constructor(
 		public dialogRef: MatDialogRef<DialogPhaseComponent>,
@@ -16,6 +19,7 @@ export class DialogPhaseComponent implements AfterViewInit {
 	}
 
 	ngAfterViewInit(): void {
+		this.phase = this.data.phase;
 	}
 
 }

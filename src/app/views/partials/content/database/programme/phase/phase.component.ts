@@ -1,6 +1,8 @@
 import {AfterViewInit, ChangeDetectorRef, Component, ComponentFactoryResolver, OnInit} from '@angular/core';
 import {ProgrammeComponent} from '../programme/programme.component';
 import {Phase} from '../../../../../../core/database/_models/programme/phase';
+import {MatDialog} from '@angular/material';
+import {DialogPhaseComponent} from '../dialog-phase/dialog-phase.component';
 
 @Component({
 	selector: 'kt-phase',
@@ -16,6 +18,7 @@ export class PhaseComponent implements OnInit, AfterViewInit {
 	constructor(
 		private ref: ChangeDetectorRef,
 		private CFR: ComponentFactoryResolver,
+		public dialog: MatDialog,
 	) {
 	}
 
@@ -26,7 +29,13 @@ export class PhaseComponent implements OnInit, AfterViewInit {
 	}
 
 	showPhaseDetails(phase: Phase) {
+		const dialogRef = this.dialog.open(DialogPhaseComponent, {
+			width: '800px',
+			data: {phase}
+		});
 
-		debugger;
+		dialogRef.afterClosed().subscribe(result => {
+			this.ngOnInit();
+		});
 	}
 }
