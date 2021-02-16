@@ -1,28 +1,36 @@
-<div class="row align-items-center">
-	<div>
-		<img src="assets/media/icons/svg/General/Trash.svg" alt="Delete"/>
-	</div>
-	<div>
-		{{split.number}}
-	</div>
-	<div class="col-2">
-		<mat-select placeholder="select exercise">
-			<mat-option *ngFor="let exercise of exerciseDictionary"
-						[value]="exercise.id"
-			>{{exercise.name}}</mat-option>
-		</mat-select>
-	</div>
-<!--	<div class="col">-->
-<!--		<div #viewWorkoutSetRef></div>-->
-<!--		<button style="float: left;"-->
-<!--				*ngIf="workoutExercise.exerciseId != undefined &&-->
-<!--				this.parentRef.sessionLock == 'Unlock'" mat-button color="primary"-->
-<!--				(click)="createWorkoutSetComponent()">Add set-->
-<!--		</button>-->
+<!--<div class="row align-items-center">-->
+<!--	<div>-->
+<!--		<img src="assets/media/icons/svg/General/Trash.svg" alt="Delete"/>-->
 <!--	</div>-->
-</div>
-<div class="row align-items-center">
-	<div class="col">
-		<mat-divider></mat-divider>
-	</div>
-</div>
+<!--	<div>-->
+<!--		{{split.number}}-->
+<!--	</div>-->
+<!--	<div class="col-2">-->
+<!--		<mat-select placeholder="select exercise">-->
+<!--			<mat-option *ngFor="let exercise of exerciseDictionary"-->
+<!--						[value]="exercise.id"-->
+<!--			>{{exercise.name}}</mat-option>-->
+<!--		</mat-select>-->
+<!--	</div>-->
+<!--</div>-->
+<!--<div class="row align-items-center">-->
+<!--	<div class="col">-->
+<!--		<mat-divider></mat-divider>-->
+<!--	</div>-->
+<!--</div>-->
+
+<kt-portlet>
+	<kt-portlet-body [class]="'kt-portlet__body--fit'">
+		<div class="row row-no-padding row-col-separator-xl">
+			<div class="col-xl-4">
+				<h5> {{split.number}} - {{split.dayOfWeek}}</h5>
+			</div>
+			<div class="col-xl-2">
+				<div> {{split.number}}</div>
+			</div>
+			<div class="col-xl-2">
+				<div> {{split.dayOfWeek}}</div>
+			</div>
+		</div>
+	</kt-portlet-body>
+</kt-portlet>

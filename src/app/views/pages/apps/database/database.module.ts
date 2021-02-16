@@ -66,7 +66,7 @@ import {ExerciseComponent} from './exercise/exercise.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {BodyComponent} from '../../../partials/content/database/body/body.component';
 import {DialogAdvancedMeasurementComponent} from '../../../partials/content/database/body/user-body/dialog-advanced-measurement/dialog-advanced-measurement.component';
-import {DialogCreateProgrammeComponent} from '../../../partials/content/database/programme/dialog-create-component/dialog-create-programme.component';
+import {DialogCreateProgrammeComponent} from '../../../partials/content/database/programme/dialog-create-programme-component/dialog-create-programme.component';
 import {ProgrammeEditComponent} from './programme/programme-edit.component';
 import {DialogPhaseComponent} from '../../../partials/content/database/programme/dialog-phase/dialog-phase.component';
 

@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import {ProgrammeService} from '../../../../../core/database/_services/programme.service';
 import {MatDialog} from '@angular/material';
-import {DialogCreateProgrammeComponent} from '../../../../partials/content/database/programme/dialog-create-component/dialog-create-programme.component';
+import {DialogCreateProgrammeComponent} from '../../../../partials/content/database/programme/dialog-create-programme-component/dialog-create-programme.component';
 import {GraphQlResponse} from '../../../../../core/database/_models/graphQlResponse';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {ProgrammeComponent} from '../../../../partials/content/database/programme/programme/programme.component';
@@ -29,7 +29,7 @@ import {Programme} from '../../../../../core/database/_models/programme/programm
 		]),
 	],
 })
-export class ProgrammeEditComponent implements OnInit, AfterViewInit {
+export class ProgrammeEditComponent implements AfterViewInit {
 
 	programmeDataSource: Programme[] = [];
 	displayedProgrammeColumns: string[] = ['name'];
@@ -52,9 +52,6 @@ export class ProgrammeEditComponent implements OnInit, AfterViewInit {
 		this.loadProgrammes();
 	}
 
-	ngOnInit() {
-	}
-
 	createProgramme() {
 		const dialogRef = this.dialog.open(DialogCreateProgrammeComponent, {
 			width: '400px',
@@ -62,12 +59,13 @@ export class ProgrammeEditComponent implements OnInit, AfterViewInit {
 		});
 
 		dialogRef.afterClosed().subscribe(result => {
-			this.ngOnInit();
+			this.ngAfterViewInit();
 		});
 	}
 
 
 	private loadProgrammes() {
+		this.VCR.clear();
 		this.programmeService.getProgrammes().subscribe(response => {
 			(response as GraphQlResponse).data.programmes.forEach(programme => {
 				this.createProgrammeComponent(programme);

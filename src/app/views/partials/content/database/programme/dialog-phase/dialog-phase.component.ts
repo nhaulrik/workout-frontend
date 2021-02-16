@@ -68,7 +68,7 @@ export class DialogPhaseComponent implements OnInit, AfterViewInit {
 			number: 1,
 			name: 'leg day',
 			id: 'asdasd',
-			dayOfWeek: 'MONDAY'
+			dayOfWeek: 'MONDAY',
 		}]
 
 		splits.forEach(split => {
