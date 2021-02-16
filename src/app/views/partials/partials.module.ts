@@ -86,6 +86,7 @@ import {IntelligenceComponent} from './content/database/intelligence/intelligenc
 import {DialogPhaseComponent} from './content/database/programme/dialog-phase/dialog-phase.component';
 import {PhaseComponent} from './content/database/programme/phase/phase.component';
 import { ProgrammeComponent } from './content/database/programme/programme/programme.component';
+import { SplitComponent } from './content/database/programme/split/split.component';
 
 @NgModule({
 	declarations: [
@@ -133,6 +134,7 @@ import { ProgrammeComponent } from './content/database/programme/programme/progr
 		DialogPhaseComponent,
 		PhaseComponent,
 		ProgrammeComponent,
+		SplitComponent,
 	],
 	exports: [
 		ExerciseSelectorComponent,
