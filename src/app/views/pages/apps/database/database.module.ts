@@ -17,7 +17,6 @@ import {FakeApiService} from '../../../../core/_base/layout';
 // Core => Services
 import {MuscleService} from '../../../../core/database/_services/muscle.service';
 import {SessionService} from '../../../../core/database/_services/session.service';
-import {WorkoutSetService} from '../../../../core/database/_services/workoutSet.service';
 
 // Core => Utils
 import {HttpUtilsService, InterceptService, LayoutUtilsService, TypesUtilsService} from '../../../../core/_base/crud';
@@ -173,7 +172,6 @@ const routes: Routes = [
 		TypesUtilsService,
 		MuscleService,
 		SessionService,
-		WorkoutSetService,
 		LayoutUtilsService
 	],
 	entryComponents: [

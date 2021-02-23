@@ -4,6 +4,8 @@ import {catchError} from 'rxjs/operators';
 import {WorkoutExercise} from '../_models/workoutExercise';
 import {throwError} from 'rxjs';
 import {PostWorkoutExerciseRequest} from '../_models/requests/PostWorkoutExerciseRequest';
+import {WorkoutSet} from '../_models/workoutSet';
+import {PostWorkoutSetRequest} from '../_models/requests/PostWorkoutSetRequest';
 
 const httpOptions = {
 	headers: new HttpHeaders({
@@ -47,6 +49,29 @@ export class WorkoutExerciseService {
 			)
 	}
 
+	postWorkoutSet(workoutSet: WorkoutSet, workoutExerciseId: string) {
+
+		let postWorkoutSetRequests: PostWorkoutSetRequest[] = [
+			{
+				id: workoutSet.id,
+				workoutExerciseId: workoutExerciseId,
+				repetitions: workoutSet.repetitions,
+				repetitionMaximum: workoutSet.repetitionMaximum,
+				setNumber: workoutSet.setNumber,
+				single: workoutSet.single,
+				weight: workoutSet.weight
+			}
+		]
+
+		let endpoint = this.workoutExerciseControllerEndpoint + '/{id}/workoutset'
+			.replace('{id}', workoutExerciseId);
+
+		return this.http.post(endpoint, postWorkoutSetRequests, httpOptions)
+			.pipe(
+				catchError(this.handleError)
+			)
+	}
+
 	private handleError(error: HttpErrorResponse) {
 		if (error.error instanceof ErrorEvent) {
 			// A client-side or network error occurred. Handle it accordingly.
@@ -65,6 +90,18 @@ export class WorkoutExerciseService {
 
 	deleteWorkoutExercise(id: string) {
 		return this.http.delete(this.workoutExerciseControllerEndpoint + '/' + id, httpOptions)
+			.pipe(
+				catchError(this.handleError)
+			)
+	}
+
+	removeWorkoutSet(workoutSetId: string, workoutExerciseId: string) {
+
+		let endpoint = this.workoutExerciseControllerEndpoint + '/{id}/workoutset/{workoutsetId}'
+			.replace('{id}', workoutExerciseId)
+			.replace('{workoutsetId}', workoutSetId);
+
+		return this.http.delete(endpoint, httpOptions)
 			.pipe(
 				catchError(this.handleError)
 			)

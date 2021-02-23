@@ -1,19 +1,19 @@
 import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild} from '@angular/core';
 import {WorkoutSet} from '../../../../../core/database/_models/workoutSet';
 import {WorkoutExerciseComponent} from '..';
-import {WorkoutSetService} from '../../../../../core/database';
 import {PostWorkoutSetResponse} from '../../../../../core/database/_models/responses/PostWorkoutSetResponse';
+import {WorkoutExerciseService} from '../../../../../core/database/_services/workoutExerciseService';
 
 @Component({
 	selector: 'kt-workout-set',
 	templateUrl: './workout-set.component.html',
 	styleUrls: ['./workout-set.component.scss'],
-	providers: [WorkoutSetService]
+	providers: [WorkoutExerciseService]
 })
 export class WorkoutSetComponent implements AfterViewInit {
 
 	constructor(
-		private workoutSetService: WorkoutSetService,
+		private workoutExerciseService: WorkoutExerciseService,
 		private ref: ChangeDetectorRef
 	) {
 	}
@@ -41,7 +41,7 @@ export class WorkoutSetComponent implements AfterViewInit {
 		}
 
 		console.log(this.unique_key)
-		this.workoutSetService.removeWorkoutSet(this.workoutSet.id).subscribe(response => {
+		this.workoutExerciseService.removeWorkoutSet(this.workoutSet.id, this.parentRef.workoutExercise.id).subscribe(response => {
 		});
 		this.parentRef.removeWorkoutSetComponent(this.unique_key);
 	}
@@ -50,7 +50,7 @@ export class WorkoutSetComponent implements AfterViewInit {
 		if (this.workoutSet.setNumber > 0 &&
 			this.workoutSet.repetitions > 0 &&
 			this.workoutSet.weight > 0) {
-			this.workoutSetService.postWorkoutSet(this.workoutSet, this.parentRef.workoutExercise.id).subscribe(response => {
+			this.workoutExerciseService.postWorkoutSet(this.workoutSet, this.parentRef.workoutExercise.id).subscribe(response => {
 				let id = (response as PostWorkoutSetResponse).postedWorkoutSetIds[0];
 				this.workoutSet.id = id;
 			});
