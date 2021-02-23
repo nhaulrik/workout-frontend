@@ -175,7 +175,7 @@ export class SessionComponent implements OnInit, myinterface, AfterViewInit {
 
 	updateSessionDetails() {
 		this.sessionService.postSession(this.session).subscribe(response => {
-			const sessionId = (response as PostSessionResponse).ids[0];
+			const sessionId = (response as PostSessionResponse).postedSessionIds[0];
 			this.session.id = sessionId;
 		});
 	}

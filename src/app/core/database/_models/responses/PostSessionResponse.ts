@@ -1,3 +1,3 @@
 export interface PostSessionResponse {
-	ids: string[];
+	postedSessionIds: string[];
 }
