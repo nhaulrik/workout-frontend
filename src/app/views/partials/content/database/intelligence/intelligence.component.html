@@ -14,4 +14,7 @@
 		<br>
 	</div>
 </div>
-<button mat-raised-button (click)="initialize()">Refresh</button>
+<span>
+	<button mat-raised-button (click)="initialize()">Refresh</button>
+	<input type="number" [(ngModel)]="sessionsBack">
+</span>

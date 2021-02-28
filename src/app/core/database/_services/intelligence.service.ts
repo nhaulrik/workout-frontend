@@ -14,7 +14,7 @@ const httpOptions = {
 export class IntelligenceService {
 	graphQLEndpoint = 'http://localhost:9090/graphql';
 
-	intelligenceQuery = '{"query":"{  exerciseIntelligence(    userId: \\"{userId}\\"     exerciseIds: [{exerciseIds}]  ) {    userId    exerciseAverages {      exerciseAverage      exerciseName      setCount    }  }}","variables":null,"operationName":null}';
+	intelligenceQuery = '{"query":"{  exerciseIntelligence(    userId: \\"{userId}\\"     exerciseIds: [{exerciseIds}]     sessionsBack:{sessionsBack}  ) {    userId    exerciseAverages {      exerciseAverage      exerciseName      setCount    }  }}","variables":null,"operationName":null}';
 
 	constructor(private http: HttpClient) {
 	}
@@ -35,7 +35,7 @@ export class IntelligenceService {
 			'Something bad happened; please try again later.');
 	}
 
-	getIntelligence(userId: string, exerciseIds: string[]) {
+	getIntelligence(userId: string, sessionsBack: number, exerciseIds: string[]) {
 		let quotedAndCommaSeparatedExerciseIds = '\\"' + exerciseIds.join('\\",\\"') + '\\"';
 
 		if (exerciseIds.length == 0) {
@@ -43,7 +43,8 @@ export class IntelligenceService {
 		}
 
 		let query = this.intelligenceQuery.replace('{userId}', userId);
-		query = query.replace('{exerciseIds}', quotedAndCommaSeparatedExerciseIds);
+		query = query.replace('{exerciseIds}', quotedAndCommaSeparatedExerciseIds)
+			.replace('{sessionsBack}', sessionsBack.toString());
 
 		return this.http.post(this.graphQLEndpoint, query, httpOptions)
 			.pipe(
