@@ -14,7 +14,10 @@
 		<br>
 	</div>
 </div>
-<span>
-	<button mat-raised-button (click)="initialize()">Refresh</button>
-	<input type="number" [(ngModel)]="sessionsBack">
-</span>
+<div style="float: left">
+	<p>Sessions back: </p>
+	<div>
+		<input type="number" [(ngModel)]="sessionsBack">
+		<button mat-raised-button (click)="initialize()">Refresh</button>
+	</div>
+</div>
