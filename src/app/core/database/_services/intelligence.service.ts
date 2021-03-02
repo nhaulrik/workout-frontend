@@ -14,7 +14,7 @@ const httpOptions = {
 export class IntelligenceService {
 	graphQLEndpoint = 'http://localhost:9090/graphql';
 
-	intelligenceQuery = '{"query":"{  exerciseIntelligence(    userId: \\"{userId}\\"     exerciseIds: [{exerciseIds}]     sessionsBack:{sessionsBack}  ) {    userId    exerciseAverages {      exerciseAverage      exerciseName      setCount    }  }}","variables":null,"operationName":null}';
+	intelligenceQuery = '{"query":"{  exerciseIntelligence(    userId: \\"{userId}\\"     exerciseIds: {exerciseIds}     sessionsBack:{sessionsBack}  ) {    userId    exerciseAverages {      exerciseAverage      exerciseName      setCount    }  }}","variables":null,"operationName":null}';
 
 	constructor(private http: HttpClient) {
 	}
@@ -36,10 +36,11 @@ export class IntelligenceService {
 	}
 
 	getIntelligence(userId: string, sessionsBack: number, exerciseIds: string[]) {
-		let quotedAndCommaSeparatedExerciseIds = '\\"' + exerciseIds.join('\\",\\"') + '\\"';
 
-		if (exerciseIds.length == 0) {
-			quotedAndCommaSeparatedExerciseIds = '';
+		let quotedAndCommaSeparatedExerciseIds = null;
+
+		if (exerciseIds != null && exerciseIds.length > 0) {
+			quotedAndCommaSeparatedExerciseIds = '[\\"' + exerciseIds.join('\\",\\"') + '\\"]';
 		}
 
 		let query = this.intelligenceQuery.replace('{userId}', userId);

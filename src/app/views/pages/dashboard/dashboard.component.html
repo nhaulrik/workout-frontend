@@ -1,4 +1,42 @@
 <div class="row">
+	<div class="col-xl-12">
+		<kt-portlet [class]="'kt-portlet--height-fluid'">
+			<kt-portlet-header [title]="'Session Volume Development'">
+				<ng-container ktPortletTools>
+				</ng-container>
+			</kt-portlet-header>
+			<kt-portlet-body [class]="'kt-portlet__body--fit'">
+				<canvas #myChart width="800" height="200"></canvas>
+			</kt-portlet-body>
+		</kt-portlet>
+	</div>
+</div>
+<div class="row">
+	<div class="col-xl-7">
+		<kt-portlet [class]="'kt-portlet--height-fluid'">
+			<kt-portlet-header [title]="'Exercise Set Distribution'">
+				<ng-container ktPortletTools>
+				</ng-container>
+			</kt-portlet-header>
+			<kt-portlet-body [class]="'kt-portlet__body--fit'">
+				<canvas #exerciseSetChart width="700" height="400"></canvas>
+			</kt-portlet-body>
+		</kt-portlet>
+	</div>
+	<div class="col-xl-5">
+		<kt-portlet [class]="'kt-portlet--height-fluid'">
+			<kt-portlet-header [title]="'Body Distribution'">
+				<ng-container ktPortletTools>
+				</ng-container>
+			</kt-portlet-header>
+			<kt-portlet-body [class]="'kt-portlet__body--fit'">
+				<canvas #exerciseBodyChart width="800" height="600"></canvas>
+			</kt-portlet-body>
+		</kt-portlet>
+	</div>
+</div>
+
+<div class="row">
 	<div class="col-xl-6">
 		<div class="row row-full-height">
 			<div class="col-sm-12 col-md-12 col-lg-6">
@@ -49,15 +87,6 @@
 			</kt-portlet-body>
 		</kt-portlet>
 	</div>
-</div>
-
-<div class="row">
-	<kt-portlet [class]="'kt-portlet--height-fluid'">
-
-		<div class="col-xl-12">
-			<canvas #myChart width="400" height="400"></canvas>
-		</div>
-	</kt-portlet>
 </div>
 
 <kt-portlet>

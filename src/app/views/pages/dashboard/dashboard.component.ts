@@ -8,6 +8,8 @@ import {LayoutConfigService, SparklineChartOptions} from '../../../core/_base/la
 import {Widget4Data} from '../../partials/content/widgets/widget4/widget4.component';
 import {IntelligenceService} from '../../../core/database/_services/intelligence.service';
 import {GraphQlResponse} from '../../../core/database/_models/graphQlResponse';
+import {SessionIntelligence} from '../../../core/database/_models/sessionIntelligence';
+import {ExerciseAverages, ExerciseIntelligence} from '../../../core/database/_models/exerciseIntelligence';
 
 @Component({
 	selector: 'kt-dashboard',
@@ -26,9 +28,14 @@ export class DashboardComponent implements OnInit {
 	widget4_4: Widget4Data;
 
 	@ViewChild('myChart', {static: true}) myChart: ElementRef;
+	@ViewChild('exerciseSetChart', {static: true}) exerciseChart: ElementRef;
+	@ViewChild('exerciseBodyChart', {static: true}) exerciseBodyChart: ElementRef;
 
 	sessionsBack: number = 10;
+	allSessionData: SessionIntelligence[] = [];
+	exerciseData: ExerciseAverages[] = [];
 	data: any;
+	labels: any;
 
 	constructor(
 		private layoutConfigService: LayoutConfigService,
@@ -40,9 +47,13 @@ export class DashboardComponent implements OnInit {
 	ngOnInit(): void {
 
 		let userId = '51a649d4-d693-4b69-b039-b5ed0f971ac7';
+		this.loadExerciseIntelligence(userId);
+		this.loadExerciseBodyIntelligence(userId);
 
 		this.intelligenceService.getSessionIntelligence(userId, this.sessionsBack).subscribe(response => {
 			let totalWeights = (response as GraphQlResponse).data.sessionIntelligence.map(sessionIntelligence => sessionIntelligence.totalWeight);
+
+			this.allSessionData = (response as GraphQlResponse).data.sessionIntelligence;
 
 			this.chartOptions1 = {
 				data: totalWeights,
@@ -50,6 +61,8 @@ export class DashboardComponent implements OnInit {
 				border: 3
 			};
 			this.data = totalWeights;
+			this.labels =
+
 			this.ref.detectChanges();
 			this.initChart();
 		})
@@ -219,14 +232,22 @@ export class DashboardComponent implements OnInit {
 		]);
 	}
 
+	private loadExerciseIntelligence(userId: string) {
+		let sessionsBack = 10;
+		this.intelligenceService.getIntelligence(userId, sessionsBack, null).subscribe(response => {
+			this.exerciseData = (response as GraphQlResponse).data.exerciseIntelligence.exerciseAverages;
+			this.initExerciseChart();
+		})
+	}
+
 	private initChart() {
 		const chart = new Chart(this.myChart.nativeElement, {
-			type: 'bar',
+			type: 'line',
 			data: {
-				labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+				labels: this.allSessionData.map(data => data.date),
 				datasets: [{
-					label: '# of Votes',
-					data: [12, 19, 3, 5, 2, 3],
+					label: 'Session Volume',
+					data: this.data,
 					backgroundColor: [
 						'rgba(255, 99, 132, 0.2)',
 						'rgba(54, 162, 235, 0.2)',
@@ -250,12 +271,87 @@ export class DashboardComponent implements OnInit {
 					scales: {
 						yAxes: [{
 							ticks: {
-								beginAtZero: true
+								// beginAtZero: true,
+								label: 'kgggg'
 							}
 						}]
 					}
 				}
 			}
 		});
+	}
+
+	private initExerciseChart() {
+		const chart = new Chart(this.exerciseChart.nativeElement, {
+			type: 'bar',
+			data: {
+				labels: this.exerciseData.map(data => data.exerciseName),
+				datasets: [{
+					label: 'Exercise Set Distribution',
+					data: this.exerciseData.map(data => data.setCount),
+					backgroundColor: [
+						'rgba(255, 99, 132, 0.2)',
+						'rgba(54, 162, 235, 0.2)',
+						'rgba(255, 206, 86, 0.2)',
+						'rgba(75, 192, 192, 0.2)',
+						'rgba(153, 102, 255, 0.2)',
+						'rgba(255, 159, 64, 0.2)'
+					],
+					borderColor: [
+						'rgba(255, 99, 132, 1)',
+						'rgba(54, 162, 235, 1)',
+						'rgba(255, 206, 86, 1)',
+						'rgba(75, 192, 192, 1)',
+						'rgba(153, 102, 255, 1)',
+						'rgba(255, 159, 64, 1)'
+					],
+					borderWidth: 1
+				}]
+				,
+				options: {
+					scales: {
+						yAxes: [{
+							ticks: {
+								// beginAtZero: true,
+								label: 'kgggg'
+							}
+						}]
+					}
+				}
+			}
+		});
+	}
+
+	private loadExerciseBodyIntelligence(userId: string) {
+		const chart = new Chart(this.exerciseBodyChart.nativeElement, {
+			type: 'pie',
+			data: {
+				labels: ['Arm', 'Legs', 'Back', 'Chest'],
+				datasets: [{
+					label: 'Exercise Body Distribution',
+					data: [20, 40,10, 30],
+					backgroundColor: [
+						'rgba(255, 99, 132, 0.2)',
+						'rgba(54, 162, 235, 0.2)',
+						'rgba(255, 206, 86, 0.2)',
+						'rgba(75, 192, 192, 0.2)',
+						'rgba(153, 102, 255, 0.2)',
+						'rgba(255, 159, 64, 0.2)'
+					],
+					borderColor: [
+						'rgba(255, 99, 132, 1)',
+						'rgba(54, 162, 235, 1)',
+						'rgba(255, 206, 86, 1)',
+						'rgba(75, 192, 192, 1)',
+						'rgba(153, 102, 255, 1)',
+						'rgba(255, 159, 64, 1)'
+					],
+					borderWidth: 2
+				}]
+			}
+		});
+
+
+
 	}
 }
