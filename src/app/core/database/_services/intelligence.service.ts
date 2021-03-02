@@ -14,7 +14,7 @@ const httpOptions = {
 export class IntelligenceService {
 	graphQLEndpoint = 'http://localhost:9090/graphql';
 
-	intelligenceQuery = '{"query":"{  exerciseIntelligence(    userId: \\"{userId}\\"     exerciseIds: {exerciseIds}     sessionsBack:{sessionsBack}  ) {    userId    exerciseAverages {      exerciseAverage      exerciseName      setCount    }  }}","variables":null,"operationName":null}';
+	intelligenceQuery = '{"query":"{  exerciseIntelligence(    userId: \\"{userId}\\"     exerciseIds: {exerciseIds}     sessionsBack:{sessionsBack}  ) {    userId    exerciseAverages {      exerciseAverage      exerciseName      setCount    } bodyDistributions { bodyPart totalVolume percentage }  }}","variables":null,"operationName":null}';
 
 	constructor(private http: HttpClient) {
 	}
