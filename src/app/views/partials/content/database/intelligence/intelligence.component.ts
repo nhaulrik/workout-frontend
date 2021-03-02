@@ -2,7 +2,7 @@ import {AfterViewInit, ChangeDetectorRef, Component, Input} from '@angular/core'
 import {IntelligenceService} from '../../../../../core/database/_services/intelligence.service';
 import {SessionService} from '../../../../../core/database';
 import {GraphQlResponse} from '../../../../../core/database/_models/graphQlResponse';
-import {ExerciseIntelligence} from '../../../../../core/database/_models/intelligence';
+import {ExerciseIntelligence} from '../../../../../core/database/_models/exerciseIntelligence';
 
 @Component({
 	selector: 'kt-intelligence',

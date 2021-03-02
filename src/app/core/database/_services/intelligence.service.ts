@@ -75,4 +75,16 @@ export class IntelligenceService {
 			return formattedDate;
 		}
 	}
+
+	getSessionIntelligence(userId: string, sessionsBack: number) {
+		let query = '{"query":"{  sessionIntelligence(    userId: \\"{userId}\\"     sessionsBack:{sessionsBack}  ) {    date    totalWeight    userId  }}","variables":null,"operationName":null}';
+
+		query = query.replace('{userId}', userId)
+			.replace('{sessionsBack}', sessionsBack.toString());
+
+		return this.http.post(this.graphQLEndpoint, query, httpOptions)
+			.pipe(
+				catchError(this.handleError)
+			)
+	}
 }

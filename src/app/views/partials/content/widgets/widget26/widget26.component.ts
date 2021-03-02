@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
 import { SparklineChartOptions } from '../../../../../core/_base/layout';
 
 @Component({

@@ -1,16 +1,19 @@
 // Angular
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 // Lodash
-import { shuffle } from 'lodash';
+import {shuffle} from 'lodash';
 // Services
 // Widgets model
-import { LayoutConfigService, SparklineChartOptions } from '../../../core/_base/layout';
-import { Widget4Data } from '../../partials/content/widgets/widget4/widget4.component';
+import {LayoutConfigService, SparklineChartOptions} from '../../../core/_base/layout';
+import {Widget4Data} from '../../partials/content/widgets/widget4/widget4.component';
+import {IntelligenceService} from '../../../core/database/_services/intelligence.service';
+import {GraphQlResponse} from '../../../core/database/_models/graphQlResponse';
 
 @Component({
 	selector: 'kt-dashboard',
 	templateUrl: './dashboard.component.html',
 	styleUrls: ['dashboard.component.scss'],
+	providers: [IntelligenceService]
 })
 export class DashboardComponent implements OnInit {
 	chartOptions1: SparklineChartOptions;
@@ -22,15 +25,35 @@ export class DashboardComponent implements OnInit {
 	widget4_3: Widget4Data;
 	widget4_4: Widget4Data;
 
-	constructor(private layoutConfigService: LayoutConfigService) {
+	@ViewChild('myChart', {static: true}) myChart: ElementRef;
+
+	sessionsBack: number = 10;
+	data: any;
+
+	constructor(
+		private layoutConfigService: LayoutConfigService,
+		private intelligenceService: IntelligenceService,
+		private ref: ChangeDetectorRef,
+	) {
 	}
 
 	ngOnInit(): void {
-		this.chartOptions1 = {
-			data: [10, 14, 18, 11, 9, 12, 14, 17, 18, 14],
-			color: this.layoutConfigService.getConfig('colors.state.brand'),
-			border: 3
-		};
+
+		let userId = '51a649d4-d693-4b69-b039-b5ed0f971ac7';
+
+		this.intelligenceService.getSessionIntelligence(userId, this.sessionsBack).subscribe(response => {
+			let totalWeights = (response as GraphQlResponse).data.sessionIntelligence.map(sessionIntelligence => sessionIntelligence.totalWeight);
+
+			this.chartOptions1 = {
+				data: totalWeights,
+				color: this.layoutConfigService.getConfig('colors.state.danger'),
+				border: 3
+			};
+			this.data = totalWeights;
+			this.ref.detectChanges();
+			this.initChart();
+		})
+
 		this.chartOptions2 = {
 			data: [11, 12, 18, 13, 11, 12, 15, 13, 19, 15],
 			color: this.layoutConfigService.getConfig('colors.state.danger'),
@@ -194,5 +217,45 @@ export class DashboardComponent implements OnInit {
 				valueColor: 'kt-font-brand'
 			},
 		]);
+	}
+
+	private initChart() {
+		const chart = new Chart(this.myChart.nativeElement, {
+			type: 'bar',
+			data: {
+				labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+				datasets: [{
+					label: '# of Votes',
+					data: [12, 19, 3, 5, 2, 3],
+					backgroundColor: [
+						'rgba(255, 99, 132, 0.2)',
+						'rgba(54, 162, 235, 0.2)',
+						'rgba(255, 206, 86, 0.2)',
+						'rgba(75, 192, 192, 0.2)',
+						'rgba(153, 102, 255, 0.2)',
+						'rgba(255, 159, 64, 0.2)'
+					],
+					borderColor: [
+						'rgba(255, 99, 132, 1)',
+						'rgba(54, 162, 235, 1)',
+						'rgba(255, 206, 86, 1)',
+						'rgba(75, 192, 192, 1)',
+						'rgba(153, 102, 255, 1)',
+						'rgba(255, 159, 64, 1)'
+					],
+					borderWidth: 1
+				}]
+				,
+				options: {
+					scales: {
+						yAxes: [{
+							ticks: {
+								beginAtZero: true
+							}
+						}]
+					}
+				}
+			}
+		});
 	}
 }

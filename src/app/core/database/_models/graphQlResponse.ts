@@ -6,8 +6,9 @@ import {WorkoutSet} from './workoutSet';
 import {Session} from './session';
 import {User} from './user';
 import {BodyMeasurements} from './bodyMeasurements';
-import {ExerciseIntelligence} from './intelligence';
 import {Programme} from './programme/programme';
+import {SessionIntelligence} from './sessionIntelligence';
+import {ExerciseIntelligence} from './exerciseIntelligence';
 
 export class GraphQlResponse {
 	data: GraphQlData;
@@ -22,6 +23,8 @@ export class GraphQlData {
 	addWorkoutSet: string;
 	bodyMeasurements: BodyMeasurements[] = [];
 	exerciseIntelligence: ExerciseIntelligence;
-	programmes: Programme[] =[];
+	sessionIntelligence: SessionIntelligence[];
+	programmes: Programme[] = [];
+
 	[key: string]: any;
 }
