@@ -14,7 +14,7 @@ const httpOptions = {
 export class IntelligenceService {
 	graphQLEndpoint = 'http://localhost:9090/graphql';
 
-	intelligenceQuery = '{"query":"{  exerciseIntelligence(    userId: \\"{userId}\\"     exerciseIds: {exerciseIds}     sessionsBack:{sessionsBack}  ) {    userId    exerciseAverages {      exerciseAverage      exerciseName      setCount    } bodyDistributions { bodyPart totalVolume percentage }  }}","variables":null,"operationName":null}';
+	intelligenceQuery = '{"query":"{  exerciseIntelligence(    userId: \\"{userId}\\"     exerciseIds: {exerciseIds}     sessionsBack:{sessionsBack}  fromDateString: {fromDateString}     toDateString:{toDateString} ) {    userId    exerciseAverages {      exerciseAverage      exerciseName      setCount     volume    repetitions    } bodyDistributions { bodyPart totalVolume percentage }  }}","variables":null,"operationName":null}';
 
 	constructor(private http: HttpClient) {
 	}
@@ -35,7 +35,7 @@ export class IntelligenceService {
 			'Something bad happened; please try again later.');
 	}
 
-	getIntelligence(userId: string, sessionsBack: number, exerciseIds: string[]) {
+	getIntelligence(userId: string, sessionsBack: number, exerciseIds: string[], fromDateString: string, toDateString: string) {
 
 		let quotedAndCommaSeparatedExerciseIds = null;
 
@@ -45,7 +45,9 @@ export class IntelligenceService {
 
 		let query = this.intelligenceQuery.replace('{userId}', userId);
 		query = query.replace('{exerciseIds}', quotedAndCommaSeparatedExerciseIds)
-			.replace('{sessionsBack}', sessionsBack.toString());
+			.replace('{sessionsBack}', sessionsBack.toString())
+			.replace('{fromDateString}', fromDateString != null ? '\\"' + fromDateString + '\\"' : null)
+			.replace('{toDateString}', toDateString != null ? '\\"' + toDateString + '\\"' : null);
 
 		return this.http.post(this.graphQLEndpoint, query, httpOptions)
 			.pipe(

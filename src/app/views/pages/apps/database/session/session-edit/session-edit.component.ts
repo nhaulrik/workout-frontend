@@ -207,6 +207,9 @@ export class SessionEditComponent implements OnInit, AfterViewInit, myinterface 
 		childComponent.parentRef = this;
 	}
 
+	showIntelligence() {
+		return this.sessionReferences.length > 0;
+	}
 }
 
 // Interface

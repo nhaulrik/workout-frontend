@@ -70,7 +70,7 @@ export class DashboardComponent implements OnInit {
 
 	private loadExerciseIntelligence(userId: string) {
 		let sessionsBack = 10;
-		this.intelligenceService.getIntelligence(userId, sessionsBack, null).subscribe(response => {
+		this.intelligenceService.getIntelligence(userId, sessionsBack, null, null, null).subscribe(response => {
 			this.exerciseData = (response as GraphQlResponse).data.exerciseIntelligence.exerciseAverages;
 			this.bodyDistributions = (response as GraphQlResponse).data.exerciseIntelligence.bodyDistributions;
 			this.initExerciseChart();

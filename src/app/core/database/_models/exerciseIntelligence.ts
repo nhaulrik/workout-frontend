@@ -15,5 +15,7 @@ export class ExerciseAverages {
 	exerciseAverage: number;
 	exerciseName: String;
 	setCount: number;
+	volume: number;
+	repetitions: number;
 }
 
