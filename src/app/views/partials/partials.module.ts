@@ -88,6 +88,7 @@ import {PhaseComponent} from './content/database/programme/phase/phase.component
 import { ProgrammeComponent } from './content/database/programme/programme/programme.component';
 import { SplitComponent } from './content/database/programme/split/split.component';
 import { DialogCreatePhaseComponent } from './content/database/programme/dialog-create-phase/dialog-create-phase.component';
+import { SessionMenuComponent } from './content/database/session/session-menu/session-menu.component';
 
 @NgModule({
 	declarations: [
@@ -137,6 +138,7 @@ import { DialogCreatePhaseComponent } from './content/database/programme/dialog-
 		ProgrammeComponent,
 		SplitComponent,
 		DialogCreatePhaseComponent,
+		SessionMenuComponent,
 	],
 	exports: [
 		ExerciseSelectorComponent,
