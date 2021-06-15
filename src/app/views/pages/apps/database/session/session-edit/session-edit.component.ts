@@ -14,6 +14,7 @@ import {SessionComponent} from '../../../../../partials/content/database/session
 import {GraphQlResponse} from '../../../../../../core/database/_models/graphQlResponse';
 import {Session} from '../../../../../../core/database/_models/session';
 import {SessionCalendarComponent, SessionCreateComponent} from '../../../../../partials/content/database';
+import { cloneDeep } from 'lodash';
 
 @Component({
 	selector: 'kt-session-edit',
@@ -209,6 +210,22 @@ export class SessionEditComponent implements OnInit, AfterViewInit, myinterface 
 
 	showIntelligence() {
 		return this.sessionReferences.length > 0;
+	}
+
+	createDuplicatedSession(id: string) {
+		let sessionToDuplicate = this.sessionReferences.filter(
+			x => x.instance.session.id == id
+		);
+
+		if (sessionToDuplicate != null) {
+			let duplicatedSession = cloneDeep(sessionToDuplicate[0].instance.session);
+			//duplicatedSession.userId = null;
+			//duplicatedSession.user = null;
+			duplicatedSession.id = null;
+
+
+			this.createSessionComponent(duplicatedSession);
+		}
 	}
 }
 

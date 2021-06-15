@@ -19,10 +19,11 @@
 							   placeholder="split name"
 						/>
 					</div>
-					<img src="assets/media/icons/svg/General/Trash.svg" alt="Delete"
-						 (click)="deleteSession()"
-					/>
-					<kt-session-menu></kt-session-menu>
+					<kt-session-menu
+						(deleteSessionEvent)="deleteSession()"
+						(duplicateSessionEvent)="duplicateSession()"
+					>
+					</kt-session-menu>
 				</ng-container>
 			</kt-portlet-header>
 			<kt-portlet-body>

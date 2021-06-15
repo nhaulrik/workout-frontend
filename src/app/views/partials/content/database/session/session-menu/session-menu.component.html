@@ -1,1 +1,23 @@
-<p>session-menu works!</p>
+<div ngbDropdown [placement]="'bottom-right'" class="dropdown dropdown-inline">
+	<button ngbDropdownToggle type="button" class="btn btn-clean btn-sm btn-icon btn-icon-md">
+		<i class="flaticon-more-v2"></i>
+	</button>
+	<div ngbDropdownMenu class="dropdown-menu">
+		<ul class="kt-nav">
+			<li class="kt-nav__item">
+				<a href="javascript:;" class="kt-nav__link" (click)="deleteSession()">
+					<img src="assets/media/icons/svg/General/Trash.svg" alt="Delete"
+					/>
+					<span class="kt-nav__link-text">Delete</span>
+				</a>
+			</li>
+			<li class="kt-nav__item">
+				<a href="javascript:;" class="kt-nav__link" (click)="duplicateSession()">
+					<img src="assets/media/icons/svg/Code/Plus.svg" alt="Duplicate"
+					/>
+					<span class="kt-nav__link-text">Duplicate</span>
+				</a>
+			</li>
+		</ul>
+	</div>
+</div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 
 @Component({
   selector: 'kt-session-menu',
@@ -7,9 +7,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SessionMenuComponent implements OnInit {
 
-  constructor() { }
+	@Output() deleteSessionEvent = new EventEmitter<string>();
+	@Output() duplicateSessionEvent = new EventEmitter<string>();
+
+	constructor() { }
 
   ngOnInit() {
   }
+
+	deleteSession(): void {
+		this.deleteSessionEvent.emit('');
+	}
+
+	duplicateSession(): void {
+		this.duplicateSessionEvent.emit('');
+	}
 
 }

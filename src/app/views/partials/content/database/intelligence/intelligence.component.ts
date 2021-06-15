@@ -82,7 +82,6 @@ export class IntelligenceComponent implements AfterViewInit {
 	}
 
 	private initSessionChart() {
-		debugger;
 		const chart = new Chart(this.sessionChart.nativeElement, {
 			type: 'bar',
 			options: {

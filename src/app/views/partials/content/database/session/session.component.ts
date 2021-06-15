@@ -197,6 +197,10 @@ export class SessionComponent implements OnInit, myinterface, AfterViewInit {
 		});
 	}
 
+	duplicateSession() {
+		this.parentRef.createDuplicatedSession(this.session.id);
+	}
+
 	showSnackBar(message: string) {
 		this.snackBar.open(message, '', {
 			duration: 3000
