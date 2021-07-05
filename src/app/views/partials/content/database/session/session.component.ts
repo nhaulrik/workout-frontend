@@ -28,7 +28,7 @@ import {PostSessionResponse} from '../../../../../core/database/_models/response
 })
 export class SessionComponent implements OnInit, myinterface, AfterViewInit {
 	session: Session;
-	users: User[] = [];
+	users: User[] = []; //todo this should not be a list?
 	exercises: Exercise[] = [];
 	usersToAdd: string[] = [];
 	sessionLock: string = 'Lock';
@@ -195,10 +195,6 @@ export class SessionComponent implements OnInit, myinterface, AfterViewInit {
 				this.showSnackBar('Something went wrong');
 			}
 		});
-	}
-
-	duplicateSession() {
-		this.parentRef.createDuplicatedSession(this.session.id);
 	}
 
 	showSnackBar(message: string) {

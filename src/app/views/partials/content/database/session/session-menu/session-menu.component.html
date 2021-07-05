@@ -12,11 +12,12 @@
 				</a>
 			</li>
 			<li class="kt-nav__item">
-				<a href="javascript:;" class="kt-nav__link" (click)="duplicateSession()">
+				<a href="javascript:;" class="kt-nav__link">
 					<img src="assets/media/icons/svg/Code/Plus.svg" alt="Duplicate"
 					/>
 					<span class="kt-nav__link-text">Duplicate</span>
 				</a>
+				<button *ngFor="let user of users" (click)="duplicateSession(user)">{{user.firstName}} {{user.lastName}}</button>
 			</li>
 		</ul>
 	</div>

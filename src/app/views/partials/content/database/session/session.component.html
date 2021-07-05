@@ -20,8 +20,8 @@
 						/>
 					</div>
 					<kt-session-menu
-						(deleteSessionEvent)="deleteSession()"
-						(duplicateSessionEvent)="duplicateSession()"
+						[session]="session"
+						(sessionsChangedEvent)="this.parentRef.dateChanged(this.parentRef.selectedDate)"
 					>
 					</kt-session-menu>
 				</ng-container>

@@ -18,7 +18,9 @@ export class SessionService {
 	sessionControllerEndpoint = 'http://localhost:9090/api/v1/session';
 	getSessionEndpoint = 'http://localhost:9090/api/v1/session/{userId}/{date}';
 	getSessionsForMonthPayload = '{"query":"{\\n sessions (month:{month} year:{year} ) {id localDateTime user { id }}}","variables": null}';
-	getSessionWithWorkoutExercisesPayload = '{"query":"{\\n sessions (date:\\"{date}\\") {id localDateTime location programme splitName userId user {\\n      firstName\\n      lastName\\n      gender\\n      birthday   }\\n workoutExercises { exerciseNumber id exerciseId isWarmup sessionId workoutSet {  id repetitionMaximum repetitions setNumber single weight  } }  }\\n}\\n","variables":null,"operationName":null}';
+	private getSessionWithWorkoutExercisesPayload = '{"query":"{\\n sessions (date:\\"{date}\\") {id localDateTime location programme splitName userId user {\\n      firstName\\n      lastName\\n      gender\\n      birthday   }\\n workoutExercises { exerciseNumber id exerciseId isWarmup sessionId workoutSet {  id repetitionMaximum repetitions setNumber single weight  } }  }\\n}\\n","variables":null,"operationName":null}';
+
+	private getSessionByIdWithWorkoutExercisesPayload = '{"query":"{ sessions (ids:[\\"{id}\\"]) {id localDateTime location programme splitName userId user {      firstName      lastName      gender      birthday   } workoutExercises { exerciseNumber id exerciseId isWarmup sessionId workoutSet {  id repetitionMaximum repetitions setNumber single weight  } }  }}","variables":null,"operationName":null}';
 
 
 	getSessionWithExerciseIdsAndUsersPayload = '{"query":"{  sessions (date: \\"{date}\\") {    user {      id      firstName      lastName    }    workoutExercises {      exerciseId    }  }}","variables":null,"operationName":null}';
@@ -49,12 +51,9 @@ export class SessionService {
 			)
 	}
 
-	getSessionsForMonth(date: Date) {
-		let month = date.getMonth() + 1;
-		let year = date.getFullYear();
-		const query = this.getSessionsForMonthPayload
-			.replace('{month}', month.toString())
-			.replace('{year}', year.toString());
+	getSession(sessionId: string) {
+		const query = this.getSessionByIdWithWorkoutExercisesPayload
+			.replace('{id}', sessionId);
 
 		return this.http.post(this.graphQLEndpoint, query, httpOptions)
 			.pipe(
@@ -62,10 +61,12 @@ export class SessionService {
 			)
 	}
 
-	getSessionWithExerciseIdsAndUsers(date: Date) {
-		let formattedDate = this.formatDateToShortString(date);
-		const query = this.getSessionWithExerciseIdsAndUsersPayload
-			.replace('{date}', formattedDate);
+	getSessionsForMonth(date: Date) {
+		let month = date.getMonth() + 1;
+		let year = date.getFullYear();
+		const query = this.getSessionsForMonthPayload
+			.replace('{month}', month.toString())
+			.replace('{year}', year.toString());
 
 		return this.http.post(this.graphQLEndpoint, query, httpOptions)
 			.pipe(
@@ -173,4 +174,6 @@ export class SessionService {
 				catchError(this.handleError)
 			)
 	}
+
+
 }
